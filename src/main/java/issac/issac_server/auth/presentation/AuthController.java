@@ -21,6 +21,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authFacadeService.login(request));
+        return ResponseEntity.status(HttpStatus.OK).body(authFacadeService.login(request));
     }
 }

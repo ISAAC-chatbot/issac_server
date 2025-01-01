@@ -13,8 +13,8 @@ public class UserAppender {
 
     private final UserRepository userRepository;
 
-    public void append(User user, UserCreateRequest request) {
-        user.updateProfile(request);
+    public void signup(User user, UserCreateRequest request) {
+        user.signup(request);
     }
 
     public User append(OAuthInfo oAuthInfo) {

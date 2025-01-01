@@ -1,7 +1,15 @@
+buildscript {
+    ext {
+        restdocsApiSpecVersion = '0.17.1'
+    }
+}
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.epages.restdocs-api-spec' version "0.17.1"
+    id 'org.hidetake.swagger.generator' version "2.18.2"
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'issac'
@@ -14,6 +22,7 @@ java {
 }
 
 configurations {
+    asciidoctorExt
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -24,6 +33,8 @@ repositories {
 }
 ext {
     set('springCloudVersion', "2024.0.0")
+    set('snippetsDir', file("build/generated-snippets"))
+
 }
 
 dependencies {
@@ -36,6 +47,8 @@ dependencies {
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // mysql
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -55,6 +68,16 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // mock mvc
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:' + restdocsApiSpecVersion
+
+    // swagger
+    swaggerUI 'org.webjars:swagger-ui:5.18.2'
+
+    // asciidoctor
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 dependencyManagement {
@@ -63,7 +86,77 @@ dependencyManagement {
     }
 }
 
-
-tasks.named('test') {
+test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
 }
+
+swaggerSources {
+    sample {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+    }
+}
+openapi3 {
+    servers = [
+            { url = "http://localhost:8080" }
+    ]
+    title = 'ISSAC API'
+    description = 'ISSAC API DOCUMENT'
+    version = '0.0.1'
+    format = 'yaml' // or json
+}
+
+tasks.withType(GenerateSwaggerUI) {
+    dependsOn 'openapi3'
+    doFirst {
+        def swaggerUIFile = file("${openapi3.outputDirectory}/openapi3.yaml")
+
+        def securitySchemesContent = "  securitySchemes:\n" +   \
+                                       "    APIKey:\n" +   \
+                                       "      type: apiKey\n" +   \
+                                       "      name: Authorization\n" +   \
+                                       "      in: header\n" +  \
+                                       "security:\n" +
+                "  - APIKey: []  # Apply the security scheme here"
+
+        swaggerUIFile.append securitySchemesContent
+    }
+}
+
+tasks.register("copyOasToSwagger", Copy) {
+    dependsOn generateSwaggerUISample
+    from("${buildDir}/swagger-ui-sample")
+    into("${rootDir}/src/main/resources/static/docs")
+
+    doLast {
+        def indexFile = file("${rootDir}/src/main/resources/static/docs/index.html")
+        if (indexFile.exists()) {
+
+            def script = """
+            <script src="/js/custom-swagger.js"></script>
+            """
+            indexFile.text = indexFile.text.replace("</body>", script + "\n</body>")
+        }
+    }
+}
+
+bootJar {
+    dependsOn("copyOasToSwagger")
+    dependsOn("copyHtmlDocs")
+}
+
+asciidoctor {
+    configurations 'asciidoctorExt' // Asciidoctor 확장 의존성 설정
+    baseDirFollowsSourceFile() // 소스 파일의 경로를 기준으로 설정
+    inputs.dir snippetsDir // RestDocs 생성 스니펫 입력
+    dependsOn test // 테스트 태스크 완료 후 실행
+}
+
+// HTML 변환 후, 결과물을 특정 디렉토리로 복사
+tasks.register('copyHtmlDocs', Copy) {
+    dependsOn asciidoctor // Asciidoctor 실행 후 복사
+    from file("build/docs/asciidoc") // Asciidoctor 출력 디렉토리
+    into file("src/main/resources/static/docs") // 복사할 위치
+}
+
+

@@ -24,10 +24,8 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
-
-
-    public static final String PERMITTED_URI[] = {"/api/v1/auth/**", "/oauth2/**"};
+    public static final String PERMITTED_URI[] = {"/api/v1/auth/**", "/oauth2/**", "/docs/**", "/favicon.ico",
+            "/v3/api-docs/**", "/js/custom-swagger.js"};
     private static final String[] PERMITTED_ROLES = Arrays.stream(Role.values())
             .map(Enum::name)
             .toArray(String[]::new);

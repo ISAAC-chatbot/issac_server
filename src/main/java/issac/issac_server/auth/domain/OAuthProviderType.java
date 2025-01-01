@@ -1,6 +1,7 @@
 package issac.issac_server.auth.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import issac.issac_server.common.domain.DescriptiveEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
-public enum OAuthProviderType {
+public enum OAuthProviderType implements DescriptiveEnum {
 
     KAKAO("카카오"),
 
@@ -24,6 +25,16 @@ public enum OAuthProviderType {
                 .filter(providerType -> providerType.toString().equals(inputValue.toUpperCase()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public String getCode() {
+        return name();
+    }
+
+    @Override
+    public String getText() {
+        return getProviderName();
     }
 }
 

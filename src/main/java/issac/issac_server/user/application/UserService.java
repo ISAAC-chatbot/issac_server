@@ -16,6 +16,6 @@ public class UserService {
     @Transactional
     public void signup(Long userId, UserCreateRequest request) {
         User user = userFinder.find(userId);
-        userAppender.append(user, request);
+        userAppender.signup(user, request);
     }
 }

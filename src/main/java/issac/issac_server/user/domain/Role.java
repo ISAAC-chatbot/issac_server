@@ -1,11 +1,12 @@
 package issac.issac_server.user.domain;
 
+import issac.issac_server.common.domain.DescriptiveEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Role {
+public enum Role implements DescriptiveEnum {
 
     UNREGISTERED_PROFILE("ROLE_UNREGISTERED_PROFILE", "프로필 미 등록자"),
     GUEST("ROLE_GUEST", "게스트"),
@@ -16,5 +17,15 @@ public enum Role {
     ADMIN("ROLE_ADMIN", "관리자");
 
     private final String key;
-    private final String title;
+    private final String description;
+
+    @Override
+    public String getCode() {
+        return name();
+    }
+
+    @Override
+    public String getText() {
+        return getDescription();
+    }
 }
