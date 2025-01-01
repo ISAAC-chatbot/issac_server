@@ -10,9 +10,9 @@ public class IssacException extends RuntimeException {
     private final String errorCode;
     private final String errorMessage;
 
-    public IssacException(HttpStatus statusCode, String errorCode, String errorMessage) {
-        this.statusCode = statusCode;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
+    public IssacException(ErrorCode errorCode) {
+        this.statusCode = errorCode.getStatusCode();
+        this.errorCode = errorCode.getErrorCode();
+        this.errorMessage = errorCode.getErrorMessage();
     }
 }

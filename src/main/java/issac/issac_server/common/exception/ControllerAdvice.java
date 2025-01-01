@@ -27,15 +27,15 @@ public class ControllerAdvice {
         return ResponseEntity.status(e.getStatusCode()).body(response);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionResponse> handleRuntimeException(HttpServletRequest request, RuntimeException e) {
-        log.error("[RuntimeException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
-                request::getMethod, request::getRequestURI,
-                e::getClass, e::getMessage);
-
-
-        return convert(GlobalErrorCode.INTERNAL_SERVER_ERROR, e);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ExceptionResponse> handleRuntimeException(HttpServletRequest request, RuntimeException e) {
+//        log.error("[RuntimeException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
+//                request::getMethod, request::getRequestURI,
+//                e::getClass, e::getMessage);
+//
+//
+//        return convert(GlobalErrorCode.INTERNAL_SERVER_ERROR, e);
+//    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     public ResponseEntity<ExceptionResponse> handleValidationExceptions(HttpServletRequest request, Exception e) {
