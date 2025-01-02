@@ -38,17 +38,11 @@ jobs:
         run: ./gradlew clean build
         shell: bash
 
-      - name: Check directory structure
-        run: |
-          echo "Current working directory:"
-          ls -l src/main/resources/static/docs || echo "Directory not found"
-        shell: bash
-
       - name: Prepare deployment package
         run: |
           mkdir -p deploy
           cp build/libs/*-SNAPSHOT.jar deploy/application.jar
-          echo "web: nohup java -jar application.jar &" > deploy/Procfile
+          echo "web: java -jar application.jar > application.log 2>&1" > deploy/Procfile
           cd deploy && zip -r $PROJECT_NAME *
         shell: bash
 
