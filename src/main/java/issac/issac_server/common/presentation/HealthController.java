@@ -25,8 +25,9 @@ public class HealthController {
         // 로그 파일 경로
         String logFilePath = "application.log";
 
-        // 로그 파일 읽기
+        // 로그 파일 읽기 (엔터 포함)
         List<String> lines = Files.readAllLines(Paths.get(logFilePath));
-        return String.join("\n", lines);
+
+        return String.join("<br>", lines);
     }
 }
