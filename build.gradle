@@ -34,7 +34,6 @@ repositories {
 ext {
     set('springCloudVersion', "2024.0.0")
     set('snippetsDir', file("build/generated-snippets"))
-
 }
 
 dependencies {
@@ -123,15 +122,29 @@ tasks.withType(GenerateSwaggerUI) {
     }
 }
 
-tasks.register("copyOasToSwagger", Copy) {
+asciidoctor {
+    configurations 'asciidoctorExt' // Asciidoctor 확장 의존성 설정
+    baseDirFollowsSourceFile() // 소스 파일의 경로를 기준으로 설정
+    inputs.dir snippetsDir // RestDocs 생성 스니펫 입력
+    dependsOn test // 테스트 태스크 완료 후 실행
+}
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+tasks.register('copyOasToSwagger', Copy) {
+    dependsOn asciidoctor
+
+    from("${asciidoctor.outputDir}")
+    into "src/main/resources/static/docs"
+
     dependsOn generateSwaggerUISample
+
     from("${buildDir}/swagger-ui-sample")
-    into("${rootDir}/src/main/resources/static/docs")
+    into "src/main/resources/static/docs"
 
     doLast {
-        def indexFile = file("${rootDir}/src/main/resources/static/docs/index.html")
+        def indexFile = file("src/main/resources/static/docs/index.html")
         if (indexFile.exists()) {
-
             def script = """
             <script src="/js/custom-swagger.js"></script>
             """
@@ -141,22 +154,7 @@ tasks.register("copyOasToSwagger", Copy) {
 }
 
 bootJar {
-    dependsOn("copyOasToSwagger")
-    dependsOn("copyHtmlDocs")
+    dependsOn 'asciidoctor'
+    dependsOn 'generateSwaggerUISample'
+    dependsOn 'copyOasToSwagger'
 }
-
-asciidoctor {
-    configurations 'asciidoctorExt' // Asciidoctor 확장 의존성 설정
-    baseDirFollowsSourceFile() // 소스 파일의 경로를 기준으로 설정
-    inputs.dir snippetsDir // RestDocs 생성 스니펫 입력
-    dependsOn test // 테스트 태스크 완료 후 실행
-}
-
-// HTML 변환 후, 결과물을 특정 디렉토리로 복사
-tasks.register('copyHtmlDocs', Copy) {
-    dependsOn asciidoctor // Asciidoctor 실행 후 복사
-    from file("build/docs/asciidoc") // Asciidoctor 출력 디렉토리
-    into file("src/main/resources/static/docs") // 복사할 위치
-}
-
-

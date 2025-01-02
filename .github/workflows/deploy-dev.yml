@@ -34,8 +34,16 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
+      - name: Clean build artifacts
+        run: ./gradlew clean
+        shell: bash
+
+      - name: Generate Swagger & Asciidoc
+        run: ./gradlew generateSwaggerUISample asciidoctor copyOasToSwagger
+        shell: bash
+
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew build
         shell: bash
 
       - name: Prepare deployment package
