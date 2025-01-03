@@ -39,7 +39,7 @@ jobs:
         shell: bash
 
       - name: Generate Swagger & Asciidoc
-        run: ./gradlew generateSwaggerUISample asciidoctor copyOasToSwagger
+        run: ./gradlew bootJar
         shell: bash
 
       - name: Build with Gradle
@@ -49,8 +49,15 @@ jobs:
       - name: Prepare deployment package
         run: |
           mkdir -p deploy
+          
           cp build/libs/*-SNAPSHOT.jar deploy/application.jar
-          echo "web: java -jar application.jar > application.log 2>&1" > deploy/Procfile
+          cp Procfile deploy/
+          
+          if [ -d ".ebextensions" ]; then
+            cp -r .ebextensions deploy/.ebextensions
+          fi
+          
+          # 배포 파일 압축
           cd deploy && zip -r $PROJECT_NAME *
         shell: bash
 
