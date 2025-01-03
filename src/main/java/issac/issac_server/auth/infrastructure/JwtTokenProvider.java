@@ -3,7 +3,6 @@ package issac.issac_server.auth.infrastructure;
 import io.jsonwebtoken.Jwts;
 import issac.issac_server.auth.domain.RefreshToken;
 import issac.issac_server.auth.domain.RefreshTokenRepository;
-import issac.issac_server.auth.exception.AuthErrorCode;
 import issac.issac_server.auth.exception.AuthException;
 import issac.issac_server.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,13 +75,8 @@ public class JwtTokenProvider {
         return jwtUtil.getTokenStatus(token, ACCESS_SECRET_KEY) == TokenStatus.AUTHENTICATED;
     }
 
-    public boolean validateRefreshToken(String token, Long id) {
-        boolean isRefreshValid = jwtUtil.getTokenStatus(token, REFRESH_SECRET_KEY) == TokenStatus.AUTHENTICATED;
-
-        RefreshToken storedToken = refreshTokenRepository.findById(id).orElseThrow(() -> new AuthException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND));
-        boolean isTokenMatched = storedToken.getToken().equals(token);
-
-        return isRefreshValid && isTokenMatched;
+    public boolean validateRefreshToken(String token) {
+        return jwtUtil.getTokenStatus(token, REFRESH_SECRET_KEY) == TokenStatus.AUTHENTICATED;
     }
 
     public String resolveToken(HttpServletRequest request) {

@@ -3,6 +3,7 @@ package issac.issac_server.auth.presentation;
 import issac.issac_server.auth.application.AuthFacadeService;
 import issac.issac_server.auth.application.dto.LoginRequest;
 import issac.issac_server.auth.application.dto.LoginResponse;
+import issac.issac_server.auth.application.dto.RefreshTokenRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,5 +28,10 @@ public class AuthController {
     @PostMapping("/guest-login")
     public ResponseEntity<LoginResponse> guestLogin() {
         return ResponseEntity.status(HttpStatus.OK).body(authFacadeService.guestLogin());
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refresh(@RequestBody @Valid RefreshTokenRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authFacadeService.refresh(request));
     }
 }

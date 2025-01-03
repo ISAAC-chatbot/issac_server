@@ -3,6 +3,7 @@ package issac.issac_server.auth.application;
 import issac.issac_server.auth.application.dto.LoginRequest;
 import issac.issac_server.auth.application.dto.LoginResponse;
 import issac.issac_server.auth.application.dto.OAuthInfo;
+import issac.issac_server.auth.application.dto.RefreshTokenRequest;
 import issac.issac_server.auth.application.oauth.OAuthClient;
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.auth.exception.AuthErrorCode;
@@ -36,5 +37,9 @@ public class AuthFacadeService {
 
     public LoginResponse guestLogin() {
         return authService.guestLogin();
+    }
+
+    public LoginResponse refresh(RefreshTokenRequest request) {
+        return authService.refresh(request);
     }
 }
