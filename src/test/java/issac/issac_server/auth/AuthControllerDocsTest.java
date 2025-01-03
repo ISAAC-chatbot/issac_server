@@ -16,8 +16,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.auth.constant.AuthDocFields.LOGIN_REQUEST;
 import static issac.issac_server.auth.constant.AuthDocFields.LOGIN_RESPONSE;
-import static issac.issac_server.auth.constant.AuthFactory.createMockLoginRequest;
-import static issac.issac_server.auth.constant.AuthFactory.createMockLoginResponse;
+import static issac.issac_server.auth.constant.AuthFactory.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -62,6 +61,33 @@ class AuthControllerDocsTest extends RestDocsSupport {
                                 .requestFields(LOGIN_REQUEST)
                                 .responseFields(LOGIN_RESPONSE)
                                 .requestSchema(Schema.schema("LoginRequest"))
+                                .responseSchema(Schema.schema("LoginResponse"))
+                                .build())));
+
+    }
+
+    @DisplayName("게스트 로그인 : 인증")
+    @Test
+    void guestLogin() throws Exception {
+
+        // given
+        LoginResponse response = createMockGuestLoginResponse();
+
+        given(authFacadeService.guestLogin()).willReturn(response);
+
+        // when & then
+        mockMvc.perform(
+                        post("/api/v1/auth/guest-login")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("post-v1-auth-guestLogin",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Auth API")
+                                .summary("게스트 로그인")
+                                .responseFields(LOGIN_RESPONSE)
                                 .responseSchema(Schema.schema("LoginResponse"))
                                 .build())));
 

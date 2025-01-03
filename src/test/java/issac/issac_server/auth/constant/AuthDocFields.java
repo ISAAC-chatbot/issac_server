@@ -17,7 +17,7 @@ public class AuthDocFields {
 
     public static final FieldDescriptor[] LOGIN_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("accessToken").type(JsonFieldType.STRING).description("Access 토큰"),
-            fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("Refresh 토큰"),
+            fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("Refresh 토큰").optional(),
             fieldWithPath("role").type(JsonFieldType.STRING).description(generateLinkCode(ROLE))
     };
 }

@@ -21,4 +21,11 @@ public class AuthFactory {
                 .role(Role.UNREGISTERED_PROFILE)
                 .build();
     }
+
+    public static LoginResponse createMockGuestLoginResponse() {
+        return LoginResponse.builder()
+                .accessToken("mock-access-token-12345")
+                .role(Role.GUEST)
+                .build();
+    }
 }
