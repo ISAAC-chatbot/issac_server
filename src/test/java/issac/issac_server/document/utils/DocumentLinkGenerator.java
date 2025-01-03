@@ -17,6 +17,9 @@ public interface DocumentLinkGenerator {
     enum DocUrl {
         ROLE("role", "사용자 역할"),
         OAUTH_PROVIDER_TYPE("oAuthProviderType", "OAuth 인증 제공자"),
+        UNIVERSITY("university", "대학교"),
+        DEGREE_TYPE("degreeType", "학위 종류"),
+
         ;
 
         private final String pageId;

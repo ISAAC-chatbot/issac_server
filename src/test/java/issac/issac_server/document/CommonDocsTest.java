@@ -51,6 +51,14 @@ public class CommonDocsTest extends RestDocsSupport {
                         customResponseFields("custom-response", beneathPath("oauthProvider").withSubsectionId("oauthProvider"),
                                 attributes(key("title").value("OAuth 인증 제공자")),
                                 enumConvertFieldDescriptor(docs.getOauthProvider())
+                        ),
+                        customResponseFields("custom-response", beneathPath("university").withSubsectionId("university"),
+                                attributes(key("title").value("대학교")),
+                                enumConvertFieldDescriptor(docs.getUniversity())
+                        ),
+                        customResponseFields("custom-response", beneathPath("degreeType").withSubsectionId("degreeType"),
+                                attributes(key("title").value("학위 종류")),
+                                enumConvertFieldDescriptor(docs.getDegreeType())
                         )
                 ));
     }

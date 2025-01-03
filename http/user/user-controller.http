@@ -1,0 +1,13 @@
+### 회원가입
+POST {{BASE_URL}}/api/v1/users/signup
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "nickname": "관주",
+  "university": "AJOU",
+  "collegeName": "소프트웨어융합대학",
+  "department": "소프트웨어학과",
+  "degree": "BACHELOR",
+  "schoolEmail": "sss@ajou.ac.kr"
+}

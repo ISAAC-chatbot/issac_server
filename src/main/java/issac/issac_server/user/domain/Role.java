@@ -24,8 +24,4 @@ public enum Role implements DescriptiveEnum {
         return name();
     }
 
-    @Override
-    public String getText() {
-        return getDescription();
-    }
 }

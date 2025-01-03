@@ -7,7 +7,7 @@ import issac.issac_server.user.domain.Role;
 
 public class AuthFactory {
 
-    public static LoginRequest createLoginRequest(OAuthProviderType oAuthProviderType, String oauthToken) {
+    public static LoginRequest createMockLoginRequest(OAuthProviderType oAuthProviderType, String oauthToken) {
         return LoginRequest.builder()
                 .provider(oAuthProviderType)
                 .oauthToken(oauthToken)

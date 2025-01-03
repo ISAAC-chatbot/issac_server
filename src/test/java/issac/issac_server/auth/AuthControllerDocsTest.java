@@ -16,7 +16,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.auth.constant.AuthDocFields.LOGIN_REQUEST;
 import static issac.issac_server.auth.constant.AuthDocFields.LOGIN_RESPONSE;
-import static issac.issac_server.auth.constant.AuthFactory.createLoginRequest;
+import static issac.issac_server.auth.constant.AuthFactory.createMockLoginRequest;
 import static issac.issac_server.auth.constant.AuthFactory.createMockLoginResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -40,7 +40,7 @@ class AuthControllerDocsTest extends RestDocsSupport {
     void login() throws Exception {
 
         // given
-        LoginRequest request = createLoginRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
+        LoginRequest request = createMockLoginRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
         LoginResponse response = createMockLoginResponse();
 
         given(authFacadeService.login(any(LoginRequest.class))).willReturn(response);

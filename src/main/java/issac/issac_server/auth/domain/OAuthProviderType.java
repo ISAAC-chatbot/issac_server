@@ -33,7 +33,7 @@ public enum OAuthProviderType implements DescriptiveEnum {
     }
 
     @Override
-    public String getText() {
+    public String getDescription() {
         return getProviderName();
     }
 }

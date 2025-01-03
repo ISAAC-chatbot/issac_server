@@ -2,7 +2,9 @@ package issac.issac_server.document.controller;
 
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.common.domain.DescriptiveEnum;
+import issac.issac_server.user.domain.DegreeType;
 import issac.issac_server.user.domain.Role;
+import issac.issac_server.user.domain.University;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,16 +20,20 @@ public class EnumViewController {
 
         Map<String, String> role = getDocs(Role.values());
         Map<String, String> oauthProvider = getDocs(OAuthProviderType.values());
+        Map<String, String> university = getDocs(University.values());
+        Map<String, String> degreeType = getDocs(DegreeType.values());
 
         return Docs.testBuilder()
                 .role(role)
                 .oauthProvider(oauthProvider)
+                .university(university)
+                .degreeType(degreeType)
                 .build();
     }
 
     private Map<String, String> getDocs(DescriptiveEnum[] descriptiveEnums) {
         return Arrays.stream(descriptiveEnums)
-                .collect(Collectors.toMap(DescriptiveEnum::getCode, DescriptiveEnum::getText));
+                .collect(Collectors.toMap(DescriptiveEnum::getCode, DescriptiveEnum::getDescription));
     }
 
 }
