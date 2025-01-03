@@ -1,17 +1,18 @@
 package issac.issac_server.auth.application;
 
-import issac.issac_server.auth.application.dto.LoginResponse;
-import issac.issac_server.auth.application.dto.OAuthInfo;
-import issac.issac_server.auth.application.dto.RefreshTokenRequest;
+import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.RefreshToken;
-import issac.issac_server.auth.domain.RefreshTokenRepository;
+import issac.issac_server.auth.exception.AuthException;
 import issac.issac_server.auth.infrastructure.JwtTokenProvider;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static issac.issac_server.auth.exception.AuthErrorCode.INVALID_EMAIL_DOMAIN;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class AuthService {
 
     private final UserFinder userFinder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenFinder refreshTokenFinder;
+    private final EmailSender emailSender;
 
     public LoginResponse login(OAuthInfo oAuthInfo) {
         User user = userFinder.find(oAuthInfo);
@@ -45,5 +46,16 @@ public class AuthService {
         String accessToken = jwtTokenProvider.generateAccessToken(user);
         String refreshToken = jwtTokenProvider.generateRefreshToken(user);
         return new LoginResponse(accessToken, refreshToken, user.getRole());
+    }
+
+    public EmailResponse sendEmailVerification(EmailRequest request) throws MessagingException {
+        validateEmailDomain(request);
+        return emailSender.send(request);
+    }
+
+    private void validateEmailDomain(EmailRequest request) {
+        if (!request.getEmail().endsWith(request.getUniversity().getDomain())) {
+            throw new AuthException(INVALID_EMAIL_DOMAIN);
+        }
     }
 }

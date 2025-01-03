@@ -77,6 +77,9 @@ dependencies {
 
     // asciidoctor
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
+    // email sender
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 dependencyManagement {

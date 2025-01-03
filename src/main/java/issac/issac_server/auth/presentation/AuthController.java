@@ -1,9 +1,8 @@
 package issac.issac_server.auth.presentation;
 
 import issac.issac_server.auth.application.AuthFacadeService;
-import issac.issac_server.auth.application.dto.LoginRequest;
-import issac.issac_server.auth.application.dto.LoginResponse;
-import issac.issac_server.auth.application.dto.RefreshTokenRequest;
+import issac.issac_server.auth.application.dto.*;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,4 +33,10 @@ public class AuthController {
     public ResponseEntity<LoginResponse> refresh(@RequestBody @Valid RefreshTokenRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authFacadeService.refresh(request));
     }
+
+    @PostMapping("/email")
+    public ResponseEntity<EmailResponse> sendEmailVerification(@RequestBody @Valid EmailRequest request) throws MessagingException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authFacadeService.sendEmailVerification(request));
+    }
+
 }

@@ -38,5 +38,6 @@ out/
 
 application-local.properties
 application-oauth.properties
+application-email.properties
 
 **/static/docs/**

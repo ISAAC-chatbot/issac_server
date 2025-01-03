@@ -1,13 +1,11 @@
 package issac.issac_server.auth.application;
 
-import issac.issac_server.auth.application.dto.LoginRequest;
-import issac.issac_server.auth.application.dto.LoginResponse;
-import issac.issac_server.auth.application.dto.OAuthInfo;
-import issac.issac_server.auth.application.dto.RefreshTokenRequest;
+import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.application.oauth.OAuthClient;
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.auth.exception.AuthErrorCode;
 import issac.issac_server.auth.exception.AuthException;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +39,9 @@ public class AuthFacadeService {
 
     public LoginResponse refresh(RefreshTokenRequest request) {
         return authService.refresh(request);
+    }
+
+    public EmailResponse sendEmailVerification(EmailRequest request) throws MessagingException {
+        return authService.sendEmailVerification(request);
     }
 }
