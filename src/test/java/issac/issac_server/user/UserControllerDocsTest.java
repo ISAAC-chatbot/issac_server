@@ -15,6 +15,7 @@ import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.user.constant.UserDocFields.USER_CREATE_REQUEST;
 import static issac.issac_server.user.constant.UserFactory.createMockUserCreateRequest;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -50,6 +51,10 @@ class UserControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("User API")
                                 .summary("회원가입(프로필 등록)")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
                                 .requestFields(USER_CREATE_REQUEST)
                                 .requestSchema(Schema.schema("UserCreateRequest"))
                                 .build())));
