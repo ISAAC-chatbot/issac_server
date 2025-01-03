@@ -2,6 +2,7 @@ package issac.issac_server.auth.constant;
 
 import issac.issac_server.auth.application.dto.LoginRequest;
 import issac.issac_server.auth.application.dto.LoginResponse;
+import issac.issac_server.auth.application.dto.RefreshTokenRequest;
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.user.domain.Role;
 
@@ -28,4 +29,9 @@ public class AuthFactory {
                 .role(Role.GUEST)
                 .build();
     }
+
+    public static RefreshTokenRequest createMockRefreshTokenRequest() {
+        return new RefreshTokenRequest("mock-token-12345");
+    }
+
 }

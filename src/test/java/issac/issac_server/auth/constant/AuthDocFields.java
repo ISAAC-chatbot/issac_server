@@ -20,4 +20,9 @@ public class AuthDocFields {
             fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("Refresh 토큰").optional(),
             fieldWithPath("role").type(JsonFieldType.STRING).description(generateLinkCode(ROLE))
     };
+
+
+    public static final FieldDescriptor[] REFRESH_TOKEN_REQUEST = new FieldDescriptor[]{
+            fieldWithPath("token").type(JsonFieldType.STRING).description("Refresh 토큰")
+    };
 }

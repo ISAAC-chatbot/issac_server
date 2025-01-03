@@ -9,7 +9,14 @@ Content-Type: application/json
 
 ### 게스트 로그인: 인증
 POST {{BASE_URL}}/api/v1/auth/guest-login
+
+### 토큰 재 발급: 인증
+POST {{BASE_URL}}/api/v1/auth/refresh
 Content-Type: application/json
+
+{
+  "token": "mock-1234-5678"
+}
 
 
 
