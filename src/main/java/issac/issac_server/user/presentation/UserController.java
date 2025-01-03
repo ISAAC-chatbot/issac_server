@@ -6,6 +6,7 @@ import issac.issac_server.user.application.dto.UserCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
+    @Secured({"ROLE_UNREGISTERED_PROFILE"})
     public ResponseEntity<Void> signup(
             @Auth Long userId,
             @RequestBody UserCreateRequest request) {

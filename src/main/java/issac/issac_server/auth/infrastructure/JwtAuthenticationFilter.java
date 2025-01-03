@@ -40,6 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throw new AuthException(AuthErrorCode.INVALID_JWT);
         }
 
+        String role = jwtTokenProvider.getRoleFromAccessToken(accessToken);
+
+        if (role.equals("GUEST")) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            filterChain.doFilter(request, response);
+            return;
+        }
         setAuthenticationToContext(accessToken);
         filterChain.doFilter(request, response);
     }

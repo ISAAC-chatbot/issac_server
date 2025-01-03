@@ -23,6 +23,7 @@ public class User extends BaseCreateTimeEntity {
 
     @Embedded
     private OAuthInformation oauthInformation;
+
     @Column
     private String nickname;
 

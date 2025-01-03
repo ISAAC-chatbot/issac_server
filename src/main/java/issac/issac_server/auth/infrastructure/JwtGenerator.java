@@ -2,6 +2,7 @@ package issac.issac_server.auth.infrastructure;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,18 @@ public class JwtGenerator {
                 .compact();
     }
 
+    public String generateGuestToken(Key SECRET, Long ACCESS_EXPIRATION) {
+        Long now = System.currentTimeMillis();
+
+        return Jwts.builder()
+                .setHeader(createHeader())
+                .setClaims(createGuestClaims())
+                .setSubject("guest")
+                .setExpiration(new Date(now + ACCESS_EXPIRATION))
+                .signWith(SECRET, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     private Map<String, Object> createHeader() {
         Map<String, Object> header = new HashMap<>();
         header.put("typ", "JWT");
@@ -38,4 +51,11 @@ public class JwtGenerator {
         claims.put("Role", user.getRole());
         return claims;
     }
+
+    private Map<String, Object> createGuestClaims() {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("Role", Role.GUEST);
+        return claims;
+    }
+
 }

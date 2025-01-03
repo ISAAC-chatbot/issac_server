@@ -4,6 +4,7 @@ import issac.issac_server.auth.application.dto.LoginResponse;
 import issac.issac_server.auth.application.dto.OAuthInfo;
 import issac.issac_server.auth.infrastructure.JwtTokenProvider;
 import issac.issac_server.user.application.UserFinder;
+import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,10 @@ public class AuthService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(user);
         return new LoginResponse(accessToken, refreshToken, user.getRole());
     }
+
+    public LoginResponse guestLogin() {
+        String accessToken = jwtTokenProvider.generateGuestAccessToken();
+        return new LoginResponse(accessToken, Role.GUEST);
+    }
+
 }

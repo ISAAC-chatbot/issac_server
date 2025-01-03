@@ -1,6 +1,7 @@
 package issac.issac_server.user.application;
 
 import issac.issac_server.auth.application.dto.OAuthInfo;
+import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.user.domain.User;
 import issac.issac_server.user.domain.repository.UserRepository;
 import issac.issac_server.user.exception.UserErrorCode;
@@ -16,7 +17,7 @@ public class UserFinder {
     private final UserAppender userAppender;
 
     public User find(OAuthInfo oAuthInfo) {
-        return userRepository.findByOauthInformationOauthProviderAndOauthInformationEmail(oAuthInfo.getProvider(), oAuthInfo.getEmail())
+        return userRepository.findByOauthInformationOauthProviderAndOauthInformationEmailAndEntityStatus(oAuthInfo.getProvider(), oAuthInfo.getEmail(), EntityStatus.ACTIVE)
                 .orElse(userAppender.append(oAuthInfo));
     }
 

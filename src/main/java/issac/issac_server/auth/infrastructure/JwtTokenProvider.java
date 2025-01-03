@@ -68,6 +68,10 @@ public class JwtTokenProvider {
         return refreshToken;
     }
 
+    public String generateGuestAccessToken() {
+        return jwtGenerator.generateGuestToken(ACCESS_SECRET_KEY, ACCESS_EXPIRATION);
+    }
+
     public boolean validateAccessToken(String token) {
         return jwtUtil.getTokenStatus(token, ACCESS_SECRET_KEY) == TokenStatus.AUTHENTICATED;
     }
@@ -121,4 +125,12 @@ public class JwtTokenProvider {
         }
     }
 
+    public String getRoleFromAccessToken(String accessToken) {
+        return Jwts.parserBuilder()
+                .setSigningKey(ACCESS_SECRET_KEY)
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .get("Role", String.class);
+    }
 }

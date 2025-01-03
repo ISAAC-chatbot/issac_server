@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,11 +23,13 @@ import java.util.Arrays;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     public static final String PERMITTED_URI[] = {"/api/v1/auth/**", "/oauth2/**", "/docs/**", "/favicon.ico",
             "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**"};
-    private static final String[] PERMITTED_ROLES = Arrays.stream(Role.values())
+
+    private static final String[] ALL_ROLES = Arrays.stream(Role.values())
             .map(Enum::name)
             .toArray(String[]::new);
     private final JwtTokenProvider jwtTokenProvider;
@@ -34,7 +37,6 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
         return configuration.getAuthenticationManager();
     }
 
@@ -53,7 +55,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers(PERMITTED_URI).permitAll()
-                .anyRequest().hasAnyRole(PERMITTED_ROLES));
+                .anyRequest().hasAnyRole(ALL_ROLES));
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userFinder),
                 UsernamePasswordAuthenticationFilter.class);

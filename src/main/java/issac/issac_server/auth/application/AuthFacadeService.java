@@ -15,7 +15,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AuthFacadeService {
 
     private final AuthService authService;
@@ -28,9 +27,14 @@ public class AuthFacadeService {
                 .orElseThrow(() -> new AuthException(AuthErrorCode.UNSUPPORTED_OAUTH_TYPE));
     }
 
+    @Transactional
     public LoginResponse login(LoginRequest request) {
         OAuthClient oAuthClient = findOAuthClient(request.getProvider());
         OAuthInfo oAuthInfo = oAuthClient.getOAuthInfo(request.getOauthToken());
         return authService.login(oAuthInfo);
+    }
+
+    public LoginResponse guestLogin() {
+        return authService.guestLogin();
     }
 }

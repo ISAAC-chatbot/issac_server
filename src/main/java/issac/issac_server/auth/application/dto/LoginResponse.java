@@ -18,4 +18,9 @@ public class LoginResponse {
         this.role = role;
     }
 
+    public LoginResponse(String accessToken, Role role) {
+        this.accessToken = accessToken;
+        this.role = role;
+    }
+
 }
