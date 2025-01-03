@@ -41,6 +41,9 @@ public class User extends BaseCreateTimeEntity {
     private DegreeType degree;
 
     @Column
+    private String schoolEmail;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -66,6 +69,7 @@ public class User extends BaseCreateTimeEntity {
         this.university = request.getUniversity();
         this.collegeName = request.getCollegeName();
         this.degree = request.getDegree();
+        this.schoolEmail = request.getSchoolEmail();
         this.role = Role.STUDENT;
     }
 }
