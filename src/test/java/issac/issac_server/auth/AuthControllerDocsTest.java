@@ -4,9 +4,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.auth.application.AuthFacadeService;
-import issac.issac_server.auth.application.dto.LoginRequest;
-import issac.issac_server.auth.application.dto.LoginResponse;
-import issac.issac_server.auth.application.dto.RefreshTokenRequest;
+import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.auth.presentation.AuthController;
 import org.junit.jupiter.api.DisplayName;
@@ -121,6 +119,38 @@ class AuthControllerDocsTest extends RestDocsSupport {
                                 .responseFields(LOGIN_RESPONSE)
                                 .requestSchema(Schema.schema("RefreshTokenRequest"))
                                 .responseSchema(Schema.schema("LoginResponse"))
+                                .build())));
+
+    }
+
+    @DisplayName("이메일 인증번호 요청 : 인증")
+    @Test
+    void sendEmailVerification() throws Exception {
+
+        // given
+        EmailRequest request = createMockEmailRequest();
+        EmailResponse response = createMockEmailResponse();
+
+        given(authFacadeService.sendEmailVerification(any(EmailRequest.class))).willReturn(response);
+
+        // when & then
+        mockMvc.perform(
+                        post("/api/v1/auth/email")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("post-v1-auth-email",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Auth API")
+                                .summary("이메일 인증번호 요청")
+                                .requestFields(EMAIL_REQUEST)
+                                .responseFields(EMAIL_RESPONSE)
+                                .requestSchema(Schema.schema("EmailRequest"))
+                                .responseSchema(Schema.schema("EmailResponse"))
                                 .build())));
 
     }

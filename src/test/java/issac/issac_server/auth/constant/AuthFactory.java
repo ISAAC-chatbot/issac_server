@@ -1,10 +1,9 @@
 package issac.issac_server.auth.constant;
 
-import issac.issac_server.auth.application.dto.LoginRequest;
-import issac.issac_server.auth.application.dto.LoginResponse;
-import issac.issac_server.auth.application.dto.RefreshTokenRequest;
+import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.user.domain.Role;
+import issac.issac_server.user.domain.University;
 
 public class AuthFactory {
 
@@ -34,4 +33,11 @@ public class AuthFactory {
         return new RefreshTokenRequest("mock-token-12345");
     }
 
+    public static EmailRequest createMockEmailRequest() {
+        return new EmailRequest(University.YONSEI, "genie@yonsei.ac.kr");
+    }
+
+    public static EmailResponse createMockEmailResponse() {
+        return new EmailResponse("123456");
+    }
 }
