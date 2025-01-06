@@ -26,8 +26,10 @@ public class NoticeController {
     }
 
     @GetMapping("/{noticeId}")
-    public ResponseEntity<NoticeResponse> find(@PathVariable String noticeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(noticeService.find(noticeId));
+    public ResponseEntity<NoticeResponse> find(
+            @Auth Long userId,
+            @PathVariable String noticeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(noticeService.find(userId, noticeId));
     }
 
     @GetMapping("/me/reactions")

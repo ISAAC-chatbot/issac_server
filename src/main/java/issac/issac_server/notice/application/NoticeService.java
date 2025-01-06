@@ -23,8 +23,10 @@ public class NoticeService {
         return noticeFinder.search(condition, pageable);
     }
 
-    public NoticeResponse find(String noticeId) {
-        return noticeFinder.find(noticeId);
+    public NoticeResponse find(Long userId, String noticeId) {
+        NoticeResponse noticeResponse = noticeFinder.find(noticeId);
+        boolean isScrap = reactionFinder.exists(userId, TargetType.NOTICE, noticeResponse.getId(), ReactionType.SCRAP);
+        return isScrap ? noticeResponse.markAsScrap() : noticeResponse.unmarkAsScrap();
     }
 
     public Page<NoticePreviewResponse> findNoticesByReaction(Long userId, ReactionType reactionType, Pageable pageable) {

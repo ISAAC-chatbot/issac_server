@@ -22,6 +22,17 @@ public class NoticeResponse {
     private String content;
     private String author;
     private String createdDate;
+    private Boolean scrap;
+
+    public NoticeResponse markAsScrap() {
+        this.scrap = true;
+        return this;
+    }
+
+    public NoticeResponse unmarkAsScrap() {
+        this.scrap = false;
+        return this;
+    }
 
     public static List<String> getFieldNames() {
         return Arrays.stream(NoticeResponse.class.getDeclaredFields())

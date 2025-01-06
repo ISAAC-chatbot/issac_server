@@ -14,4 +14,5 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
 
     Page<Reaction> findByUserIdAndTargetTypeAndType(Long userId, TargetType targetType, ReactionType reactionType, Pageable pageable);
 
+    boolean existsByUserIdAndTargetTypeAndTargetIdAndType(Long userId, TargetType targetType, String targetId, ReactionType reactionType);
 }

@@ -26,5 +26,7 @@ public class ReactionFinder {
         return reactionRepository.findByUserIdAndTargetTypeAndType(userId, targetType, type, pageable);
     }
 
-
+    public boolean exists(Long userId, TargetType targetType, String targetId, ReactionType reactionType) {
+        return reactionRepository.existsByUserIdAndTargetTypeAndTargetIdAndType(userId, targetType, targetId, reactionType);
+    }
 }
