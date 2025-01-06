@@ -1,18 +1,17 @@
 package issac.issac_server.notice.presentation;
 
+import issac.issac_server.auth.config.Auth;
 import issac.issac_server.notice.application.NoticeService;
 import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
+import issac.issac_server.reaction.domain.ReactionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,5 +28,14 @@ public class NoticeController {
     @GetMapping("/{noticeId}")
     public ResponseEntity<NoticeResponse> find(@PathVariable String noticeId) {
         return ResponseEntity.status(HttpStatus.OK).body(noticeService.find(noticeId));
+    }
+
+    @GetMapping("/me/reactions")
+    public ResponseEntity<Page<NoticePreviewResponse>> findNoticesByReaction(
+            @Auth Long userId,
+            @RequestParam ReactionType reactionType,
+            Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(noticeService.findNoticesByReaction(userId, reactionType, pageable));
     }
 }

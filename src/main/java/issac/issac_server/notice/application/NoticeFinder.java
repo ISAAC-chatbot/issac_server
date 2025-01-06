@@ -5,6 +5,7 @@ import issac.issac_server.notice.application.dto.NoticeResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
 import issac.issac_server.notice.exception.NoticeErrorCode;
 import issac.issac_server.notice.exception.NoticeException;
+import issac.issac_server.reaction.domain.Reaction;
 import lombok.RequiredArgsConstructor;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
@@ -34,13 +35,7 @@ public class NoticeFinder {
 
             SearchResponse<NoticePreviewResponse> response = openSearchClient.search(request, NoticePreviewResponse.class);
 
-            List<NoticePreviewResponse> notices = response.hits().hits().stream()
-                    .peek(hit -> {
-                        assert hit.source() != null;
-                        hit.source().setId(hit.id());
-                    })
-                    .map(Hit::source)
-                    .collect(Collectors.toList());
+            List<NoticePreviewResponse> notices = extractNoticePreviewResponses(response);
 
             return new PageImpl<>(notices, pageable, response.hits().total().value());
 
@@ -70,16 +65,27 @@ public class NoticeFinder {
         }
     }
 
-    private SearchRequest buildFindRequest(String noticeId) {
-        return SearchRequest.of(searchRequest -> searchRequest
-                .index("notice")
-                .source(source -> source
-                        .filter(filter -> filter
-                                .includes(NoticeResponse.getFieldNames())
-                        )
-                )
-                .query(query -> query.ids(ids -> ids.values(noticeId)))
-        );
+    public Page<NoticePreviewResponse> findByReactions(Page<Reaction> reactions) {
+        List<String> noticeIds = reactions.getContent().stream()
+                .map(Reaction::getTargetId)
+                .collect(Collectors.toList());
+
+        if (noticeIds.isEmpty()) {
+            return Page.empty(); // ID가 없으면 빈 페이지 반환
+        }
+
+        SearchRequest request = buildFindByIdsRequest(noticeIds);
+
+        // Elasticsearch 호출
+        try {
+            SearchResponse<NoticePreviewResponse> response = openSearchClient.search(request, NoticePreviewResponse.class);
+
+            List<NoticePreviewResponse> notices = extractNoticePreviewResponses(response);
+
+            return new PageImpl<>(notices, reactions.getPageable(), response.hits().total().value());
+        } catch (Exception e) {
+            throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
+        }
     }
 
     private SearchRequest buildSearchRequest(NoticeSearchCondition condition, Pageable pageable) {
@@ -100,6 +106,41 @@ public class NoticeFinder {
                 .size(pageable.getPageSize())
         );
     }
+
+    private SearchRequest buildFindRequest(String noticeId) {
+        return SearchRequest.of(searchRequest -> searchRequest
+                .index("notice")
+                .source(source -> source
+                        .filter(filter -> filter
+                                .includes(NoticeResponse.getFieldNames())
+                        )
+                )
+                .query(query -> query.ids(ids -> ids.values(noticeId)))
+        );
+    }
+
+    private SearchRequest buildFindByIdsRequest(List<String> noticeIds) {
+        return SearchRequest.of(searchRequest -> searchRequest
+                .index("notice") // Elasticsearch 인덱스 설정
+                .source(source -> source
+                        .filter(filter -> filter
+                                .includes(NoticePreviewResponse.getFieldNames()) // 필요한 필드만 포함
+                        )
+                )
+                .query(query -> query.ids(ids -> ids.values(noticeIds))) // ID 리스트로 조회
+        );
+    }
+
+    private List<NoticePreviewResponse> extractNoticePreviewResponses(SearchResponse<NoticePreviewResponse> response) {
+        return response.hits().hits().stream()
+                .peek(hit -> {
+                    assert hit.source() != null;
+                    hit.source().setId(hit.id());
+                })
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+
 
     private void universityEq(Builder bool, NoticeSearchCondition condition) {
         if (condition.getUniversity() != null) {
