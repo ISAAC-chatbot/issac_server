@@ -20,8 +20,8 @@ public interface DocumentLinkGenerator {
         UNIVERSITY("university", "대학교"),
         DEGREE_TYPE("degreeType", "학위 종류"),
         NOTICE_SOURCE("noticeSource", "공지사항 출처 사이트"),
-        REACTION_TYPE("reactionType", "리액션 종류"),
-
+        REACTION_TYPE("reactionType", "리액션 타입"),
+        TARGET_TYPE("targetType", "대상 타입"),
         ;
 
         private final String pageId;

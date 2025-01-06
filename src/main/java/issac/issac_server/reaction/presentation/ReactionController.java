@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +19,13 @@ public class ReactionController {
 
     private final ReactionService reactionService;
 
-    @PostMapping
-    public ResponseEntity<Void> save(
+    @PatchMapping
+    public ResponseEntity<Void> toggle(
             @Auth Long userId,
             @Valid @RequestBody ReactionCreateRequest request
     ) {
         reactionService.save(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
 

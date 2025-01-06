@@ -13,7 +13,7 @@ public class NoticeFactory {
 
     public static NoticeResponse createMockNoticeResponse() {
         return NoticeResponse.builder()
-                .id("mock-1234-id")
+                .id("fGhOO5QBORDZUx8puAN_")
                 .source(ACADEMIC_NOTICE)
                 .subCategory("공통")
                 .title("인문예술진흥사업단, 2025-1 후배 사랑 한끼 나눔 사업 신청 안내")
@@ -26,7 +26,7 @@ public class NoticeFactory {
 
     public static NoticePreviewResponse createMockNoticePreviewResponse() {
         return NoticePreviewResponse.builder()
-                .id("mock-1234-id")
+                .id("fGhOO5QBORDZUx8puAN_")
                 .source(ACADEMIC_NOTICE)
                 .subCategory("공통")
                 .title("인문예술진흥사업단, 2025-1 후배 사랑 한끼 나눔 사업 신청 안내")

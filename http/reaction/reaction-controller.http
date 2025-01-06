@@ -1,0 +1,10 @@
+### 생성 : 리액션
+POST {{BASE_URL}}/api/v1/reactions
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "targetType": "NOTICE",
+  "targetId": "fGhOO5QBORDZUx8puAN_",
+  "type": "SCRAP"
+}
