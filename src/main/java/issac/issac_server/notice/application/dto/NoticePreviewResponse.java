@@ -12,19 +12,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NoticeResponse {
+public class NoticePreviewResponse {
 
     @Setter
     private String id;
     private NoticeSource source;
     private String subCategory;
     private String title;
-    private String content;
     private String author;
     private String createdDate;
 
     public static List<String> getFieldNames() {
-        return Arrays.stream(NoticeResponse.class.getDeclaredFields())
+        return Arrays.stream(NoticePreviewResponse.class.getDeclaredFields())
                 .map(Field::getName)
                 .collect(Collectors.toList());
     }

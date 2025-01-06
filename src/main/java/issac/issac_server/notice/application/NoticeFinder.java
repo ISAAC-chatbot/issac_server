@@ -1,6 +1,7 @@
 package issac.issac_server.notice.application;
 
 import issac.issac_server.notice.application.dto.NoticePreviewResponse;
+import issac.issac_server.notice.application.dto.NoticeResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
 import issac.issac_server.notice.exception.NoticeErrorCode;
 import issac.issac_server.notice.exception.NoticeException;
@@ -42,11 +43,43 @@ public class NoticeFinder {
                     .collect(Collectors.toList());
 
             return new PageImpl<>(notices, pageable, response.hits().total().value());
+
         } catch (IllegalArgumentException e) {
             throw new NoticeException(NoticeErrorCode.INVALID_SEARCH_CONDITION);
         } catch (Exception e) {
             throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
         }
+    }
+
+    public NoticeResponse find(String noticeId) {
+        try {
+            SearchRequest request = buildFindRequest(noticeId);
+
+            SearchResponse<NoticeResponse> response = openSearchClient.search(request, NoticeResponse.class);
+
+            return response.hits().hits().stream()
+                    .findFirst()
+                    .map(hit -> {
+                        assert hit.source() != null;
+                        hit.source().setId(hit.id());
+                        return hit.source();
+                    })
+                    .orElseThrow(() -> new NoticeException(NoticeErrorCode.NOT_FOUND));
+        } catch (Exception e) {
+            throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
+        }
+    }
+
+    private SearchRequest buildFindRequest(String noticeId) {
+        return SearchRequest.of(searchRequest -> searchRequest
+                .index("notice")
+                .source(source -> source
+                        .filter(filter -> filter
+                                .includes(NoticeResponse.getFieldNames())
+                        )
+                )
+                .query(query -> query.ids(ids -> ids.values(noticeId)))
+        );
     }
 
     private SearchRequest buildSearchRequest(NoticeSearchCondition condition, Pageable pageable) {
@@ -106,5 +139,4 @@ public class NoticeFinder {
             );
         }
     }
-
 }
