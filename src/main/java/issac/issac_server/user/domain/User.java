@@ -24,25 +24,8 @@ public class User extends BaseCreateTimeEntity {
     @Embedded
     private OAuthInformation oauthInformation;
 
-    @Column
-    private String nickname;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private University university;
-
-    @Column
-    private String collegeName;
-
-    @Column
-    private String department;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private DegreeType degree;
-
-    @Column
-    private String schoolEmail;
+    @Embedded
+    private Profile profile;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -65,12 +48,7 @@ public class User extends BaseCreateTimeEntity {
     }
 
     public void signup(UserCreateRequest request) {
-        this.nickname = request.getNickname();
-        this.department = request.getDepartment();
-        this.university = request.getUniversity();
-        this.collegeName = request.getCollegeName();
-        this.degree = request.getDegree();
-        this.schoolEmail = request.getSchoolEmail();
+        this.profile = new Profile(request);
         this.role = Role.STUDENT;
     }
 }
