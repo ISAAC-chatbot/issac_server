@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -36,6 +37,15 @@ public class ControllerAdvice {
 //
 //        return convert(GlobalErrorCode.INTERNAL_SERVER_ERROR, e);
 //    }
+
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public ResponseEntity<ExceptionResponse> handleMissingServletRequestParameterException(HttpServletRequest request, Exception e) {
+        log.error("[ValidationException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
+                request::getMethod, request::getRequestURI,
+                e::getClass, e::getMessage);
+
+        return convert(GlobalErrorCode.MISSING_PARAMETER_ERROR, e);
+    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     public ResponseEntity<ExceptionResponse> handleValidationExceptions(HttpServletRequest request, Exception e) {
