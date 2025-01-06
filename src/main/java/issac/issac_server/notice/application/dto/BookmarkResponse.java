@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookmarkCreateRequest {
+public class BookmarkResponse {
     private List<NoticeSource> sources;
 }
