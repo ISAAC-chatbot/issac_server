@@ -20,6 +20,7 @@ public interface DocumentLinkGenerator {
         UNIVERSITY("university", "대학교"),
         DEGREE_TYPE("degreeType", "학위 종류"),
         NOTICE_SOURCE("noticeSource", "공지사항 출처 사이트"),
+        REACTION_TYPE("reactionType", "리액션 종류"),
 
         ;
 

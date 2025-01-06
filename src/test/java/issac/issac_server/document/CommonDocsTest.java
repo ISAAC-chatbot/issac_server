@@ -63,6 +63,10 @@ public class CommonDocsTest extends RestDocsSupport {
                         customResponseFields("custom-response", beneathPath("noticeSource").withSubsectionId("noticeSource"),
                                 attributes(key("title").value("공지사항 출처 사이트")),
                                 enumConvertFieldDescriptor(docs.getNoticeSource())
+                        ),
+                        customResponseFields("custom-response", beneathPath("reactionType").withSubsectionId("reactionType"),
+                                attributes(key("title").value("리액션 종류")),
+                                enumConvertFieldDescriptor(docs.getReactionType())
                         )
                 ));
     }

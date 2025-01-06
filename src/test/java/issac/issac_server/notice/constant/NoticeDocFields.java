@@ -34,6 +34,7 @@ public class NoticeDocFields {
             fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
             fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용(HTML)"),
             fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
-            fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)")
+            fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)"),
+            fieldWithPath("scrap").type(JsonFieldType.BOOLEAN).description("스크랩 여부")
     };
 }
