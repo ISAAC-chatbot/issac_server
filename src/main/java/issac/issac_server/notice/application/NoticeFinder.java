@@ -1,6 +1,6 @@
 package issac.issac_server.notice.application;
 
-import issac.issac_server.notice.application.dto.NoticeResponse;
+import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
 import issac.issac_server.notice.exception.NoticeErrorCode;
 import issac.issac_server.notice.exception.NoticeException;
@@ -14,9 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.opensearch.client.opensearch._types.query_dsl.BoolQuery.Builder;
 
 @Component
 @RequiredArgsConstructor
@@ -24,13 +27,17 @@ public class NoticeFinder {
 
     private final OpenSearchClient openSearchClient;
 
-    public Page<NoticeResponse> search(NoticeSearchCondition condition, Pageable pageable) {
+    public Page<NoticePreviewResponse> search(NoticeSearchCondition condition, Pageable pageable) {
         try {
             SearchRequest request = buildSearchRequest(condition, pageable);
 
-            SearchResponse<NoticeResponse> response = openSearchClient.search(request, NoticeResponse.class);
+            SearchResponse<NoticePreviewResponse> response = openSearchClient.search(request, NoticePreviewResponse.class);
 
-            List<NoticeResponse> notices = response.hits().hits().stream()
+            List<NoticePreviewResponse> notices = response.hits().hits().stream()
+                    .peek(hit -> {
+                        assert hit.source() != null;
+                        hit.source().setId(hit.id());
+                    })
                     .map(Hit::source)
                     .collect(Collectors.toList());
 
@@ -47,13 +54,13 @@ public class NoticeFinder {
                 .index("notice")
                 .source(source -> source
                         .filter(filter -> filter
-                                .includes(NoticeResponse.getFieldNames())
+                                .includes(NoticePreviewResponse.getFieldNames())
                         )
                 )
                 .query(query -> query.bool(bool -> {
                     universityEq(bool, condition);
                     sourceEq(bool, condition);
-                    titleContain(bool, condition);
+                    keywordContain(bool, condition);
                     return bool;
                 }))
                 .from((int) pageable.getOffset())
@@ -61,7 +68,7 @@ public class NoticeFinder {
         );
     }
 
-    private void universityEq(org.opensearch.client.opensearch._types.query_dsl.BoolQuery.Builder bool, NoticeSearchCondition condition) {
+    private void universityEq(Builder bool, NoticeSearchCondition condition) {
         if (condition.getUniversity() != null) {
             bool.filter(filter -> filter
                     .term(term -> term
@@ -72,7 +79,7 @@ public class NoticeFinder {
         }
     }
 
-    private void sourceEq(org.opensearch.client.opensearch._types.query_dsl.BoolQuery.Builder bool, NoticeSearchCondition condition) {
+    private void sourceEq(Builder bool, NoticeSearchCondition condition) {
         if (condition.getSource() != null) {
             bool.filter(filter -> filter
                     .term(term -> term
@@ -83,14 +90,21 @@ public class NoticeFinder {
         }
     }
 
-    private void titleContain(org.opensearch.client.opensearch._types.query_dsl.BoolQuery.Builder bool, NoticeSearchCondition condition) {
-        if (condition.getTitle() != null && !condition.getTitle().isEmpty()) {
+    private void keywordContain(Builder bool, NoticeSearchCondition condition) {
+        if (StringUtils.hasText(condition.getKeyword())) {
             bool.should(should -> should
                     .wildcard(wildcard -> wildcard
                             .field("title")
-                            .value("*" + condition.getTitle() + "*")
+                            .value("*" + condition.getKeyword() + "*")
+                    )
+            );
+            bool.should(should -> should
+                    .wildcard(wildcard -> wildcard
+                            .field("content")
+                            .value("*" + condition.getKeyword() + "*")
                     )
             );
         }
     }
+
 }

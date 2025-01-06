@@ -4,7 +4,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.notice.application.NoticeService;
-import issac.issac_server.notice.application.dto.NoticeResponse;
+import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
 import issac.issac_server.notice.presentation.NoticeController;
 import org.junit.jupiter.api.DisplayName;
@@ -22,9 +22,9 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.document.utils.ApiDocumentUtils.*;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.*;
-import static issac.issac_server.notice.constant.NoticeDocFields.NOTICE_RESPONSE;
+import static issac.issac_server.notice.constant.NoticeDocFields.NOTICE_PREVIEW_RESPONSE;
 import static issac.issac_server.notice.constant.NoticeDocFields.NOTICE_SEARCH_CONDITION;
-import static issac.issac_server.notice.constant.NoticeFactory.createMockNoticeResponses;
+import static issac.issac_server.notice.constant.NoticeFactory.createMockNoticePreviewResponses;
 import static issac.issac_server.notice.domain.NoticeSource.ACADEMIC_NOTICE;
 import static issac.issac_server.user.domain.University.YONSEI;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,9 +50,9 @@ class NoticeControllerDocsTest extends RestDocsSupport {
     void search() throws Exception {
 
         // given
-        List<NoticeResponse> responses = createMockNoticeResponses();
+        List<NoticePreviewResponse> responses = createMockNoticePreviewResponses();
         Pageable pageable = PageRequest.of(0, 10);
-        Page<NoticeResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
+        Page<NoticePreviewResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
 
         given(noticeService.search(any(NoticeSearchCondition.class), any(Pageable.class))).willReturn(pageResponses);
 
@@ -61,7 +61,7 @@ class NoticeControllerDocsTest extends RestDocsSupport {
                         get("/api/v1/notices")
                                 .param("university", YONSEI.toString())
                                 .param("source", ACADEMIC_NOTICE.toString())
-                                .param("title", "나눔 사업")
+                                .param("keyword", "나눔 사업")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -86,8 +86,8 @@ class NoticeControllerDocsTest extends RestDocsSupport {
                                 ))
                                 // content 필드만 문서화
                                 .responseFields(
-                                        mergeFields(PAGE_RESPONSE, generateFields("content[].", NOTICE_RESPONSE)))
-                                .responseSchema(Schema.schema("NoticeResponse"))
+                                        mergeFields(PAGE_RESPONSE, generateFields("content[].", NOTICE_PREVIEW_RESPONSE)))
+                                .responseSchema(Schema.schema("NoticePreviewResponse"))
                                 .build())));
     }
 }

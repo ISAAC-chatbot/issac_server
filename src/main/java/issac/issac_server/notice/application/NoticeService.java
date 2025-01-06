@@ -1,6 +1,6 @@
 package issac.issac_server.notice.application;
 
-import issac.issac_server.notice.application.dto.NoticeResponse;
+import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ public class NoticeService {
 
     private final NoticeFinder noticeFinder;
 
-    public Page<NoticeResponse> search(NoticeSearchCondition condition, Pageable pageable) {
+    public Page<NoticePreviewResponse> search(NoticeSearchCondition condition, Pageable pageable) {
         return noticeFinder.search(condition, pageable);
     }
 }

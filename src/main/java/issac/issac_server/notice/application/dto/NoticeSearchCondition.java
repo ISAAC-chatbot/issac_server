@@ -11,5 +11,5 @@ public class NoticeSearchCondition {
 
     private University university;
     private NoticeSource source;
-    private String title;
+    private String keyword;
 }
