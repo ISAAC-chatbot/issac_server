@@ -3,6 +3,7 @@ package issac.issac_server.notice.application.dto;
 import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.user.domain.University;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class NoticeResponse {
 
     private University university;

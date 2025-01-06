@@ -19,6 +19,7 @@ public interface DocumentLinkGenerator {
         OAUTH_PROVIDER_TYPE("oAuthProviderType", "OAuth 인증 제공자"),
         UNIVERSITY("university", "대학교"),
         DEGREE_TYPE("degreeType", "학위 종류"),
+        NOTICE_SOURCE("noticeSource", "공지사항 출처 사이트"),
 
         ;
 

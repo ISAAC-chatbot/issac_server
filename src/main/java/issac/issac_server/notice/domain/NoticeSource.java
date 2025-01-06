@@ -1,5 +1,6 @@
 package issac.issac_server.notice.domain;
 
+import issac.issac_server.common.domain.DescriptiveEnum;
 import issac.issac_server.user.domain.University;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import static issac.issac_server.user.domain.University.YONSEI;
 
 @Getter
 @RequiredArgsConstructor
-public enum NoticeSource {
+public enum NoticeSource implements DescriptiveEnum {
 
     ACADEMIC_NOTICE("학사공지", YONSEI, "https://www.yonsei.ac.kr/sc/"),
     SONGDO_DORM("송도학사", YONSEI, "https://yicdorm.yonsei.ac.kr/"),
@@ -22,4 +23,14 @@ public enum NoticeSource {
     private final String name;
     private final University parent;
     private final String url;
+
+    @Override
+    public String getCode() {
+        return name();
+    }
+
+    @Override
+    public String getDescription() {
+        return getName();
+    }
 }

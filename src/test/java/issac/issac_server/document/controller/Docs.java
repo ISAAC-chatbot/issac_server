@@ -15,15 +15,16 @@ public class Docs {
     Map<String, String> oauthProvider;
     Map<String, String> university;
     Map<String, String> degreeType;
+    Map<String, String> noticeSource;
 
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public Docs(Map<String, String> role, Map<String, String> oauthProvider, Map<String, String> university,
-                Map<String, String> degreeType) {
+                Map<String, String> degreeType, Map<String, String> noticeSource) {
         this.role = role;
         this.oauthProvider = oauthProvider;
         this.university = university;
         this.degreeType = degreeType;
-
+        this.noticeSource = noticeSource;
     }
 }
