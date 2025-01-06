@@ -15,6 +15,7 @@ public class UserFactory {
                 .department("인공지능학과")
                 .degree(DegreeType.BACHELOR)
                 .schoolEmail("genie@yonsei.ac.kr")
+                .marketingConsent(true)
                 .build();
     }
 

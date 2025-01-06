@@ -30,13 +30,17 @@ public class UserCreateRequest {
     @NotNull
     private String schoolEmail;
 
+    @NotNull
+    private Boolean marketingConsent;
+
     @Builder
-    public UserCreateRequest(String nickname, University university, String collegeName, String department, DegreeType degree, String schoolEmail) {
+    public UserCreateRequest(String nickname, University university, String collegeName, String department, DegreeType degree, String schoolEmail, Boolean marketingConsent) {
         this.nickname = nickname;
         this.university = university;
         this.collegeName = collegeName;
         this.department = department;
         this.degree = degree;
         this.schoolEmail = schoolEmail;
+        this.marketingConsent = marketingConsent;
     }
 }

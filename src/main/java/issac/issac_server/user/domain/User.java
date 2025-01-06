@@ -31,6 +31,9 @@ public class User extends BaseCreateTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column
+    private Boolean marketingConsent;
+
     @Enumerated(EnumType.STRING)
     private EntityStatus entityStatus;
 
@@ -50,5 +53,6 @@ public class User extends BaseCreateTimeEntity {
     public void signup(UserCreateRequest request) {
         this.profile = new Profile(request);
         this.role = Role.STUDENT;
+        this.marketingConsent = request.getMarketingConsent();
     }
 }
