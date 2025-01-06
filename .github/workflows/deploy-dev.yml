@@ -48,18 +48,20 @@ jobs:
 
       - name: Prepare deployment package
         run: |
-          mkdir -p deploy
+          
+          mkdir -p deploy/.platform/hooks/postdeploy
           
           cp build/libs/*-SNAPSHOT.jar deploy/application.jar
           cp Procfile deploy/
           
-          if [ -d ".ebextensions" ]; then
-            cp -r .ebextensions deploy/.ebextensions
-          fi
+          cp scripts/setup_swap_memory.sh deploy/.platform/hooks/postdeploy/
           
-          # 배포 파일 압축
-          cd deploy && zip -r $PROJECT_NAME *
+          chmod +x deploy/.platform/hooks/postdeploy/setup_swap_memory.sh
+
+          cd deploy && zip -r $PROJECT_NAME ./* .platform
+
         shell: bash
+
 
       - name: Get current time
         id: current-time
