@@ -4,12 +4,14 @@ import issac.issac_server.user.domain.DegreeType;
 import issac.issac_server.user.domain.Profile;
 import issac.issac_server.user.domain.University;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ProfileResponse {
 
     private String nickname;
