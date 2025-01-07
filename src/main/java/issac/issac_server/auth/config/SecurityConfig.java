@@ -45,6 +45,15 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
+        http.cors(cors -> cors.configurationSource(request -> {
+            var config = new org.springframework.web.cors.CorsConfiguration();
+            config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용할 Origin 설정
+            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
+            config.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더
+            config.setAllowCredentials(true); // 인증 정보 포함 허용
+            return config;
+        }));
+
         //From 로그인 방식 disable
         http.formLogin(AbstractHttpConfigurer::disable);
 
