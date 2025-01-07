@@ -2,3 +2,16 @@
 GET {{BASE_URL}}/api/v1/users/profile
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
+
+### 내 프로필 업데이트
+PUT {{BASE_URL}}/api/v1/users/profile
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "nickname": "관주",
+  "collegeName" : "소프트웨어융합대학",
+  "department" : "소프트웨어학과",
+  "degree" : "BACHELOR",
+  "profilePhotoUrl" : "https://issac-dev.s3.ap-northeast-2.amazonaws.com/images/default/DEFAULT_PHOTO.png"
+}
