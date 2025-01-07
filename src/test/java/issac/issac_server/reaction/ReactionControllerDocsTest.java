@@ -17,7 +17,7 @@ import static issac.issac_server.reaction.constant.ReactionFactory.createMockRea
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +38,7 @@ class ReactionControllerDocsTest extends RestDocsSupport {
 
         // when & then
         mockMvc.perform(
-                        patch("/api/v1/reactions")
+                        put("/api/v1/reactions")
                                 .content(objectMapper.writeValueAsString(request))
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)

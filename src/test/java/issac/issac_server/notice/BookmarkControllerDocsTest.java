@@ -22,8 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +45,7 @@ class BookmarkControllerDocsTest extends RestDocsSupport {
         given(bookmarkService.update(any(), any(BookmarkCreateRequest.class))).willReturn(response);
         // when & then
         mockMvc.perform(
-                        patch("/api/v1/notices/bookmarks")
+                        put("/api/v1/notices/bookmarks")
                                 .content(objectMapper.writeValueAsString(request))
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
