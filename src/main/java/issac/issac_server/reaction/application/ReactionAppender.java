@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ReactionAppender {
 
-    private final ReactionFinder reactionFinder;
+    private final ReactionReader reactionReader;
     private final ReactionRemover reactionRemover;
     private final ReactionRepository reactionRepository;
 
     public void append(Long userId, ReactionCreateRequest request) {
-        reactionFinder.find(userId, request)
+        reactionReader.find(userId, request)
                 .ifPresentOrElse(
                         reaction -> reactionRemover.remove(reaction.getId()),
                         () -> reactionRepository.save(Reaction.from(userId, request))
