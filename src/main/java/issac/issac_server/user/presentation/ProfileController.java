@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users/profile")
 @RequiredArgsConstructor
+@Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN"})
 public class ProfileController {
 
     private final ProfileService profileService;
 
     @GetMapping
-    @Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN",})
     public ResponseEntity<ProfileResponse> findMyProfile(@Auth Long userId) {
         return ResponseEntity.ok(profileService.findProfile(userId));
     }
