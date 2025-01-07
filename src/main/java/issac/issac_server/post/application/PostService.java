@@ -50,6 +50,7 @@ public class PostService {
         return PostResponse.from(post, postPhotos, user, reactionStatusResponses);
     }
 
+    @Transactional
     public PostResponse update(Long userId, Long postId, PostUpdateRequest request) {
 
         Post post = postFinder.find(postId);

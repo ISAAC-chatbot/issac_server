@@ -1,13 +1,13 @@
 package issac.issac_server.post.application.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostCreateRequest {
 

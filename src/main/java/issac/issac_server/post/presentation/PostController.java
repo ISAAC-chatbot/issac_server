@@ -34,7 +34,7 @@ public class PostController {
         return ResponseEntity.ok(postService.find(userId, postId));
     }
 
-    @PutMapping("/v1/posts/{postId}")
+    @PutMapping("/{postId}")
     public ResponseEntity<PostResponse> patchPost(
             @Auth Long userId,
             @PathVariable Long postId,
