@@ -146,7 +146,7 @@ public class NoticeFinder {
         if (condition.getUniversity() != null) {
             bool.filter(filter -> filter
                     .term(term -> term
-                            .field("university.keyword")
+                            .field("university")
                             .value(FieldValue.of(condition.getUniversity().toString()))
                     )
             );
@@ -157,7 +157,7 @@ public class NoticeFinder {
         if (condition.getSource() != null) {
             bool.filter(filter -> filter
                     .term(term -> term
-                            .field("source.keyword")
+                            .field("source")
                             .value(FieldValue.of(condition.getSource().toString()))
                     )
             );
@@ -167,17 +167,17 @@ public class NoticeFinder {
     private void keywordContain(Builder bool, NoticeSearchCondition condition) {
         if (StringUtils.hasText(condition.getKeyword())) {
             bool.should(should -> should
-                    .wildcard(wildcard -> wildcard
+                    .match(match -> match
                             .field("title")
-                            .value("*" + condition.getKeyword() + "*")
-                    )
-            );
+                            .query(FieldValue.of(condition.getKeyword())
+                            )
+                    ));
             bool.should(should -> should
-                    .wildcard(wildcard -> wildcard
+                    .match(match -> match
                             .field("content")
-                            .value("*" + condition.getKeyword() + "*")
-                    )
-            );
+                            .query(FieldValue.of(condition.getKeyword())
+                            )
+                    ));
         }
     }
 }
