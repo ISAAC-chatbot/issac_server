@@ -1,5 +1,6 @@
 package issac.issac_server.user.domain;
 
+import issac.issac_server.user.application.dto.ProfileUpdateRequest;
 import issac.issac_server.user.application.dto.UserCreateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static issac.issac_server.common.config.Constant.DEFAULT_PHOTO;
 
 @Embeddable
 @Getter
@@ -36,6 +39,9 @@ public class Profile {
     @Column
     private String schoolEmail;
 
+    @Column
+    private String profilePhotoUrl;
+
     public Profile(UserCreateRequest request) {
         this.nickname = request.getNickname();
         this.department = request.getDepartment();
@@ -43,5 +49,14 @@ public class Profile {
         this.collegeName = request.getCollegeName();
         this.degree = request.getDegree();
         this.schoolEmail = request.getSchoolEmail();
+        this.profilePhotoUrl = DEFAULT_PHOTO;
+    }
+
+    public void update(ProfileUpdateRequest request) {
+        this.nickname = request.getNickname();
+        this.collegeName = request.getCollegeName();
+        this.department = request.getDepartment();
+        this.degree = request.getDegree();
+        this.profilePhotoUrl = request.getProfilePhotoUrl();
     }
 }
