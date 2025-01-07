@@ -2,11 +2,13 @@ package issac.issac_server.user.presentation;
 
 import issac.issac_server.auth.config.Auth;
 import issac.issac_server.user.application.dto.ProfileResponse;
+import issac.issac_server.user.application.dto.ProfileUpdateRequest;
 import issac.issac_server.user.application.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,11 @@ public class ProfileController {
     @GetMapping
     public ResponseEntity<ProfileResponse> findMyProfile(@Auth Long userId) {
         return ResponseEntity.ok(profileService.findProfile(userId));
+    }
+
+    @PutMapping
+    public ResponseEntity<ProfileResponse> updateMyProfile(@Auth Long userId, ProfileUpdateRequest request) {
+        return ResponseEntity.ok(profileService.updateMyProfile(userId, request));
     }
 
 }

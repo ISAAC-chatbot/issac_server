@@ -26,7 +26,17 @@ public class ProfileResponse {
 
     private String schoolEmail;
 
+    private String profilePhotoUrl;
+
     public static ProfileResponse from(Profile profile) {
-        return new ProfileResponse(profile.getNickname(), profile.getUniversity(), profile.getCollegeName(), profile.getDepartment(), profile.getDegree(), profile.getSchoolEmail());
+        return new ProfileResponse(
+                profile.getNickname(),
+                profile.getUniversity(),
+                profile.getCollegeName(),
+                profile.getDepartment(),
+                profile.getDegree(),
+                profile.getSchoolEmail(),
+                profile.getProfilePhotoUrl()
+        );
     }
 }
