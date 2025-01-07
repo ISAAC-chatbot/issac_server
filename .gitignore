@@ -39,5 +39,7 @@ out/
 application-local.properties
 application-oauth.properties
 application-email.properties
+application-aws.properties
+
 
 **/static/docs/**

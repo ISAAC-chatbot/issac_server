@@ -83,6 +83,9 @@ dependencies {
     implementation "org.opensearch.client:opensearch-java:2.7.0"
     implementation "jakarta.json:jakarta.json-api"
 
+    //AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 dependencyManagement {
