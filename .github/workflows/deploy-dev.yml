@@ -54,10 +54,8 @@ jobs:
           cp build/libs/*-SNAPSHOT.jar deploy/application.jar
           cp Procfile deploy/
           
-          cp scripts/setup_swap_memory.sh deploy/.platform/hooks/postdeploy/
+          cp scripts/* deploy/.platform/hooks/postdeploy/
           
-          chmod +x deploy/.platform/hooks/postdeploy/setup_swap_memory.sh
-
           cd deploy && zip -r $PROJECT_NAME ./* .platform
 
         shell: bash
