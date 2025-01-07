@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.UNIVERSITY;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.FILE_TARGET_TYPE;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static issac.issac_server.file.constant.FileDocFields.PRESIGNED_URL_RESPONSE;
 import static issac.issac_server.file.constant.FileFactory.createMockPreSignedUrlResponse;
@@ -64,7 +64,7 @@ class FileControllerDocsTest extends RestDocsSupport {
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
                                 .queryParameters(
-                                        parameterWithName("targetType").description(generateLinkCode(UNIVERSITY))
+                                        parameterWithName("targetType").description(generateLinkCode(FILE_TARGET_TYPE))
                                 )
                                 .responseFields(PRESIGNED_URL_RESPONSE)
                                 .responseSchema(Schema.schema("PreSignedUrlResponse"))

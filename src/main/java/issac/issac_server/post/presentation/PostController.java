@@ -35,7 +35,7 @@ public class PostController {
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<PostResponse> patchPost(
+    public ResponseEntity<PostResponse> updatePost(
             @Auth Long userId,
             @PathVariable Long postId,
             @RequestBody @Valid PostUpdateRequest request
