@@ -1,5 +1,6 @@
 package issac.issac_server.post.application;
 
+import issac.issac_server.file.application.S3Remover;
 import issac.issac_server.post.domain.PostPhoto;
 import issac.issac_server.post.domain.repository.PostPhotoRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class PostPhotoRemover {
 
     private final PostPhotoRepository postPhotoRepository;
     private final PostPhotoFinder postPhotoFinder;
-//    private final S3Remover s3Remover; ToDo : PreSigned_URL API 구현 이후 개발
+    private final S3Remover s3Remover;
 
     public void deleteAllPhotosByPostId(Long postId) {
 
@@ -26,7 +27,7 @@ public class PostPhotoRemover {
     }
 
     public void deletePhotosByUrls(Long postId, List<String> urlsToDelete) {
-//        s3Remover.deleteObjects(urlsToDelete);
+        s3Remover.deleteObjects(urlsToDelete);
         postPhotoRepository.deleteAllByPostId(postId);
     }
 }
