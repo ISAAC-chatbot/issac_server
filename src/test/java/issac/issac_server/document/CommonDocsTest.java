@@ -71,6 +71,10 @@ public class CommonDocsTest extends RestDocsSupport {
                         customResponseFields("custom-response", beneathPath("targetType").withSubsectionId("targetType"),
                                 attributes(key("title").value("대상 타입")),
                                 enumConvertFieldDescriptor(docs.getTargetType())
+                        ),
+                        customResponseFields("custom-response", beneathPath("fileTargetType").withSubsectionId("fileTargetType"),
+                                attributes(key("title").value("파일의 대상 타입")),
+                                enumConvertFieldDescriptor(docs.getFileTargetType())
                         )
                 ));
     }

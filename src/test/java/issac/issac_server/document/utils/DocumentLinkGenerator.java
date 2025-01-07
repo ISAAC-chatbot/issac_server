@@ -22,6 +22,7 @@ public interface DocumentLinkGenerator {
         NOTICE_SOURCE("noticeSource", "공지사항 출처 사이트"),
         REACTION_TYPE("reactionType", "리액션 타입"),
         TARGET_TYPE("targetType", "대상 타입"),
+        FILE_TARGET_TYPE("fileTargetType", "파일의 대상 타입"),
         ;
 
         private final String pageId;

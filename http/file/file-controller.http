@@ -1,0 +1,4 @@
+### 업로드 링크 조회 : 파일
+GET {{BASE_URL}}/api/v1/file/presigned-url
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
