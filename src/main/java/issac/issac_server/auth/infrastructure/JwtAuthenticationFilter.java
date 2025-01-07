@@ -9,12 +9,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static issac.issac_server.auth.config.SecurityConfig.PERMITTED_URI;
 
@@ -43,7 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String role = jwtTokenProvider.getRoleFromAccessToken(accessToken);
 
         if (role.equals("GUEST")) {
-            SecurityContextHolder.getContext().setAuthentication(null);
+            // GUEST 역할을 가진 사용자를 SecurityContext에 설정
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(
+                            "anonymousUser",  // 사용자 이름
+                            null,             // 자격 증명 (비밀번호 없음)
+                            List.of(new SimpleGrantedAuthority("ROLE_GUEST")) // GUEST 권한 부여
+                    )
+            );
             filterChain.doFilter(request, response);
             return;
         }
