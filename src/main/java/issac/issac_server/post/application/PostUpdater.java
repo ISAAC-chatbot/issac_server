@@ -1,5 +1,6 @@
 package issac.issac_server.post.application;
 
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.post.exception.PostErrorCode;
 import issac.issac_server.post.exception.PostException;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PostUpdater {
 
+    private final PostFinder postFinder;
+
     public void update(Long userId, Post post, PostUpdateRequest request) {
         validateAuthor(userId,post);
         post.update(request);
@@ -18,5 +21,10 @@ public class PostUpdater {
         if (!post.getAuthor().getId().equals(userId)) {
             throw new PostException(PostErrorCode.USER_IS_NOT_AUTHOR);
         }
+    }
+
+    public void updateLikeCount(Long postId, Long count) {
+        Post post = postFinder.find(postId);
+        post.updateLikeCount(count);
     }
 }

@@ -2,8 +2,8 @@ package issac.issac_server.post.domain;
 
 import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
-import issac.issac_server.post.application.PostUpdateRequest;
-import issac.issac_server.post.application.dto.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +16,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Post extends BaseTimeEntity {
 
     @Id
@@ -79,5 +78,9 @@ public class Post extends BaseTimeEntity {
         this.title = request.getTitle();
         this.content = request.getContent();
         this.thumbnailPhotoUrl = request.getThumbnailPhotoUrl();
+    }
+
+    public void updateLikeCount(Long count) {
+        this.likeCount = count;
     }
 }
