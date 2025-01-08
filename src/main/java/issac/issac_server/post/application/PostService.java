@@ -4,6 +4,7 @@ import issac.issac_server.post.application.dto.*;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.post.domain.PostPhoto;
 import issac.issac_server.reaction.application.ReactionReader;
+import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.User;
@@ -63,5 +64,13 @@ public class PostService {
 
     public Page<PostPreviewResponse> findPosts(PostSearchCondition condition, Pageable pageable) {
         return postFinder.findPosts(condition, pageable).map(PostPreviewResponse::from);
+    }
+
+    public Page<PostPreviewResponse> findMyPosts(Long userId, Pageable pageable) {
+        return postFinder.findMyPosts(userId, pageable);
+    }
+
+    public Page<PostPreviewResponse> findPostsByReaction(Long userId, ReactionType reactionType, Pageable pageable) {
+        return postFinder.findPostsByReaction(userId, reactionType, pageable);
     }
 }

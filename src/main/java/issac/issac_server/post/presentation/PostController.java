@@ -7,6 +7,7 @@ import issac.issac_server.post.application.dto.PostCreateRequest;
 import issac.issac_server.post.application.dto.PostPreviewResponse;
 import issac.issac_server.post.application.dto.PostResponse;
 import issac.issac_server.post.application.dto.PostSearchCondition;
+import issac.issac_server.reaction.domain.ReactionType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -55,5 +56,22 @@ public class PostController {
             Pageable pageable
     ) {
         return ResponseEntity.ok(postService.findPosts(condition, pageable));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Page<PostPreviewResponse>> findMyPosts(
+            @Auth Long userId,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(postService.findMyPosts(userId, pageable));
+    }
+
+    @GetMapping("/me/reactions")
+    public ResponseEntity<Page<PostPreviewResponse>> findPostsByReaction(
+            @Auth Long userId,
+            @RequestParam ReactionType reactionType,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(postService.findPostsByReaction(userId, reactionType, pageable));
     }
 }
