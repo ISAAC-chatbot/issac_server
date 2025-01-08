@@ -4,6 +4,8 @@ import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.post.application.dto.request.PostCreateRequest;
 import issac.issac_server.post.application.dto.request.PostUpdateRequest;
+import issac.issac_server.post.exception.PostErrorCode;
+import issac.issac_server.post.exception.PostException;
 import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -82,5 +84,11 @@ public class Post extends BaseTimeEntity {
 
     public void updateLikeCount(Long count) {
         this.likeCount = count;
+    }
+
+    public void validatePostIsActive() {
+        if (this.entityStatus != EntityStatus.ACTIVE) {
+            throw new PostException(PostErrorCode.DELETED);
+        }
     }
 }

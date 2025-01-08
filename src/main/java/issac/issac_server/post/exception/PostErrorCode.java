@@ -11,6 +11,7 @@ public enum PostErrorCode implements ErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND, "POST_001", "게시글을 찾지 못했습니다."),
     USER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN, "POST_002", "해당 게시글의 수정권한이 없습니다."),
+    DELETED(HttpStatus.NOT_FOUND, "POST_003", "삭제된 게시글입니다."),
     ;
     private final HttpStatus statusCode;
     private final String errorCode;
