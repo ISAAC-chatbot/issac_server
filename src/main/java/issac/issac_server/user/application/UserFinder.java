@@ -17,8 +17,8 @@ public class UserFinder {
     private final UserAppender userAppender;
 
     public User find(OAuthInfo oAuthInfo) {
-        return userRepository.findByOauthInformationOauthProviderAndOauthInformationEmailAndEntityStatus(oAuthInfo.getProvider(), oAuthInfo.getEmail(), EntityStatus.ACTIVE)
-                .orElse(userAppender.append(oAuthInfo));
+        return userRepository.findByOauthInformationOauthProviderAndOauthInformationOauthIdAndEntityStatus(oAuthInfo.getProvider(), oAuthInfo.getId(), EntityStatus.ACTIVE)
+                .orElseGet(() -> userAppender.append(oAuthInfo));
     }
 
     public User find(Long userId) {
