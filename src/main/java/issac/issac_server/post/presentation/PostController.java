@@ -4,9 +4,13 @@ import issac.issac_server.auth.config.Auth;
 import issac.issac_server.post.application.PostService;
 import issac.issac_server.post.application.PostUpdateRequest;
 import issac.issac_server.post.application.dto.PostCreateRequest;
+import issac.issac_server.post.application.dto.PostPreviewResponse;
 import issac.issac_server.post.application.dto.PostResponse;
+import issac.issac_server.post.application.dto.PostSearchCondition;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +45,13 @@ public class PostController {
             @RequestBody @Valid PostUpdateRequest request
     ) {
         return ResponseEntity.ok(postService.update(userId, postId, request));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<PostPreviewResponse>> findPosts(
+            PostSearchCondition condition,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(postService.findPosts(condition, pageable));
     }
 }
