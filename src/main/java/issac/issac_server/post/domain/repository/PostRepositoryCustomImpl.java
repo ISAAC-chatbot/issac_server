@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static issac.issac_server.comment.domain.QComment.comment;
 import static issac.issac_server.post.domain.QPost.post;
 import static issac.issac_server.reaction.domain.QReaction.reaction;
 import static issac.issac_server.user.domain.QUser.user;
@@ -50,7 +51,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findPostsByReaction(Long userId, ReactionType reactionType, Pageable pageable) {
+    public Page<Post> findPostsWithMyReaction(Long userId, ReactionType reactionType, Pageable pageable) {
         JPAQuery<Post> contentQuery = queryFactory
                 .selectFrom(post).distinct()
                 .innerJoin(reaction).on(reaction.targetType.eq(TargetType.POST).and(reaction.targetId.eq(post.id.toString())))
@@ -70,6 +71,28 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         List<Post> posts = contentQuery.fetch();
 
         return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<Post> findPostsWithMyComment(Long userId, Pageable pageable) {
+        JPAQuery<Post> contentQuery = queryFactory
+                .selectFrom(post).distinct()
+                .innerJoin(comment).on(comment.author.id.eq(userId))
+                .where(filterByComment())
+                .orderBy(orderByCondition(pageable.getSort()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.countDistinct())
+                .from(post)
+                .innerJoin(comment).on(comment.author.id.eq(userId))
+                .where(filterByComment());
+
+        List<Post> posts = contentQuery.fetch();
+
+        return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
+
     }
 
     private BooleanBuilder filterByCondition(PostSearchCondition condition) {
@@ -130,4 +153,15 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return reactionType != null ? reaction.type.eq(reactionType) : null;
     }
 
+    private BooleanBuilder filterByComment() {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        return builder
+                .and(commentEntityStatusIsActive())
+                .and(entityStatusIsActive());
+    }
+
+    private BooleanExpression commentEntityStatusIsActive() {
+        return comment.entityStatus.eq(EntityStatus.ACTIVE);
+    }
 }

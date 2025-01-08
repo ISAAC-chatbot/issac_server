@@ -9,5 +9,7 @@ import org.springframework.data.domain.Pageable;
 public interface PostRepositoryCustom {
     Page<Post> findPosts(PostSearchCondition condition, Pageable pageable);
 
-    Page<Post> findPostsByReaction(Long userId, ReactionType reactionType, Pageable pageable);
+    Page<Post> findPostsWithMyReaction(Long userId, ReactionType reactionType, Pageable pageable);
+
+    Page<Post> findPostsWithMyComment(Long userId, Pageable pageable);
 }

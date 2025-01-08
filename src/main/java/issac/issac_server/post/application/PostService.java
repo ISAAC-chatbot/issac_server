@@ -36,6 +36,7 @@ public class PostService {
     private final PostUpdater postUpdater;
     private final PostPhotoUpdater postPhotoUpdater;
     private final ReactionReader reactionReader;
+    private final PostRemover postRemover;
 
     @Transactional
     public PostResponse save(Long userId, PostCreateRequest request) {
@@ -78,7 +79,17 @@ public class PostService {
         return postFinder.findMyPosts(userId, pageable);
     }
 
-    public Page<PostPreviewResponse> findPostsByReaction(Long userId, ReactionType reactionType, Pageable pageable) {
-        return postFinder.findPostsByReaction(userId, reactionType, pageable);
+    public Page<PostPreviewResponse> findPostsWithMyReaction(Long userId, ReactionType reactionType, Pageable pageable) {
+        return postFinder.findPostsWithMyReaction(userId, reactionType, pageable);
+    }
+
+    @Transactional
+    public void remove(Long userId, Long postId) {
+        Post post = postFinder.find(postId);
+        postRemover.remove(userId, post);
+    }
+
+    public Page<PostPreviewResponse> findPostsWithMyComment(Long userId, Pageable pageable) {
+        return postFinder.findPostsWithMyComment(userId, pageable);
     }
 }

@@ -91,4 +91,10 @@ public class Post extends BaseTimeEntity {
             throw new PostException(PostErrorCode.DELETED);
         }
     }
+
+    public void validateAuthor(Long userId) {
+        if (!this.author.getId().equals(userId)) {
+            throw new PostException(PostErrorCode.USER_IS_NOT_AUTHOR);
+        }
+    }
 }

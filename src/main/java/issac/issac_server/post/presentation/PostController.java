@@ -2,11 +2,11 @@ package issac.issac_server.post.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.post.application.PostService;
-import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.application.dto.request.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.application.dto.response.PostPreviewResponse;
 import issac.issac_server.post.application.dto.response.PostResponse;
-import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.reaction.domain.ReactionType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +58,15 @@ public class PostController {
         return ResponseEntity.ok(postService.findPosts(condition, pageable));
     }
 
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> remove(
+            @Auth Long userId,
+            @PathVariable Long postId
+    ) {
+        postService.remove(userId, postId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<Page<PostPreviewResponse>> findMyPosts(
             @Auth Long userId,
@@ -67,11 +76,20 @@ public class PostController {
     }
 
     @GetMapping("/me/reactions")
-    public ResponseEntity<Page<PostPreviewResponse>> findPostsByReaction(
+    public ResponseEntity<Page<PostPreviewResponse>> findPostsWithMyReaction(
             @Auth Long userId,
             @RequestParam ReactionType reactionType,
             Pageable pageable
     ) {
-        return ResponseEntity.ok(postService.findPostsByReaction(userId, reactionType, pageable));
+        return ResponseEntity.ok(postService.findPostsWithMyReaction(userId, reactionType, pageable));
     }
+
+    @GetMapping("/me/comments")
+    public ResponseEntity<Page<PostPreviewResponse>> findPostsWithMyComment(
+            @Auth Long userId,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(postService.findPostsWithMyComment(userId, pageable));
+    }
+
 }
