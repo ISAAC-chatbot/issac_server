@@ -50,7 +50,6 @@ public class PostDocFields {
             generateFields("author.", USER_INFO_RESPONSE),
             new FieldDescriptor[]{
                     fieldWithPath("photoUrls").type(JsonFieldType.ARRAY).description("게시물 사진 URL 목록"),
-                    fieldWithPath("viewCount").type(JsonFieldType.NUMBER).description("게시물 조회수"),
                     fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("게시물 댓글 수"),
                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시물 생성 시간"),
                     fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("게시물 수정 시간")
@@ -70,7 +69,6 @@ public class PostDocFields {
             generateFields("author.", USER_INFO_RESPONSE),
             new FieldDescriptor[]{
                     fieldWithPath("photoUrls").type(JsonFieldType.ARRAY).description("게시물 사진 URL 목록"),
-                    fieldWithPath("viewCount").type(JsonFieldType.NUMBER).description("게시물 조회수"),
                     fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("게시물 댓글 수"),
                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시물 생성 시간"),
                     fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("게시물 수정 시간")

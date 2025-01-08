@@ -25,7 +25,6 @@ public class PostResponse {
     private List<ReactionStatusResponse> reactions;
     private UserInfoResponse author;
     private List<String> photoUrls;
-    private Long viewCount;
     private Long commentCount;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT_LOCAL_DATE_TIME)
     private LocalDateTime createdAt;
@@ -40,7 +39,6 @@ public class PostResponse {
                 .reactions(new ArrayList<>())
                 .author(UserInfoResponse.from(author))
                 .photoUrls(PostPhoto.extractPhotoUrls(postPhotos))
-                .viewCount(post.getViewCount())
                 .commentCount(post.getCommentCount())
                 .createdAt(post.getCreatedDateTime())
                 .modifiedAt(post.getLastModifiedDateTime())
@@ -55,7 +53,6 @@ public class PostResponse {
                 .reactions(reactions)
                 .author(UserInfoResponse.from(author))
                 .photoUrls(PostPhoto.extractPhotoUrls(postPhotos))
-                .viewCount(post.getViewCount())
                 .commentCount(post.getCommentCount())
                 .createdAt(post.getCreatedDateTime())
                 .modifiedAt(post.getLastModifiedDateTime())

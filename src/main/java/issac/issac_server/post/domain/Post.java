@@ -36,9 +36,6 @@ public class Post extends BaseTimeEntity {
     private String thumbnailPhotoUrl;
 
     @Column(nullable = false)
-    private Long viewCount;
-
-    @Column(nullable = false)
     private Long likeCount;
 
     @Column(nullable = false)
@@ -54,7 +51,6 @@ public class Post extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.thumbnailPhotoUrl = thumbnailPhotoUrl;
-        this.viewCount = 0L;
         this.likeCount = 0L;
         this.commentCount = 0L;
     }

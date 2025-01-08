@@ -40,7 +40,6 @@ public class PostFactory {
                 .reactions(new ArrayList<>())
                 .author(createMockUserInfoResponse())
                 .photoUrls(Arrays.asList("https://issac-dev.s3.ap-northeast-2.amazonaws.com/images/post/2025/01/08/5495e732-47d2-4edf-a216-a6885aecf438","https://issac-dev.s3.ap-northeast-2.amazonaws.com/images/post/2025/01/08/5495e732-47d2-4edf-a216-a6885aecf438"))
-                .viewCount(0L)
                 .commentCount(0L)
                 .createdAt(LocalDateTime.now()) // 현재 시간을 설정
                 .modifiedAt(LocalDateTime.now()) // 현재 시간을 설정
@@ -60,7 +59,6 @@ public class PostFactory {
                 .reactions(reactions)
                 .author(createMockUserInfoResponse())
                 .photoUrls(Arrays.asList("https://issac-dev.s3.ap-northeast-2.amazonaws.com/images/post/2025/01/08/5495e732-47d2-4edf-a216-a6885aecf438","https://issac-dev.s3.ap-northeast-2.amazonaws.com/images/post/2025/01/08/5495e732-47d2-4edf-a216-a6885aecf438"))
-                .viewCount(2L)
                 .commentCount(4L)
                 .createdAt(LocalDateTime.now()) // 현재 시간을 설정
                 .modifiedAt(LocalDateTime.now()) // 현재 시간을 설정
