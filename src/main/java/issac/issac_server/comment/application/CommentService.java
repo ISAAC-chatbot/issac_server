@@ -43,7 +43,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete(Long userId, Long commentId) {
+    public void remove(Long userId, Long commentId) {
         User user = userFinder.find(userId);
         commentRemover.delete(user, commentId);
     }

@@ -1,0 +1,24 @@
+### 생성 : 댓글
+POST {{BASE_URL}}/api/v1/posts/3/comments
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "content": "등록금은 등록일 기준 일주일안에 납부해",
+  "parentCommentId": 1
+}
+
+### 검색 : 댓글
+GET {{BASE_URL}}/api/v1/posts/3/comments
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 수정 : 댓글
+PUT {{BASE_URL}}/api/v1/posts/comments
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "commentId": 1,
+  "content": "등록금은 등록일 기준 일주일안에 납부해"
+}

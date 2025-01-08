@@ -36,7 +36,7 @@ public class CommentController {
             @PathVariable Long postId,
             Pageable pageable
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(commentService.findComments(postId, pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.findComments(postId, pageable));
     }
 
     @PutMapping("/posts/comments")
@@ -48,11 +48,11 @@ public class CommentController {
     }
 
     @DeleteMapping("/posts/comments/{commentId}")
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<Void> remove(
             @Auth Long userId,
             @PathVariable Long commentId
     ) {
-        commentService.delete(userId, commentId);
+        commentService.remove(userId, commentId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
