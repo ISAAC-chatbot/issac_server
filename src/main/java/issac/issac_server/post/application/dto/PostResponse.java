@@ -45,13 +45,13 @@ public class PostResponse {
                 .build();
     }
 
-    public static PostResponse from(Post post, List<PostPhoto> postPhotos, User author, List<ReactionStatusResponse> reactions) {
+    public static PostResponse from(Post post, List<PostPhoto> postPhotos, List<ReactionStatusResponse> reactions) {
         return PostResponse.builder()
                 .postId(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .reactions(reactions)
-                .author(UserInfoResponse.from(author))
+                .author(UserInfoResponse.from(post.getAuthor()))
                 .photoUrls(PostPhoto.extractPhotoUrls(postPhotos))
                 .commentCount(post.getCommentCount())
                 .createdAt(post.getCreatedDateTime())

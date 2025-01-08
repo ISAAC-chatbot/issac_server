@@ -4,9 +4,11 @@ import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.post.application.PostUpdateRequest;
 import issac.issac_server.post.application.dto.PostCreateRequest;
+import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @EqualsAndHashCode(of = "id", callSuper = false)
@@ -23,8 +25,9 @@ public class Post extends BaseTimeEntity {
     @Column(name = "post_id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "author_id")
+    private User author;
 
     @Column(nullable = false)
     private String title;
@@ -46,8 +49,8 @@ public class Post extends BaseTimeEntity {
     private EntityStatus entityStatus;
 
     @Builder
-    public Post(Long userId, String title, String content, String thumbnailPhotoUrl) {
-        this.userId = userId;
+    public Post(User author, String title, String content, String thumbnailPhotoUrl) {
+        this.author = author;
         this.title = title;
         this.content = content;
         this.thumbnailPhotoUrl = thumbnailPhotoUrl;
@@ -55,9 +58,9 @@ public class Post extends BaseTimeEntity {
         this.commentCount = 0L;
     }
 
-    public static Post of(Long userId, PostCreateRequest request) {
+    public static Post of(User user, PostCreateRequest request) {
         return Post.builder()
-                .userId(userId)
+                .author(user)
                 .title(request.getTitle())
                 .content(request.getContent())
                 .thumbnailPhotoUrl(request.getThumbnailPhotoUrl())
