@@ -1,0 +1,40 @@
+### 생성 : 게시글
+POST {{BASE_URL}}/api/v1/posts
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "복학 신청",
+  "content": "다들 복학 신청한 후에 sms 발송됐어? 나만 안됐음?"
+}
+
+### 조회 : 게시글
+GET {{BASE_URL}}/api/v1/posts/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 수정 : 게시글
+PUT {{BASE_URL}}/api/v1/posts
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "복학 신청",
+  "content": "다들 복학 신청한 후에 sms 발송됐어? 나만 안됐음?"
+}
+
+
+### 검색 : 게시글
+GET {{BASE_URL}}/api/v1/posts
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 내 게시글 검색 : 게시글
+GET {{BASE_URL}}/api/v1/posts/me
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 반응한 게시글 검색 : 게시글
+GET {{BASE_URL}}/api/v1/posts/me/reactions
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json

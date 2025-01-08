@@ -2,6 +2,7 @@ package issac.issac_server.post.constant;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 
 import static issac.issac_server.document.utils.DocumentFormatGenerator.generateFields;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.mergeFields;
@@ -9,6 +10,7 @@ import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.REA
 import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.ROLE;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 
 public class PostDocFields {
 
@@ -72,8 +74,28 @@ public class PostDocFields {
                     fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("게시물 댓글 수"),
                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시물 생성 시간"),
                     fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("게시물 수정 시간")
-            });
+            }
+    );
 
+    public static final ParameterDescriptor[] POST_SEARCH_CONDITION = new ParameterDescriptor[]{
+            parameterWithName("keyword").description("검색어").optional()
+    };
+
+    public static final FieldDescriptor[] POST_PREVIEW_RESPONSE = mergeFields(
+            new FieldDescriptor[]{
+                    fieldWithPath("postId").type(JsonFieldType.NUMBER).description("게시물 ID"),
+                    fieldWithPath("title").type(JsonFieldType.STRING).description("게시물 제목"),
+                    fieldWithPath("previewContent").type(JsonFieldType.STRING).description("게시물 간략한 내용"),
+                    fieldWithPath("thumbnailPhotoUrl").type(JsonFieldType.STRING).description("썸네일 사진 URL"),
+                    fieldWithPath("author").type(JsonFieldType.OBJECT).description("작성자 정보"),
+            },
+            generateFields("author.", USER_INFO_RESPONSE),
+            new FieldDescriptor[]{
+                    fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("게시물 좋아요 수"),
+                    fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("게시물 댓글 수"),
+                    fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시물 생성 시간"),
+                    fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("게시물 수정 시간")
+            });
 
 
 }
