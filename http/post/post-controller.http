@@ -23,6 +23,11 @@ Content-Type: application/json
   "content": "다들 복학 신청한 후에 sms 발송됐어? 나만 안됐음?"
 }
 
+### 삭제 : 게시글
+DELETE {{BASE_URL}}/api/v1/posts/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
 
 ### 검색 : 게시글
 GET {{BASE_URL}}/api/v1/posts
@@ -36,5 +41,10 @@ Content-Type: application/json
 
 ### 반응한 게시글 검색 : 게시글
 GET {{BASE_URL}}/api/v1/posts/me/reactions
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 댓글을 작성한 게시글 검색 : 게시글
+GET {{BASE_URL}}/api/v1/posts/me/comments
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json

@@ -96,6 +96,8 @@ class CommentControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts/{postId}/comments", 1L)
+                                .param("page", "0")
+                                .param("size", "10")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

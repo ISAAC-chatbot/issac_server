@@ -4,11 +4,11 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.post.application.PostService;
-import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.application.dto.request.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.application.dto.response.PostPreviewResponse;
 import issac.issac_server.post.application.dto.response.PostResponse;
-import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.presentation.PostController;
 import issac.issac_server.reaction.domain.ReactionType;
 import org.junit.jupiter.api.DisplayName;
@@ -162,6 +162,8 @@ class PostControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts")
+                                .param("page","0")
+                                .param("size","10")
                                 .param("keyword", "복학")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -204,6 +206,8 @@ class PostControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts/me")
+                                .param("page","0")
+                                .param("size","10")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -231,17 +235,44 @@ class PostControllerDocsTest extends RestDocsSupport {
                                 .build())));
     }
 
+    @DisplayName("삭제 : 게시글")
+    @Test
+    void remove() throws Exception {
+
+        // when & then
+        mockMvc.perform(
+                        delete("/api/v1/posts/{postId}",1L)
+                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andDo(document("delete-v1-post-remove",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Post API")
+                                .summary("게시글 삭제")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
+                                .build())));
+    }
+
     @DisplayName("반응한 게시글 검색 : 게시글")
     @Test
-    void findPostsByReaction() throws Exception {
+    void findPostsWithMyReaction() throws Exception {
         // given
         List<PostPreviewResponse> responses = createMockPostPreviewResponses();
         Pageable pageable = PageRequest.of(0, 10);
         Page<PostPreviewResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
-        given(postService.findPostsByReaction(any(), any(ReactionType.class), any(Pageable.class))).willReturn(pageResponses);
+        given(postService.findPostsWithMyReaction(any(), any(ReactionType.class), any(Pageable.class))).willReturn(pageResponses);
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts/me/reactions")
+                                .param("page","0")
+                                .param("size","10")
                                 .param("reactionType", LIKE.toString())
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -262,6 +293,46 @@ class PostControllerDocsTest extends RestDocsSupport {
                                         pageParam(),
                                         sizeParam(),
                                         parameterWithName("reactionType").description(generateLinkCode(REACTION_TYPE))
+                                )
+                                .responseFields(mergeFields(
+                                        PAGE_RESPONSE,
+                                        generateFields("content[].", POST_PREVIEW_RESPONSE)
+                                ))
+                                .responseSchema(Schema.schema("PostPreviewResponse"))
+                                .build())));
+    }
+
+    @DisplayName("댓글을 작성한 게시글 검색 : 게시글")
+    @Test
+    void findPostsWithMyComment() throws Exception {
+        // given
+        List<PostPreviewResponse> responses = createMockPostPreviewResponses();
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<PostPreviewResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
+
+        given(postService.findPostsWithMyComment(any(),  any(Pageable.class))).willReturn(pageResponses);
+
+        // when & then
+        mockMvc.perform(
+                        get("/api/v1/posts/me/comments")
+                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("get-v1-post-findPostsWithMyComment",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Post API")
+                                .summary("댓글을 작성한 게시글 검색")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
+                                .queryParameters(
+                                        pageParam(),
+                                        sizeParam()
                                 )
                                 .responseFields(mergeFields(
                                         PAGE_RESPONSE,
