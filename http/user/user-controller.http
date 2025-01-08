@@ -9,5 +9,6 @@ Content-Type: application/json
   "collegeName": "소프트웨어융합대학",
   "department": "소프트웨어학과",
   "degree": "BACHELOR",
-  "schoolEmail": "sss@ajou.ac.kr"
+  "schoolEmail": "kkj6235@ajou.ac.kr",
+  "marketingConsent" : true
 }
