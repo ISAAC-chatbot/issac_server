@@ -1,6 +1,6 @@
 package issac.issac_server.reaction.presentation;
 
-import issac.issac_server.auth.config.Auth;
+import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.reaction.application.ReactionService;
 import issac.issac_server.reaction.application.dto.ReactionCreateRequest;
 import jakarta.validation.Valid;

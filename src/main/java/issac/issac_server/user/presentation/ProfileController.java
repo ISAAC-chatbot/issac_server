@@ -1,6 +1,6 @@
 package issac.issac_server.user.presentation;
 
-import issac.issac_server.auth.config.Auth;
+import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.user.application.dto.ProfileResponse;
 import issac.issac_server.user.application.dto.ProfileUpdateRequest;
 import issac.issac_server.user.application.profile.ProfileService;

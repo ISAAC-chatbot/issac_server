@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     public static final String PERMITTED_URI[] = {"/api/v1/auth/**", "/oauth2/**", "/docs/**", "/favicon.ico",
-            "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**"};
+            "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**", "/error"};
 
     private static final String[] ALL_ROLES = Arrays.stream(Role.values())
             .map(Enum::name)

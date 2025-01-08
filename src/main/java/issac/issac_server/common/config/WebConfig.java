@@ -1,5 +1,6 @@
-package issac.issac_server.auth.config;
+package issac.issac_server.common.config;
 
+import issac.issac_server.auth.config.auth.AuthArgumentResolver;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

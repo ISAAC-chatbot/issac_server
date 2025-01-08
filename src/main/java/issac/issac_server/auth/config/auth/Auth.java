@@ -1,4 +1,4 @@
-package issac.issac_server.auth.config;
+package issac.issac_server.auth.config.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package issac.issac_server.auth.config;
+package issac.issac_server.auth.config.auth;
 
 import issac.issac_server.auth.infrastructure.UserPrincipal;
 import org.springframework.core.MethodParameter;

@@ -1,6 +1,6 @@
 package issac.issac_server.notice.presentation;
 
-import issac.issac_server.auth.config.Auth;
+import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.notice.application.NoticeService;
 import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeResponse;

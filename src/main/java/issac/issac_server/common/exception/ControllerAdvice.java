@@ -28,15 +28,15 @@ public class ControllerAdvice {
         return ResponseEntity.status(e.getStatusCode()).body(response);
     }
 
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<ExceptionResponse> handleRuntimeException(HttpServletRequest request, RuntimeException e) {
-//        log.error("[RuntimeException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
-//                request::getMethod, request::getRequestURI,
-//                e::getClass, e::getMessage);
-//
-//
-//        return convert(GlobalErrorCode.INTERNAL_SERVER_ERROR, e);
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(HttpServletRequest request, RuntimeException e) {
+        log.error("[RuntimeException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
+                request::getMethod, request::getRequestURI,
+                e::getClass, e::getMessage);
+
+        log.error(e.getMessage(), e);
+        return convert(GlobalErrorCode.INTERNAL_SERVER_ERROR, e);
+    }
 
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public ResponseEntity<ExceptionResponse> handleMissingServletRequestParameterException(HttpServletRequest request, Exception e) {

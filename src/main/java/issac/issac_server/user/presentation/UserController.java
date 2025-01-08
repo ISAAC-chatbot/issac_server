@@ -1,6 +1,6 @@
 package issac.issac_server.user.presentation;
 
-import issac.issac_server.auth.config.Auth;
+import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.user.application.UserService;
 import issac.issac_server.user.application.dto.UserCreateRequest;
 import lombok.RequiredArgsConstructor;
