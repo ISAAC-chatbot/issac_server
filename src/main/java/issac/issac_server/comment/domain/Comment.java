@@ -1,6 +1,8 @@
 package issac.issac_server.comment.domain;
 
 import issac.issac_server.comment.application.dto.CommentCreateRequest;
+import issac.issac_server.comment.exception.CommentErrorCode;
+import issac.issac_server.comment.exception.CommentException;
 import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.user.domain.User;
@@ -75,5 +77,23 @@ public class Comment extends BaseTimeEntity {
                 .dislikeCount(0L)
                 .entityStatus(EntityStatus.ACTIVE)
                 .build();
+    }
+
+    public void validateIsAuthor(User user) {
+        if (this.author != user) {
+            throw new CommentException(CommentErrorCode.USER_IS_NOT_AUTHOR);
+        }
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
+    public void active() {
+        entityStatus = EntityStatus.ACTIVE;
+    }
+
+    public void delete() {
+        entityStatus = EntityStatus.DELETED;
     }
 }
