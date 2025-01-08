@@ -19,4 +19,14 @@ public class CommentUpdater {
         comment.update(request.getContent());
         return CommentResponse.from(comment);
     }
+
+    public void updateLikeCount(Long commentId, Long count) {
+        Comment comment = commentFinder.find(commentId);
+        comment.updateLikeCount(count);
+    }
+
+    public void updateUnlikeCount(Long commentId, Long count) {
+        Comment comment = commentFinder.find(commentId);
+        comment.updateUnlikeCount(count);
+    }
 }

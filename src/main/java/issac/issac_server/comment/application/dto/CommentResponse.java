@@ -54,7 +54,7 @@ public class CommentResponse {
                 .modifiedAt(comment.getLastModifiedDateTime())
                 .deleted(false)
                 .likeCount(comment.getLikeCount())
-                .dislikeCount(comment.getDislikeCount())
+                .dislikeCount(comment.getUnlikeCount())
                 .replies(getReplies(comment))
                 .build();
     }

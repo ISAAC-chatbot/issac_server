@@ -3,6 +3,7 @@ package issac.issac_server.comment.application;
 import issac.issac_server.comment.application.dto.CommentCreateRequest;
 import issac.issac_server.comment.application.dto.CommentResponse;
 import issac.issac_server.comment.application.dto.CommentUpdateRequest;
+import issac.issac_server.comment.application.event.CommentEventHandler;
 import issac.issac_server.comment.domain.Comment;
 import issac.issac_server.post.application.PostFinder;
 import issac.issac_server.post.domain.Post;

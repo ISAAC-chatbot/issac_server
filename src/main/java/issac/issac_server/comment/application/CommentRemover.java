@@ -15,5 +15,6 @@ public class CommentRemover {
         Comment comment = commentFinder.find(commentId);
         comment.validateIsAuthor(user);
         comment.delete();
+        return comment;
     }
 }

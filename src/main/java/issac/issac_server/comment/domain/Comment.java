@@ -43,7 +43,7 @@ public class Comment extends BaseTimeEntity {
     private Long likeCount;
 
     @Column(nullable = false)
-    private Long dislikeCount;
+    private Long unlikeCount;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -74,7 +74,7 @@ public class Comment extends BaseTimeEntity {
                 .author(author)
                 .content(request.getContent())
                 .likeCount(0L)
-                .dislikeCount(0L)
+                .unlikeCount(0L)
                 .entityStatus(EntityStatus.ACTIVE)
                 .build();
     }
@@ -95,5 +95,13 @@ public class Comment extends BaseTimeEntity {
 
     public void delete() {
         entityStatus = EntityStatus.DELETED;
+    }
+
+    public void updateLikeCount(Long count) {
+        this.likeCount = count;
+    }
+
+    public void updateUnlikeCount(Long count) {
+        this.unlikeCount = count;
     }
 }

@@ -1,7 +1,7 @@
-package issac.issac_server.post.application;
+package issac.issac_server.post.application.event;
 
 import issac.issac_server.comment.application.CommentFinder;
-import issac.issac_server.post.application.event.PostLikeEvent;
+import issac.issac_server.post.application.PostUpdater;
 import issac.issac_server.reaction.application.ReactionReader;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;

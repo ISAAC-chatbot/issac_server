@@ -1,5 +1,6 @@
 package issac.issac_server.reaction.application;
 
+import issac.issac_server.comment.application.event.CommentReactionEvent;
 import issac.issac_server.post.application.event.PostLikeEvent;
 import issac.issac_server.reaction.application.dto.ReactionCreateRequest;
 import issac.issac_server.reaction.domain.ReactionType;
@@ -20,6 +21,9 @@ public class ReactionEventHandler {
         switch (request.getTargetType()) {
             case POST:
                 publisher.publishEvent(new PostLikeEvent(Long.valueOf(request.getTargetId())));
+                break;
+            case COMMENT:
+                publisher.publishEvent(new CommentReactionEvent(Long.valueOf(request.getTargetId()), request.getType()));
         }
     }
 }

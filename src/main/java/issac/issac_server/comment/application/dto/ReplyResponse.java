@@ -35,7 +35,7 @@ public class ReplyResponse {
                 .createdAt(comment.getCreatedDateTime())
                 .modifiedAt(comment.getLastModifiedDateTime())
                 .likeCount(comment.getLikeCount())
-                .dislikeCount(comment.getDislikeCount())
+                .dislikeCount(comment.getUnlikeCount())
                 .build();
     }
 }

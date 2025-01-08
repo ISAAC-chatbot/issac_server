@@ -1,4 +1,4 @@
-package issac.issac_server.comment.application;
+package issac.issac_server.comment.application.event;
 
 import issac.issac_server.post.application.event.PostCommentEvent;
 import lombok.RequiredArgsConstructor;
