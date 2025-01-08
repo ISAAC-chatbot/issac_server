@@ -5,7 +5,6 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import issac.issac_server.common.domain.EntityStatus;
@@ -63,15 +62,25 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return post.entityStatus.eq(EntityStatus.ACTIVE);
     }
 
+    public BooleanExpression keywordContain(String keyword) {
+        if (!StringUtils.hasText(keyword)) {
+            return null;
+        }
 
-    private BooleanExpression keywordContain(String keyword) {
-        return StringUtils.hasText(keyword) ? post.title.contains(keyword).or(post.content.contains(keyword)) : null;
-    }
+        // title과 content에 대해 MATCH 조건 생성
+        BooleanExpression titleMatchCondition = Expressions.numberTemplate(
+                Double.class,
+                "function('match', {0}, {1})",
+                post.title, keyword
+        ).gt(0);
 
-    public BooleanExpression keywordSearch(String word) {
-        NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
-                "function('match',{0},{1})", post.title, word);
+        BooleanExpression contentMatchCondition = Expressions.numberTemplate(
+                Double.class,
+                "function('match', {0}, {1})",
+                post.content, keyword
+        ).gt(0);
 
-        return booleanTemplate.gt(0);
+        // title 또는 content 중 하나라도 일치하면 조건 반환
+        return titleMatchCondition.or(contentMatchCondition);
     }
 }
