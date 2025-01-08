@@ -1,10 +1,8 @@
 package issac.issac_server.post.application.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class PostSearchCondition {
     private String keyword;
 }

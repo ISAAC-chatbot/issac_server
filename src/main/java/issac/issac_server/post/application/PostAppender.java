@@ -14,8 +14,6 @@ public class PostAppender {
     private final PostRepository postRepository;
 
     public Post append(User user, PostCreateRequest request) {
-        Post post = postRepository.save(Post.of(user, request));
-        post.active();
-        return post;
+        return postRepository.save(Post.of(user, request));
     }
 }

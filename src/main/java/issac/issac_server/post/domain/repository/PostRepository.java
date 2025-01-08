@@ -8,16 +8,32 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
-    @Query(value = "SELECT * FROM post " +
-            "WHERE MATCH(title, content) AGAINST(:keyword IN BOOLEAN MODE) " +
-            "AND entity_status = :entityStatus",
-            countQuery = "SELECT COUNT(*) FROM post " +
-                    "WHERE MATCH(title, content) AGAINST(:keyword IN BOOLEAN MODE) " +
-                    "AND entity_status = :entityStatus",
+    @Query(value = """
+        SELECT *
+        FROM post p
+        WHERE p.entity_status = :entityStatus
+        AND (
+            MATCH(p.title) AGAINST(:keyword IN BOOLEAN MODE)
+            OR MATCH(p.content) AGAINST(:keyword IN BOOLEAN MODE)
+        )
+        """,
+            countQuery = """
+        SELECT COUNT(*)
+        FROM post p
+        WHERE p.entity_status = :entityStatus
+        AND (
+            MATCH(p.title) AGAINST(:keyword IN BOOLEAN MODE)
+            OR MATCH(p.content) AGAINST(:keyword IN BOOLEAN MODE)
+        )
+        """,
             nativeQuery = true)
-    Page<Post> searchByFullTextAndEntityStatus(@Param("keyword") String keyword,
-                                               @Param("entityStatus") EntityStatus entityStatus,
-                                               Pageable pageable);
+    Page<Post> searchByFullTextAndEntityStatus(
+            @Param("keyword") String keyword,
+            @Param("entityStatus") EntityStatus entityStatus,
+            Pageable pageable
+    );
+
+
 }

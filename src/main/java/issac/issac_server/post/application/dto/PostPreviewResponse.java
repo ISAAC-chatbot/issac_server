@@ -25,11 +25,11 @@ public class PostPreviewResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT_LOCAL_DATE_TIME)
     private LocalDateTime modifiedAt;
 
-    public static PostPreviewResponse from(Post post){
+    public static PostPreviewResponse from(Post post) {
         return new PostPreviewResponse(
                 post.getId(),
                 post.getTitle(),
-                post.getContent(),
+                generatePreviewContent(post.getContent()),
                 post.getThumbnailPhotoUrl(),
                 UserInfoResponse.from(post.getAuthor()),
                 post.getLikeCount(),
@@ -37,5 +37,12 @@ public class PostPreviewResponse {
                 post.getCreatedDateTime(),
                 post.getLastModifiedDateTime()
         );
+    }
+
+    private static String generatePreviewContent(String content) {
+        if (content == null || content.isEmpty()) {
+            return ""; // 내용이 없으면 빈 문자열 반환
+        }
+        return content.length() > 100 ? content.substring(0, 100) + "..." : content;
     }
 }

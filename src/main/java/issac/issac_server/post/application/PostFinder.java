@@ -1,6 +1,5 @@
 package issac.issac_server.post.application;
 
-import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.post.application.dto.PostSearchCondition;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.post.domain.repository.PostRepository;
@@ -22,6 +21,7 @@ public class PostFinder {
     }
 
     public Page<Post> findPosts(PostSearchCondition condition, Pageable pageable) {
-        return postRepository.searchByFullTextAndEntityStatus(condition.getKeyword(), EntityStatus.ACTIVE, pageable);
+        return postRepository.findPosts(condition, pageable);
+//        return postRepository.searchByFullTextAndEntityStatus(condition.getKeyword(), EntityStatus.ACTIVE, pageable);
     }
 }

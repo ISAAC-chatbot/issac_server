@@ -17,7 +17,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "post")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
 public class Post extends BaseTimeEntity {
 
     @Id
@@ -56,6 +55,7 @@ public class Post extends BaseTimeEntity {
         this.thumbnailPhotoUrl = thumbnailPhotoUrl;
         this.likeCount = 0L;
         this.commentCount = 0L;
+        this.entityStatus = EntityStatus.ACTIVE;
     }
 
     public static Post of(User user, PostCreateRequest request) {
