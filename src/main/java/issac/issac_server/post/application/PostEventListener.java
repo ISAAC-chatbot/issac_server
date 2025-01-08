@@ -1,5 +1,6 @@
 package issac.issac_server.post.application;
 
+import issac.issac_server.comment.application.CommentFinder;
 import issac.issac_server.post.application.event.PostLikeEvent;
 import issac.issac_server.reaction.application.ReactionReader;
 import issac.issac_server.reaction.domain.ReactionType;
@@ -16,6 +17,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class PostEventListener {
 
     private final ReactionReader reactionReader;
+    private final CommentFinder commentFinder;
     private final PostUpdater postUpdater;
 
     @Async
@@ -24,5 +26,13 @@ public class PostEventListener {
     public void updateLikeCount(PostLikeEvent event) {
         Long count = reactionReader.count(TargetType.POST, event.getPostId().toString(), ReactionType.LIKE);
         postUpdater.updateLikeCount(event.getPostId(), count);
+    }
+
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener
+    public void updateCommentCount(PostLikeEvent event) {
+        Long count = commentFinder.count(event.getPostId());
+        postUpdater.updateCommentCount(event.getPostId(), count);
     }
 }

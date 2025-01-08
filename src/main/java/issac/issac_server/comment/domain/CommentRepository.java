@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Slice<Comment> findAllByPostIdAndParentIsNull(Long postId, Pageable pageable);
+
+    Long countAllByPostId(Long postId);
 }

@@ -86,6 +86,10 @@ public class Post extends BaseTimeEntity {
         this.likeCount = count;
     }
 
+    public void updateCommentCount(Long count) {
+        this.commentCount = count;
+    }
+
     public void validatePostIsActive() {
         if (this.entityStatus != EntityStatus.ACTIVE) {
             throw new PostException(PostErrorCode.DELETED);

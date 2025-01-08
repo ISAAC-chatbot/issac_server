@@ -22,4 +22,8 @@ public class CommentFinder {
     public Slice<Comment> findAll(Long postId, Pageable pageable) {
         return commentRepository.findAllByPostIdAndParentIsNull(postId, pageable);
     }
+
+    public Long count(Long postId) {
+        return commentRepository.countAllByPostId(postId);
+    }
 }

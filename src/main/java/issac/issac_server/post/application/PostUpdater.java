@@ -20,4 +20,9 @@ public class PostUpdater {
         Post post = postFinder.find(postId);
         post.updateLikeCount(count);
     }
+
+    public void updateCommentCount(Long postId, Long count) {
+        Post post = postFinder.find(postId);
+        post.updateCommentCount(count);
+    }
 }

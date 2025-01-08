@@ -11,7 +11,7 @@ public class CommentRemover {
 
     private final CommentFinder commentFinder;
 
-    public void delete(User user, Long commentId) {
+    public Comment delete(User user, Long commentId) {
         Comment comment = commentFinder.find(commentId);
         comment.validateIsAuthor(user);
         comment.delete();

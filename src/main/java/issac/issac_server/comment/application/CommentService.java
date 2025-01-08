@@ -3,6 +3,7 @@ package issac.issac_server.comment.application;
 import issac.issac_server.comment.application.dto.CommentCreateRequest;
 import issac.issac_server.comment.application.dto.CommentResponse;
 import issac.issac_server.comment.application.dto.CommentUpdateRequest;
+import issac.issac_server.comment.domain.Comment;
 import issac.issac_server.post.application.PostFinder;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.user.application.UserFinder;
@@ -24,12 +25,16 @@ public class CommentService {
     private final CommentUpdater commentUpdater;
     private final CommentRemover commentRemover;
 
+    private final CommentEventHandler commentEventHandler;
+
     @Transactional
     public CommentResponse save(Long userId, Long postId, CommentCreateRequest request) {
         Post post = postFinder.find(postId);
         post.validatePostIsActive();
         User user = userFinder.find(userId);
-        return commentAppender.append(user, post.getId(), request);
+        Comment comment = commentAppender.append(user, post.getId(), request);
+        commentEventHandler.publish(comment.getPostId());
+        return CommentResponse.from(comment);
     }
 
     public Slice<CommentResponse> findComments(Long postId, Pageable pageable) {
@@ -45,6 +50,7 @@ public class CommentService {
     @Transactional
     public void remove(Long userId, Long commentId) {
         User user = userFinder.find(userId);
-        commentRemover.delete(user, commentId);
+        Comment comment = commentRemover.delete(user, commentId);
+        commentEventHandler.publish(comment.getPostId());
     }
 }
