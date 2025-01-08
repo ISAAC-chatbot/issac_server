@@ -1,8 +1,8 @@
 package issac.issac_server.post.application;
 
 import issac.issac_server.common.domain.EntityStatus;
-import issac.issac_server.post.application.dto.PostPreviewResponse;
-import issac.issac_server.post.application.dto.PostSearchCondition;
+import issac.issac_server.post.application.dto.response.PostPreviewResponse;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.post.domain.repository.PostRepository;
 import issac.issac_server.post.exception.PostErrorCode;

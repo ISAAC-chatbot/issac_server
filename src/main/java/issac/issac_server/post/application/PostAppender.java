@@ -1,6 +1,6 @@
 package issac.issac_server.post.application;
 
-import issac.issac_server.post.application.dto.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostCreateRequest;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.post.domain.repository.PostRepository;
 import issac.issac_server.user.domain.User;

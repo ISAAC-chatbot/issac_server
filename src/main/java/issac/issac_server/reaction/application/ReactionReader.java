@@ -1,6 +1,6 @@
 package issac.issac_server.reaction.application;
 
-import issac.issac_server.post.application.dto.ReactionStatusResponse;
+import issac.issac_server.post.application.dto.response.ReactionStatusResponse;
 import issac.issac_server.reaction.application.dto.ReactionCreateRequest;
 import issac.issac_server.reaction.domain.Reaction;
 import issac.issac_server.reaction.domain.ReactionRepository;

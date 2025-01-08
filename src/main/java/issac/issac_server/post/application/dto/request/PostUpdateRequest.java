@@ -1,4 +1,4 @@
-package issac.issac_server.post.application;
+package issac.issac_server.post.application.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

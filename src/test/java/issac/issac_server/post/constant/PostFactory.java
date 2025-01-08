@@ -1,7 +1,11 @@
 package issac.issac_server.post.constant;
 
-import issac.issac_server.post.application.PostUpdateRequest;
-import issac.issac_server.post.application.dto.*;
+import issac.issac_server.post.application.dto.request.PostCreateRequest;
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
+import issac.issac_server.post.application.dto.response.PostPreviewResponse;
+import issac.issac_server.post.application.dto.response.PostResponse;
+import issac.issac_server.post.application.dto.response.ReactionStatusResponse;
+import issac.issac_server.post.application.dto.response.UserInfoResponse;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.user.domain.Role;
 

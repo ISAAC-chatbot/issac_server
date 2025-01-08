@@ -1,4 +1,4 @@
-package issac.issac_server.post.application.dto;
+package issac.issac_server.post.application.dto.request;
 
 import lombok.Data;
 

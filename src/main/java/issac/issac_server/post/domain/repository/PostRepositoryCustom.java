@@ -1,6 +1,6 @@
 package issac.issac_server.post.domain.repository;
 
-import issac.issac_server.post.application.dto.PostSearchCondition;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.domain.ReactionType;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package issac.issac_server.post.application;
+package issac.issac_server.post.application.postPhoto;
 
 import issac.issac_server.post.domain.PostPhoto;
 import lombok.RequiredArgsConstructor;

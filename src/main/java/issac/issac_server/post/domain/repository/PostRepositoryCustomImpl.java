@@ -8,7 +8,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import issac.issac_server.common.domain.EntityStatus;
-import issac.issac_server.post.application.dto.PostSearchCondition;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;

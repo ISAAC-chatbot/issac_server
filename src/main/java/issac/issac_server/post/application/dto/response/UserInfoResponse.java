@@ -1,4 +1,4 @@
-package issac.issac_server.post.application.dto;
+package issac.issac_server.post.application.dto.response;
 
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;

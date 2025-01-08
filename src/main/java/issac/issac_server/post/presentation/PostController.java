@@ -2,11 +2,11 @@ package issac.issac_server.post.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.post.application.PostService;
-import issac.issac_server.post.application.PostUpdateRequest;
-import issac.issac_server.post.application.dto.PostCreateRequest;
-import issac.issac_server.post.application.dto.PostPreviewResponse;
-import issac.issac_server.post.application.dto.PostResponse;
-import issac.issac_server.post.application.dto.PostSearchCondition;
+import issac.issac_server.post.application.dto.request.PostUpdateRequest;
+import issac.issac_server.post.application.dto.request.PostCreateRequest;
+import issac.issac_server.post.application.dto.response.PostPreviewResponse;
+import issac.issac_server.post.application.dto.response.PostResponse;
+import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.reaction.domain.ReactionType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
