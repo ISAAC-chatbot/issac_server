@@ -9,6 +9,7 @@ import issac.issac_server.reaction.domain.Reaction;
 import lombok.RequiredArgsConstructor;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
+import org.opensearch.client.opensearch._types.SortOrder;
 import org.opensearch.client.opensearch.core.SearchRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.search.Hit;
@@ -104,6 +105,10 @@ public class NoticeFinder {
                 }))
                 .from((int) pageable.getOffset())
                 .size(pageable.getPageSize())
+                .sort(sort -> sort.field(f -> f
+                        .field("createdDate") // 날짜 필드
+                        .order(SortOrder.Desc) // 최신순 정렬
+                ))
         );
     }
 
