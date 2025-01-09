@@ -29,7 +29,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getProfile().getNickname();
+        return user.getProfile() != null ? user.getProfile().getNickname() : "Anonymous";
     }
 
     @Override
