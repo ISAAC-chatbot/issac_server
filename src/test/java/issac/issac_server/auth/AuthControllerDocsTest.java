@@ -38,10 +38,10 @@ class AuthControllerDocsTest extends RestDocsSupport {
     void login() throws Exception {
 
         // given
-        LoginRequest request = createMockLoginRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
+        OAuthTokenRequest request = createMockOAuthTokenRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
         LoginResponse response = createMockLoginResponse();
 
-        given(authFacadeService.login(any(LoginRequest.class))).willReturn(response);
+        given(authFacadeService.login(any(OAuthTokenRequest.class))).willReturn(response);
 
         // when & then
         mockMvc.perform(
@@ -57,9 +57,9 @@ class AuthControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Auth API")
                                 .summary("소셜 로그인")
-                                .requestFields(LOGIN_REQUEST)
+                                .requestFields(OAUTH_TOKEN_REQUEST)
                                 .responseFields(LOGIN_RESPONSE)
-                                .requestSchema(Schema.schema("LoginRequest"))
+                                .requestSchema(Schema.schema("OAuthTokenRequest"))
                                 .responseSchema(Schema.schema("LoginResponse"))
                                 .build())));
 
@@ -160,9 +160,12 @@ class AuthControllerDocsTest extends RestDocsSupport {
     @Test
     void revoke() throws Exception {
 
+        OAuthTokenRequest request = createMockOAuthTokenRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
+
         // when & then
         mockMvc.perform(
                         delete("/api/v1/auth/revoke")
+                                .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -173,6 +176,7 @@ class AuthControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Auth API")
                                 .summary("계정 탈퇴")
+                                .requestFields(OAUTH_TOKEN_REQUEST)
                                 .build())));
 
     }

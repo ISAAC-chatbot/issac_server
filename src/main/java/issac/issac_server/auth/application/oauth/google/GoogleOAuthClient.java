@@ -1,11 +1,13 @@
 package issac.issac_server.auth.application.oauth.google;
 
 import issac.issac_server.auth.application.dto.OAuthInfo;
+import issac.issac_server.auth.application.dto.OAuthTokenRequest;
 import issac.issac_server.auth.application.oauth.OAuthClient;
 import issac.issac_server.auth.domain.OAuthProviderType;
-import issac.issac_server.user.domain.OAuthInformation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -25,8 +27,8 @@ public class GoogleOAuthClient implements OAuthClient {
     }
 
     @Override
-    public void revoke(OAuthInformation oauthInformation) {
-
+    public void revoke(OAuthTokenRequest request) {
+        googleApiClient.revoke(request.getOauthToken(), Collections.emptyMap());
     }
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LoginRequest {
+public class OAuthTokenRequest {
 
     @NotNull
     private OAuthProviderType provider;
@@ -18,7 +18,7 @@ public class LoginRequest {
     private String oauthToken;
 
     @Builder
-    public LoginRequest(OAuthProviderType provider, String oauthToken) {
+    public OAuthTokenRequest(OAuthProviderType provider, String oauthToken) {
         this.provider = provider;
         this.oauthToken = oauthToken;
     }

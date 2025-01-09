@@ -7,8 +7,8 @@ import issac.issac_server.user.domain.University;
 
 public class AuthFactory {
 
-    public static LoginRequest createMockLoginRequest(OAuthProviderType oAuthProviderType, String oauthToken) {
-        return LoginRequest.builder()
+    public static OAuthTokenRequest createMockOAuthTokenRequest(OAuthProviderType oAuthProviderType, String oauthToken) {
+        return OAuthTokenRequest.builder()
                 .provider(oAuthProviderType)
                 .oauthToken(oauthToken)
                 .build();

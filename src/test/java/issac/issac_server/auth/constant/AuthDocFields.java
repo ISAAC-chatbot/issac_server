@@ -9,7 +9,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 
 public class AuthDocFields {
 
-    public static final FieldDescriptor[] LOGIN_REQUEST = new FieldDescriptor[]{
+    public static final FieldDescriptor[] OAUTH_TOKEN_REQUEST = new FieldDescriptor[]{
             fieldWithPath("provider").type(JsonFieldType.STRING).description(generateLinkCode(OAUTH_PROVIDER_TYPE)),
             fieldWithPath("oauthToken").type(JsonFieldType.STRING).description("OAuth 토큰")
     };

@@ -30,7 +30,7 @@ public class AuthFacadeService {
     }
 
     @Transactional
-    public LoginResponse login(LoginRequest request) {
+    public LoginResponse login(OAuthTokenRequest request) {
         OAuthClient oAuthClient = findOAuthClient(request.getProvider());
         OAuthInfo oAuthInfo = oAuthClient.getOAuthInfo(request.getOauthToken());
         return authService.login(oAuthInfo);
@@ -50,10 +50,10 @@ public class AuthFacadeService {
     }
 
     @Transactional
-    public void revoke(Long userId) {
+    public void revoke(Long userId, OAuthTokenRequest request) {
         User user = userFinder.find(userId);
-        OAuthClient oAuthClient = findOAuthClient(user.getOauthInformation().getOauthProvider());
-        oAuthClient.revoke(user.getOauthInformation());
+        OAuthClient oAuthClient = findOAuthClient(request.getProvider());
+        oAuthClient.revoke(request);
         authService.revoke(user);
     }
 }

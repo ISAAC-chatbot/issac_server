@@ -2,7 +2,9 @@ package issac.issac_server.auth.application.oauth.kakao;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Component
 @FeignClient(
@@ -14,10 +16,6 @@ public interface KakaoApiClient {
     @GetMapping("v2/user/me")
     KakaoInfoResponse findUserInfo(@RequestHeader("Authorization") String authorization);
 
-    @PostMapping(value = "v1/user/unlink", consumes = "application/x-www-form-urlencoded")
-    KakaoInfoResponse revoke(
-            @RequestHeader("Authorization") String authorization,
-            @RequestParam("target_id") String targetId,
-            @RequestParam("target_id_type") String targetIdType
-    );
+    @PostMapping(value = "v1/user/unlink")
+    void revoke(@RequestHeader("Authorization") String authorization);
 }

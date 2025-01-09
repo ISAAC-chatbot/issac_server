@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthFacadeService authFacadeService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid OAuthTokenRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(authFacadeService.login(request));
     }
 
@@ -38,8 +38,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/revoke")
-    public ResponseEntity<Void> revoke(@Auth Long userId) {
-        authFacadeService.revoke(userId);
+    public ResponseEntity<Void> revoke(@Auth Long userId, @RequestBody @Valid OAuthTokenRequest request) {
+        authFacadeService.revoke(userId, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
