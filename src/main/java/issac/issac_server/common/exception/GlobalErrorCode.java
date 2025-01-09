@@ -12,6 +12,7 @@ public enum GlobalErrorCode implements ErrorCode {
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "VALIDATION_001", "잘못된 요청입니다."),
     MISSING_PARAMETER_ERROR(HttpStatus.BAD_REQUEST, "VALIDATION_002", "필수 파라미터가 누락되었습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SERVER_001", "내부 서버 오류입니다."),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "AUTH_001", "권한이 없습니다");
     ;
 
     private final HttpStatus statusCode;

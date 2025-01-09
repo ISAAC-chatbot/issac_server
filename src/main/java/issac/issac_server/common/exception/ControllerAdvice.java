@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -73,7 +74,14 @@ public class ControllerAdvice {
 
         return convert(GlobalErrorCode.NOT_SUPPORTED_METHOD_ERROR, e);
     }
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ExceptionResponse> handleAuthorizationDeniedException(HttpServletRequest request, org.springframework.security.authorization.AuthorizationDeniedException e) {
+        log.error("[AuthorizationDeniedException] Method: {}, RequestURI: {}, Exception: {}, Message: {}",
+                request::getMethod, request::getRequestURI,
+                e::getClass, e::getMessage);
 
+        return convert(GlobalErrorCode.ACCESS_DENIED, e);
+    }
     private ResponseEntity<ExceptionResponse> convert(ErrorCode errorCode, Throwable throwable) {
         HttpStatus statusCode = errorCode.getStatusCode();
         ExceptionResponse response = ExceptionResponse.from(errorCode, throwable);
