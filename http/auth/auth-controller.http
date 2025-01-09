@@ -27,5 +27,12 @@ Content-Type: application/json
   "email": "kkj6235@ajou.ac.kr"
 }
 
+### 탈퇴 : 인증
+DELETE {{BASE_URL}}/api/v1/auth/revoke
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+
+
 
 

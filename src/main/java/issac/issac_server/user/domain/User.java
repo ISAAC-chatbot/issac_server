@@ -50,8 +50,8 @@ public class User extends BaseCreateTimeEntity {
         this.role = Role.UNREGISTERED_PROFILE;
     }
 
-    public void signup(UserCreateRequest request) {
-        this.profile = new Profile(request);
+    public void signup(UserCreateRequest request, String defaultProfilePhotoUrl) {
+        this.profile = new Profile(request, defaultProfilePhotoUrl);
         this.role = Role.STUDENT;
         this.marketingConsent = request.getMarketingConsent();
     }

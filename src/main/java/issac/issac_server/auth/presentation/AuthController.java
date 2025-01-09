@@ -2,15 +2,13 @@ package issac.issac_server.auth.presentation;
 
 import issac.issac_server.auth.application.AuthFacadeService;
 import issac.issac_server.auth.application.dto.*;
+import issac.issac_server.auth.config.auth.Auth;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -39,4 +37,9 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authFacadeService.sendEmailVerification(request));
     }
 
+    @DeleteMapping("/revoke")
+    public ResponseEntity<Void> revoke(@Auth Long userId) {
+        authFacadeService.revoke(userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

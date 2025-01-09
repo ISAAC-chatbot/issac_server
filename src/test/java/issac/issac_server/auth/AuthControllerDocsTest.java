@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -151,6 +152,27 @@ class AuthControllerDocsTest extends RestDocsSupport {
                                 .responseFields(EMAIL_RESPONSE)
                                 .requestSchema(Schema.schema("EmailRequest"))
                                 .responseSchema(Schema.schema("EmailResponse"))
+                                .build())));
+
+    }
+
+    @DisplayName("탈퇴 : 인증")
+    @Test
+    void revoke() throws Exception {
+
+        // when & then
+        mockMvc.perform(
+                        delete("/api/v1/auth/revoke")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andDo(document("delete-v1-auth-revoke",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Auth API")
+                                .summary("계정 탈퇴")
                                 .build())));
 
     }

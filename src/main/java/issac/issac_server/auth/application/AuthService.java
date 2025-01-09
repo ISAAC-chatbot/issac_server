@@ -4,6 +4,7 @@ import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.RefreshToken;
 import issac.issac_server.auth.exception.AuthException;
 import issac.issac_server.auth.infrastructure.JwtTokenProvider;
+import issac.issac_server.file.application.S3Remover;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static issac.issac_server.auth.exception.AuthErrorCode.INVALID_EMAIL_DOMAIN;
+import static issac.issac_server.common.config.Constant.DEFAULT_PHOTO;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,9 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenFinder refreshTokenFinder;
     private final EmailSender emailSender;
+    private final S3Remover s3Remover;
+
+    private final RefreshTokenRemover refreshTokenRemover;
 
     public LoginResponse login(OAuthInfo oAuthInfo) {
         User user = userFinder.find(oAuthInfo);
@@ -57,5 +62,15 @@ public class AuthService {
         if (!request.getEmail().endsWith(request.getUniversity().getDomain())) {
             throw new AuthException(INVALID_EMAIL_DOMAIN);
         }
+    }
+
+    public void revoke(User user) {
+        user.delete();
+
+        if (!user.getProfile().getProfilePhotoUrl().equals(DEFAULT_PHOTO)) {
+            s3Remover.deleteObjectByUrl(user.getProfile().getProfilePhotoUrl());
+            user.getProfile().delete();
+        }
+        refreshTokenRemover.remove(user.getId());
     }
 }

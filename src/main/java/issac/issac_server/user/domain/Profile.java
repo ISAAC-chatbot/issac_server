@@ -11,8 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static issac.issac_server.common.config.Constant.DEFAULT_PHOTO;
-
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,14 +40,14 @@ public class Profile {
     @Column
     private String profilePhotoUrl;
 
-    public Profile(UserCreateRequest request) {
+    public Profile(UserCreateRequest request, String defaultProfilePhotoUrl) {
         this.nickname = request.getNickname();
         this.department = request.getDepartment();
         this.university = request.getUniversity();
         this.collegeName = request.getCollegeName();
         this.degree = request.getDegree();
         this.schoolEmail = request.getSchoolEmail();
-        this.profilePhotoUrl = DEFAULT_PHOTO;
+        this.profilePhotoUrl = defaultProfilePhotoUrl;
     }
 
     public void update(ProfileUpdateRequest request) {
@@ -58,5 +56,10 @@ public class Profile {
         this.department = request.getDepartment();
         this.degree = request.getDegree();
         this.profilePhotoUrl = request.getProfilePhotoUrl();
+    }
+
+    public void delete() {
+        this.nickname = this.nickname + "(탈퇴)";
+        this.profilePhotoUrl = "";
     }
 }

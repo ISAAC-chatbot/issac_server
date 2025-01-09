@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByOauthInformationOauthProviderAndOauthInformationOauthIdAndEntityStatus(OAuthProviderType providerType, String oauthId, EntityStatus status);
 
+    Optional<User> findByIdAndEntityStatus(Long id, EntityStatus status);
 }

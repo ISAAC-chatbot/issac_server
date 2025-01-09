@@ -22,7 +22,7 @@ public class UserFinder {
     }
 
     public User find(Long userId) {
-        return userRepository.findById(userId)
+        return userRepository.findByIdAndEntityStatus(userId, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST));
     }
 }

@@ -14,7 +14,7 @@ public class KakaoOAuthClient implements OAuthClient {
 
     private final KakaoApiClient kakaoApiClient;
 
-    @Value("{oauth.kakao.admin-key}")
+    @Value("${oauth.kakao.admin-key}")
     private String adminKey;
 
     @Override
@@ -30,9 +30,7 @@ public class KakaoOAuthClient implements OAuthClient {
 
     @Override
     public void revoke(OAuthInformation oauthInformation) {
-
-
-        kakaoApiClient.revoke("KakaoAK " + oauthInformation, new KaKaoRevokeRequest(Long.valueOf(oauthInformation.getOauthId()), "user_id"));
+        kakaoApiClient.revoke("KakaoAK " + adminKey, oauthInformation.getOauthId(), "user_id");
     }
 
 }
