@@ -22,6 +22,7 @@ public class NoticeResponse {
     private String content;
     private String author;
     private String createdDate;
+    private List<NoticeFileResponse> files;
     private Boolean scrap;
 
     public NoticeResponse markAsScrap() {

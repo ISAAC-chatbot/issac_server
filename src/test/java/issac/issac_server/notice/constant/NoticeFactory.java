@@ -1,5 +1,6 @@
 package issac.issac_server.notice.constant;
 
+import issac.issac_server.notice.application.dto.NoticeFileResponse;
 import issac.issac_server.notice.application.dto.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.NoticeResponse;
 
@@ -21,9 +22,16 @@ public class NoticeFactory {
                 .author("인문예술진흥사업단")
                 .createdDate("2024.12.17")
                 .scrap(false)
+                .files(createMockNoticeFileResponses())
                 .build();
     }
+    public static List<NoticeFileResponse> createMockNoticeFileResponses(){
+        return Arrays.asList(createMockNoticeFileResponse(),createMockNoticeFileResponse());
+    }
 
+    public static NoticeFileResponse createMockNoticeFileResponse() {
+        return new NoticeFileResponse("2025학년도_1학기_복학_안내문_241227.pdf", "https://www.yonsei.ac.kr/_custom/yonsei/_common/board/download.jsp?attach_no=114577");
+    }
     public static NoticePreviewResponse createMockNoticePreviewResponse() {
         return NoticePreviewResponse.builder()
                 .id("fGhOO5QBORDZUx8puAN_")
