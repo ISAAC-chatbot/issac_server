@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthWebController {
 
-    @GetMapping("/oauth2/google/login/code")
+    @GetMapping("/oauth/google/login/code")
     public ResponseEntity<String> googleRedirect(@RequestParam String code) {
+        return ResponseEntity.ok().body(code);
+    }
+
+    @GetMapping("/oauth/kakao/login/code")
+    public ResponseEntity<String> kakaoRedirect(@RequestParam String code) {
         return ResponseEntity.ok().body(code);
     }
 
