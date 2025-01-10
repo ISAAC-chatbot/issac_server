@@ -1,8 +1,9 @@
 package issac.issac_server.user.domain;
 
 import issac.issac_server.auth.application.dto.OAuthInfo;
-import issac.issac_server.common.domain.BaseCreateTimeEntity;
+import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
+import issac.issac_server.keyword.domain.Keyword;
 import issac.issac_server.user.application.dto.UserCreateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,12 +11,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "user")
-public class User extends BaseCreateTimeEntity {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +37,10 @@ public class User extends BaseCreateTimeEntity {
 
     @Column
     private Boolean marketingConsent;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private Set<Keyword> keywords = new HashSet<>();
+
 
     @Enumerated(EnumType.STRING)
     private EntityStatus entityStatus;
