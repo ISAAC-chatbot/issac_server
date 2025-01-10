@@ -24,7 +24,7 @@ public class KeywordAppender {
         }
 
         Keyword keyword = keywordFinder.findByText(request.getText())
-                .orElseGet(() -> keywordRepository.save(Keyword.from(request.getText())));
+                .orElseGet(() -> keywordRepository.save(Keyword.of(user.getProfile().getUniversity(), request.getText())));
 
         user.getKeywords().add(keyword);
         keyword.getUsers().add(user);

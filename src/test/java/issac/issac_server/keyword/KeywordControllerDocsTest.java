@@ -61,7 +61,7 @@ class KeywordControllerDocsTest extends RestDocsSupport {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Keyword API")
-                                .summary("키워드 작성")
+                                .summary("키워드 생성")
                                 .requestHeaders(
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
@@ -73,7 +73,7 @@ class KeywordControllerDocsTest extends RestDocsSupport {
                                 .build())));
     }
 
-    @DisplayName("생성 : 검색")
+    @DisplayName("검색 : 키워드")
     @Test
     void findKeywords() throws Exception {
         // given
@@ -98,7 +98,7 @@ class KeywordControllerDocsTest extends RestDocsSupport {
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
-                                .responseFields(generateFields("[].",KEYWORD_RESPONSE))
+                                .responseFields(generateFields("[].", KEYWORD_RESPONSE))
                                 .responseSchema(Schema.schema("KeywordResponses"))
                                 .build())));
     }
@@ -109,7 +109,7 @@ class KeywordControllerDocsTest extends RestDocsSupport {
 
         // when & then
         mockMvc.perform(
-                        delete("/api/v1/keywords/{keywordId}",1L)
+                        delete("/api/v1/keywords/{keywordId}", 1L)
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

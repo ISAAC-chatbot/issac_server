@@ -1,6 +1,7 @@
 package issac.issac_server.keyword.domain;
 
 import issac.issac_server.common.domain.BaseCreateTimeEntity;
+import issac.issac_server.user.domain.University;
 import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,10 @@ public class Keyword extends BaseCreateTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private University university;
+
+    @Column(nullable = false)
     private String text;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -32,9 +37,10 @@ public class Keyword extends BaseCreateTimeEntity {
     )
     private Set<User> users;
 
-    public static Keyword from(String text) {
+    public static Keyword of(University university, String text) {
         return Keyword.builder()
                 .users(new HashSet<>())
+                .university(university)
                 .text(text)
                 .build();
     }
