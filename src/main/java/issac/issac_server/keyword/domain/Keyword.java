@@ -5,11 +5,8 @@ import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
@@ -33,16 +30,11 @@ public class Keyword extends BaseCreateTimeEntity {
             joinColumns = @JoinColumn(name = "keyword_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> users = new HashSet<>();
-
-    public static List<String> extractKeywordTexts(Set<Keyword> keywords) {
-        return keywords != null
-                ? keywords.stream().map(Keyword::getText).collect(Collectors.toList())
-                : Collections.emptyList();
-    }
+    private Set<User> users;
 
     public static Keyword from(String text) {
         return Keyword.builder()
+                .users(new HashSet<>())
                 .text(text)
                 .build();
     }

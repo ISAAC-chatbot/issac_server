@@ -39,7 +39,7 @@ public class User extends BaseTimeEntity {
     private Boolean marketingConsent;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    private Set<Keyword> keywords = new HashSet<>();
+    private Set<Keyword> keywords ;
 
 
     @Enumerated(EnumType.STRING)
@@ -62,5 +62,6 @@ public class User extends BaseTimeEntity {
         this.profile = new Profile(request, defaultProfilePhotoUrl);
         this.role = Role.STUDENT;
         this.marketingConsent = request.getMarketingConsent();
+        this.keywords = new HashSet<>();
     }
 }

@@ -20,7 +20,7 @@ public class KeywordService {
     private final KeywordFinder keywordFinder;
 
     @Transactional
-    public KeywordResponse create(Long userId, KeywordRequest request) {
+    public KeywordResponse save(Long userId, KeywordRequest request) {
         User user = userFinder.find(userId);
         return keywordAppender.append(user, request);
     }
