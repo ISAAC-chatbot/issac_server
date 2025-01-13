@@ -23,9 +23,9 @@ public class NoticeCreateRequest {
     private String title;
 
     @NotBlank
-    private String content;
-
     private String rawContent;
+
+    private String content;
 
     @NotBlank
     private String author;
