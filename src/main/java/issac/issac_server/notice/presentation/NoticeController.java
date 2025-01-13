@@ -2,9 +2,10 @@ package issac.issac_server.notice.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.notice.application.NoticeService;
-import issac.issac_server.notice.application.dto.NoticePreviewResponse;
-import issac.issac_server.notice.application.dto.NoticeResponse;
-import issac.issac_server.notice.application.dto.NoticeSearchCondition;
+import issac.issac_server.notice.application.dto.request.NoticeCreateRequest;
+import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
+import issac.issac_server.notice.application.dto.response.NoticeResponse;
+import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
 import issac.issac_server.reaction.domain.ReactionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class NoticeController {
 
     private final NoticeService noticeService;
+
+    @PostMapping
+    public ResponseEntity<Void> save(NoticeCreateRequest request) {
+        noticeService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     @GetMapping
     public ResponseEntity<Page<NoticePreviewResponse>> search(NoticeSearchCondition condition, Pageable pageable) {

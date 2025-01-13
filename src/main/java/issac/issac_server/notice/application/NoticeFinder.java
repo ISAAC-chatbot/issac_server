@@ -1,11 +1,14 @@
 package issac.issac_server.notice.application;
 
-import issac.issac_server.notice.application.dto.NoticePreviewResponse;
-import issac.issac_server.notice.application.dto.NoticeResponse;
-import issac.issac_server.notice.application.dto.NoticeSearchCondition;
+import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
+import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
+import issac.issac_server.notice.application.dto.response.NoticeResponse;
+import issac.issac_server.notice.domain.Notice;
+import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.notice.exception.NoticeErrorCode;
 import issac.issac_server.notice.exception.NoticeException;
 import issac.issac_server.reaction.domain.Reaction;
+import issac.issac_server.user.domain.University;
 import lombok.RequiredArgsConstructor;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
@@ -66,6 +69,25 @@ public class NoticeFinder {
         }
     }
 
+    public Notice findNotice(String noticeId) {
+        try {
+            SearchRequest request = buildFindNoticeRequest(noticeId);
+
+            SearchResponse<Notice> response = openSearchClient.search(request, Notice.class);
+
+            return response.hits().hits().stream()
+                    .findFirst()
+                    .map(hit -> {
+                        assert hit.source() != null;
+                        hit.source().setId(hit.id());
+                        return hit.source();
+                    })
+                    .orElseThrow(() -> new NoticeException(NoticeErrorCode.NOT_FOUND));
+        } catch (Exception e) {
+            throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
+        }
+    }
+
     public Page<NoticePreviewResponse> findByReactions(Page<Reaction> reactions) {
         List<String> noticeIds = reactions.getContent().stream()
                 .map(Reaction::getTargetId)
@@ -98,9 +120,9 @@ public class NoticeFinder {
                         )
                 )
                 .query(query -> query.bool(bool -> {
-                    universityEq(bool, condition);
-                    sourceEq(bool, condition);
-                    keywordContain(bool, condition);
+                    universityEq(bool, condition.getUniversity());
+                    sourceEq(bool, condition.getSource());
+                    keywordContain(bool, condition.getKeyword());
                     return bool;
                 }))
                 .from((int) pageable.getOffset())
@@ -118,6 +140,18 @@ public class NoticeFinder {
                 .source(source -> source
                         .filter(filter -> filter
                                 .includes(NoticeResponse.getFieldNames())
+                        )
+                )
+                .query(query -> query.ids(ids -> ids.values(noticeId)))
+        );
+    }
+
+    private SearchRequest buildFindNoticeRequest(String noticeId) {
+        return SearchRequest.of(searchRequest -> searchRequest
+                .index("notice")
+                .source(source -> source
+                        .filter(filter -> filter
+                                .includes(Notice.getFieldNames())
                         )
                 )
                 .query(query -> query.ids(ids -> ids.values(noticeId)))
@@ -147,40 +181,40 @@ public class NoticeFinder {
     }
 
 
-    private void universityEq(Builder bool, NoticeSearchCondition condition) {
-        if (condition.getUniversity() != null) {
+    private void universityEq(Builder bool, University university) {
+        if (university != null) {
             bool.filter(filter -> filter
                     .term(term -> term
                             .field("university")
-                            .value(FieldValue.of(condition.getUniversity().toString()))
+                            .value(FieldValue.of(university.toString()))
                     )
             );
         }
     }
 
-    private void sourceEq(Builder bool, NoticeSearchCondition condition) {
-        if (condition.getSource() != null) {
+    private void sourceEq(Builder bool, NoticeSource source) {
+        if (source != null) {
             bool.filter(filter -> filter
                     .term(term -> term
                             .field("source")
-                            .value(FieldValue.of(condition.getSource().toString()))
+                            .value(FieldValue.of(source.toString()))
                     )
             );
         }
     }
 
-    private void keywordContain(Builder bool, NoticeSearchCondition condition) {
-        if (StringUtils.hasText(condition.getKeyword())) {
+    private void keywordContain(Builder bool, String keyword) {
+        if (StringUtils.hasText(keyword)) {
             bool.should(should -> should
                     .match(match -> match
                             .field("title")
-                            .query(FieldValue.of(condition.getKeyword())
+                            .query(FieldValue.of(keyword)
                             )
                     ));
             bool.should(should -> should
                     .match(match -> match
                             .field("content")
-                            .query(FieldValue.of(condition.getKeyword())
+                            .query(FieldValue.of(keyword)
                             )
                     ));
         }
