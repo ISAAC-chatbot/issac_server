@@ -5,16 +5,25 @@ import issac.issac_server.auth.infrastructure.JwtTokenProvider;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
@@ -27,7 +36,13 @@ import java.util.Arrays;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    public static final String PERMITTED_URI[] = {"/api/v1/auth/login", "/api/v1/auth/guest-login","/api/v1/auth/refresh",
+    @Value("${basic.auth.username}")
+    private String username;
+
+    @Value("${basic.auth.password}")
+    private String password;
+
+    public static final String PERMITTED_URI[] = {"/api/v1/auth/login", "/api/v1/auth/guest-login", "/api/v1/auth/refresh",
             "/api/v1/auth/email", "/oauth/**", "/docs/**", "/favicon.ico", "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**", "/error"};
 
     private static final String[] ALL_ROLES = Arrays.stream(Role.values())
@@ -42,31 +57,29 @@ public class SecurityConfig {
     }
 
     @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(basicAuthUserDetailsService(passwordEncoder()));
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        http.cors(cors -> cors.configurationSource(request -> {
-            var config = new org.springframework.web.cors.CorsConfiguration();
-            config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용할 Origin 설정
-            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
-            config.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더
-            config.setAllowCredentials(true); // 인증 정보 포함 허용
-            return config;
-        }));
 
         //From 로그인 방식 disable
         http.formLogin(AbstractHttpConfigurer::disable);
 
-        //http basic 인증 방식 disable
-        http.httpBasic(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                        .requestMatchers(PERMITTED_URI).permitAll() // 허용된 URI
+                        .requestMatchers(HttpMethod.POST, "/api/v1/notices").authenticated()
+                        .anyRequest().hasAnyRole(ALL_ROLES)
+                )
+                .httpBasic(Customizer.withDefaults()); // Basic Auth 활성화
 
-        //경로별 인가 작업
-        http.authorizeHttpRequests(request -> request
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .requestMatchers(PERMITTED_URI).permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/notices").permitAll()
-                .anyRequest().hasAnyRole(ALL_ROLES));
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userFinder),
                 UsernamePasswordAuthenticationFilter.class);
@@ -78,4 +91,24 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public UserDetailsService basicAuthUserDetailsService(PasswordEncoder passwordEncoder) {
+        User.UserBuilder users = User.builder();
+        System.out.println("유저서비스 들옴");
+        UserDetails user = users
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

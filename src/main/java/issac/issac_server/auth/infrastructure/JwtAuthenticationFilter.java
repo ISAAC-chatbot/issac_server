@@ -31,7 +31,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (isPermittedURI(request.getRequestURI())) {
+        String requestURI = request.getRequestURI();
+
+        if (requestURI.equals("/api/v1/notices") && request.getMethod().equals("POST")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (isPermittedURI(requestURI)) {
             SecurityContextHolder.getContext().setAuthentication(null);
             filterChain.doFilter(request, response);
             return;
@@ -57,6 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         setAuthenticationToContext(accessToken);
         filterChain.doFilter(request, response);
     }
