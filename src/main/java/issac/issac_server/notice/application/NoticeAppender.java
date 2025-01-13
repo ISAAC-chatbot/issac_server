@@ -17,7 +17,7 @@ public class NoticeAppender {
 
         try {
             IndexRequest<Object> indexRequest = new IndexRequest.Builder<>()
-                    .index("notice2")
+                    .index("notice")
                     .document(request)
                     .build();
 
