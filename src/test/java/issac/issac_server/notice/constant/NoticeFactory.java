@@ -1,8 +1,8 @@
 package issac.issac_server.notice.constant;
 
-import issac.issac_server.notice.application.dto.NoticeFileResponse;
-import issac.issac_server.notice.application.dto.NoticePreviewResponse;
-import issac.issac_server.notice.application.dto.NoticeResponse;
+import issac.issac_server.notice.application.dto.response.NoticeFileResponse;
+import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
+import issac.issac_server.notice.application.dto.response.NoticeResponse;
 
 import java.util.Arrays;
 import java.util.List;

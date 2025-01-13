@@ -1,6 +1,6 @@
 package issac.issac_server.notice.application;
 
-import issac.issac_server.notice.application.dto.BookmarkCreateRequest;
+import issac.issac_server.notice.application.dto.request.BookmarkCreateRequest;
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.BookmarkRepository;
 import lombok.RequiredArgsConstructor;

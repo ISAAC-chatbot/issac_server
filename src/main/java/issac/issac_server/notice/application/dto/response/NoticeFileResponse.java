@@ -1,4 +1,4 @@
-package issac.issac_server.notice.application.dto;
+package issac.issac_server.notice.application.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

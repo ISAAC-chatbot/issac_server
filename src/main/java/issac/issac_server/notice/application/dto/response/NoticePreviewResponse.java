@@ -1,4 +1,4 @@
-package issac.issac_server.notice.application.dto;
+package issac.issac_server.notice.application.dto.response;
 
 import issac.issac_server.notice.domain.NoticeSource;
 import lombok.*;

@@ -1,7 +1,7 @@
 package issac.issac_server.notice.constant;
 
-import issac.issac_server.notice.application.dto.BookmarkCreateRequest;
-import issac.issac_server.notice.application.dto.BookmarkResponse;
+import issac.issac_server.notice.application.dto.request.BookmarkCreateRequest;
+import issac.issac_server.notice.application.dto.response.BookmarkResponse;
 import issac.issac_server.notice.domain.NoticeSource;
 
 import java.util.Arrays;

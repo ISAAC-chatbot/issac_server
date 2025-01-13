@@ -1,4 +1,4 @@
-package issac.issac_server.notice.application.dto;
+package issac.issac_server.notice.application.dto.request;
 
 import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.user.domain.University;

@@ -36,6 +36,7 @@ public class NoticeDocFields {
     public static final FieldDescriptor[] NOTICE_RESPONSE = mergeFields(
             new FieldDescriptor[]{
                     fieldWithPath("id").type(JsonFieldType.STRING).description("공지사항 ID"),
+                    fieldWithPath("university").type(JsonFieldType.STRING).description(generateLinkCode(UNIVERSITY)),
                     fieldWithPath("source").type(JsonFieldType.STRING).description(generateLinkCode(NOTICE_SOURCE)),
                     fieldWithPath("subCategory").type(JsonFieldType.STRING).description("서브 카테고리").optional(),
                     fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
