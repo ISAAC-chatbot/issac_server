@@ -36,11 +36,10 @@ public class NoticeDocFields {
     public static final FieldDescriptor[] NOTICE_RESPONSE = mergeFields(
             new FieldDescriptor[]{
                     fieldWithPath("id").type(JsonFieldType.STRING).description("공지사항 ID"),
-                    fieldWithPath("university").type(JsonFieldType.STRING).description(generateLinkCode(UNIVERSITY)),
                     fieldWithPath("source").type(JsonFieldType.STRING).description(generateLinkCode(NOTICE_SOURCE)),
                     fieldWithPath("subCategory").type(JsonFieldType.STRING).description("서브 카테고리").optional(),
                     fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용(HTML)"),
+                    fieldWithPath("rawContent").type(JsonFieldType.STRING).description("공지사항 내용(HTML)"),
                     fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)"),
                     fieldWithPath("scrap").type(JsonFieldType.BOOLEAN).description("스크랩 여부"),

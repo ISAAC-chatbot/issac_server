@@ -19,7 +19,7 @@ public class NoticeResponse {
     private NoticeSource source;
     private String subCategory;
     private String title;
-    private String content;
+    private String rawContent;
     private String author;
     private String createdDate;
     private List<NoticeFileResponse> files;
