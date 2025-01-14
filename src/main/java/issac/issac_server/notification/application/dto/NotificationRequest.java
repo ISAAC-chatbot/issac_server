@@ -4,6 +4,7 @@ import issac.issac_server.comment.domain.Comment;
 import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.domain.TargetType;
+import issac.issac_server.report.domain.Report;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,7 +25,7 @@ public class NotificationRequest {
     private String author;
 
 
-    public static NotificationRequest of(Post post, Comment comment){
+    public static NotificationRequest of(Post post, Comment comment) {
         return new NotificationRequest(
                 NotificationType.COMMENT,
                 post.getTitle(),
@@ -32,6 +33,17 @@ public class NotificationRequest {
                 TargetType.POST,
                 post.getId().toString(),
                 post.getAuthor().getProfile().getNickname()
+        );
+    }
+
+    public static NotificationRequest from(Report report, String nickname) {
+        return new NotificationRequest(
+                NotificationType.REPORT,
+                report.getType().toString(),
+                report.getContent(),
+                report.getTargetType(),
+                report.getTargetId(),
+                nickname
         );
     }
 }
