@@ -1,6 +1,6 @@
 package issac.issac_server.batch.application;
 
-import issac.issac_server.batch.application.dto.RabbitMQResponse;
+import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.keyword.application.KeywordFinder;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import issac.issac_server.notification.domain.NotificationType;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 @StepScope
-public class KeywordMatchingProcessor implements ItemProcessor<String, RabbitMQResponse> {
+public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRequest> {
 
     private final KeywordFinder keywordFinder;
     private final String id;
@@ -25,7 +25,7 @@ public class KeywordMatchingProcessor implements ItemProcessor<String, RabbitMQR
     private final String author;
     private final String university;
 
-    public KeywordMatchingProcessor(
+    public KeywordJobProcessor(
             @Value("#{jobParameters['id']}") String id,
             @Value("#{jobParameters['entityType']}") String entityType,
             @Value("#{jobParameters['title']}") String title,
@@ -44,13 +44,13 @@ public class KeywordMatchingProcessor implements ItemProcessor<String, RabbitMQR
     }
 
     @Override
-    public RabbitMQResponse process(String keyword) throws Exception {
+    public KeywordQueueRequest process(String keyword) throws Exception {
 
         if (title.contains(keyword) || content.contains(keyword)) {
 
             List<Long> userIds = keywordFinder.findUserIdsByUniversityAndText(University.valueOf(university), keyword);
 
-            return new RabbitMQResponse(
+            return new KeywordQueueRequest(
                     userIds,
                     new NotificationRequest(
                             NotificationType.KEYWORD,

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RabbitMQResponse {
+public class KeywordQueueRequest {
     private List<Long> userIds;
     private NotificationRequest request;
 }

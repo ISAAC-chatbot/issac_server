@@ -1,8 +1,8 @@
 package issac.issac_server.batch.config;
 
-import issac.issac_server.batch.application.KeywordMatchingProcessor;
-import issac.issac_server.batch.application.RabbitMQKeywordWriter;
-import issac.issac_server.batch.application.dto.RabbitMQResponse;
+import issac.issac_server.batch.application.KeywordJobProcessor;
+import issac.issac_server.batch.application.KeywordJobWriter;
+import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.keyword.domain.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -31,8 +31,8 @@ public class KeywordJobConfig {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final KeywordRepository keywordRepository;
-    private final KeywordMatchingProcessor keywordMatchingProcessor;
-    private final RabbitMQKeywordWriter rabbitMQKeywordWriter;
+    private final KeywordJobProcessor keywordJobProcessor;
+    private final KeywordJobWriter keywordJobWriter;
 
     private final int chunkSize = 10;
 
@@ -47,10 +47,10 @@ public class KeywordJobConfig {
     @JobScope
     public Step keywordNotificationStep(@Value("#{jobParameters['university']}") String university) {
         return new StepBuilder("keywordNotificationStep", jobRepository)
-                .<String, RabbitMQResponse>chunk(chunkSize, platformTransactionManager)
+                .<String, KeywordQueueRequest>chunk(chunkSize, platformTransactionManager)
                 .reader(keywordReader(university))
-                .processor(keywordMatchingProcessor)
-                .writer(rabbitMQKeywordWriter)
+                .processor(keywordJobProcessor)
+                .writer(keywordJobWriter)
                 .taskExecutor(taskExecutor())
                 .build();
     }
