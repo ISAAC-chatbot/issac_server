@@ -6,6 +6,7 @@ import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.application.dto.response.PostPreviewResponse;
 import issac.issac_server.post.application.dto.response.PostResponse;
 import issac.issac_server.post.application.dto.response.ReactionStatusResponse;
+import issac.issac_server.post.application.event.PostCreateEvent;
 import issac.issac_server.post.application.postPhoto.PostPhotoAppender;
 import issac.issac_server.post.application.postPhoto.PostPhotoFinder;
 import issac.issac_server.post.application.postPhoto.PostPhotoUpdater;
@@ -17,6 +18,7 @@ import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,8 @@ public class PostService {
     private final ReactionReader reactionReader;
     private final PostRemover postRemover;
 
+    private final ApplicationEventPublisher publisher;
+
     @Transactional
     public PostResponse save(Long userId, PostCreateRequest request) {
 
@@ -46,6 +50,7 @@ public class PostService {
         Post post = postAppender.append(user, request);
         List<PostPhoto> postPhotos = postPhotoAppender.append(post.getId(), request.getPhotoUrls());
 
+        publisher.publishEvent(new PostCreateEvent(post));
         return PostResponse.from(post, postPhotos, user);
     }
 
