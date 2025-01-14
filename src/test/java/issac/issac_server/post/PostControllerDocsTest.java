@@ -31,6 +31,7 @@ import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLi
 import static issac.issac_server.post.constant.PostDocFields.*;
 import static issac.issac_server.post.constant.PostFactory.*;
 import static issac.issac_server.reaction.domain.ReactionType.LIKE;
+import static issac.issac_server.user.domain.University.YONSEI;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -162,9 +163,10 @@ class PostControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts")
-                                .param("page","0")
-                                .param("size","10")
+                                .param("page", "0")
+                                .param("size", "10")
                                 .param("keyword", "복학")
+                                .param("university", YONSEI.toString())
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -206,8 +208,8 @@ class PostControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts/me")
-                                .param("page","0")
-                                .param("size","10")
+                                .param("page", "0")
+                                .param("size", "10")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -241,7 +243,7 @@ class PostControllerDocsTest extends RestDocsSupport {
 
         // when & then
         mockMvc.perform(
-                        delete("/api/v1/posts/{postId}",1L)
+                        delete("/api/v1/posts/{postId}", 1L)
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -271,8 +273,8 @@ class PostControllerDocsTest extends RestDocsSupport {
         // when & then
         mockMvc.perform(
                         get("/api/v1/posts/me/reactions")
-                                .param("page","0")
-                                .param("size","10")
+                                .param("page", "0")
+                                .param("size", "10")
                                 .param("reactionType", LIKE.toString())
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -310,7 +312,7 @@ class PostControllerDocsTest extends RestDocsSupport {
         Pageable pageable = PageRequest.of(0, 10);
         Page<PostPreviewResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
 
-        given(postService.findPostsWithMyComment(any(),  any(Pageable.class))).willReturn(pageResponses);
+        given(postService.findPostsWithMyComment(any(), any(Pageable.class))).willReturn(pageResponses);
 
         // when & then
         mockMvc.perform(

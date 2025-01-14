@@ -6,6 +6,7 @@ import issac.issac_server.post.application.dto.request.PostCreateRequest;
 import issac.issac_server.post.application.dto.request.PostUpdateRequest;
 import issac.issac_server.post.exception.PostErrorCode;
 import issac.issac_server.post.exception.PostException;
+import issac.issac_server.user.domain.University;
 import issac.issac_server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +31,10 @@ public class Post extends BaseTimeEntity {
     private User author;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private University university;
+
+    @Column(nullable = false)
     private String title;
 
     @Lob
@@ -51,6 +56,7 @@ public class Post extends BaseTimeEntity {
     @Builder
     public Post(User author, String title, String content, String thumbnailPhotoUrl) {
         this.author = author;
+        this.university = author.getProfile().getUniversity();
         this.title = title;
         this.content = content;
         this.thumbnailPhotoUrl = thumbnailPhotoUrl;

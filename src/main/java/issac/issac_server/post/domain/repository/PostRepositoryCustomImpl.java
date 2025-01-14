@@ -12,6 +12,7 @@ import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
+import issac.issac_server.user.domain.University;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -100,6 +101,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         BooleanBuilder builder = new BooleanBuilder();
 
         return builder
+                .and(universityEq(condition.getUniversity()))
                 .and(entityStatusIsActive())
                 .and(keywordContain(condition.getKeyword()));
     }
@@ -108,6 +110,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return new OrderSpecifier[]{
                 new OrderSpecifier<>(Order.DESC, post.id)
         };
+    }
+
+    private BooleanExpression universityEq(University university) {
+        return university != null ? post.university.eq(university) : null;
     }
 
     private BooleanExpression entityStatusIsActive() {

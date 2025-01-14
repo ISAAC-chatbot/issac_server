@@ -6,8 +6,7 @@ import org.springframework.restdocs.request.ParameterDescriptor;
 
 import static issac.issac_server.document.utils.DocumentFormatGenerator.generateFields;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.mergeFields;
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.REACTION_TYPE;
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.ROLE;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.*;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -78,6 +77,7 @@ public class PostDocFields {
     );
 
     public static final ParameterDescriptor[] POST_SEARCH_CONDITION = new ParameterDescriptor[]{
+            parameterWithName("university").description(generateLinkCode(UNIVERSITY)).optional(),
             parameterWithName("keyword").description("검색어").optional()
     };
 
