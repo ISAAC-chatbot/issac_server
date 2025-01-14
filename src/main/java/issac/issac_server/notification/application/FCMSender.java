@@ -46,6 +46,26 @@ public class FCMSender {
         }
     }
 
+    public void send(NotificationRequest request, Set<String> deviceTokens) {
+
+        MulticastMessage message = MulticastMessage.builder()
+                .putData("notificationType",request.getNotificationType().toString())
+                .putData("title", request.getTitle())
+                .putData("content", request.getContent())
+                .addAllTokens(deviceTokens)
+                .build();
+
+        try {
+            BatchResponse response = firebaseMessaging.sendMulticast(message);
+
+            log.info("Batch sent successfully: {} successful, {} failed",
+                    response.getSuccessCount(), response.getFailureCount());
+
+        } catch (FirebaseMessagingException e) {
+            log.error("Error sending FCM messages", e);
+        }
+    }
+
     public void send(NotificationRequest request, String deviceToken) {
         com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
                 .putData("notificationType", request.getNotificationType().toString())

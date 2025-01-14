@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CommentFinder {
@@ -17,6 +19,10 @@ public class CommentFinder {
 
     public Comment find(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() -> new CommentException(CommentErrorCode.NOT_FOUND));
+    }
+
+    public List<Comment> findReplies(Long parentId) {
+        return commentRepository.findAllByParentId(parentId);
     }
 
     public Slice<Comment> findAll(Long postId, Pageable pageable) {

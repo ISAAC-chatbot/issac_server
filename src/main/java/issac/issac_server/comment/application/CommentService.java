@@ -34,7 +34,7 @@ public class CommentService {
         post.validatePostIsActive();
         User user = userFinder.find(userId);
         Comment comment = commentAppender.append(user, post.getId(), request);
-        commentEventHandler.publish(comment.getPostId());
+        commentEventHandler.publish(post.getId(), comment);
         return CommentResponse.from(comment);
     }
 

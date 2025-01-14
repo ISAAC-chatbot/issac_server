@@ -1,6 +1,8 @@
 package issac.issac_server.notification.application.dto;
 
+import issac.issac_server.comment.domain.Comment;
 import issac.issac_server.notification.domain.NotificationType;
+import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.domain.TargetType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,4 +22,16 @@ public class NotificationRequest {
     private String entityId;
 
     private String author;
+
+
+    public static NotificationRequest of(Post post, Comment comment){
+        return new NotificationRequest(
+                NotificationType.COMMENT,
+                post.getTitle(),
+                comment.getContent(),
+                TargetType.POST,
+                post.getId().toString(),
+                post.getAuthor().getProfile().getNickname()
+        );
+    }
 }

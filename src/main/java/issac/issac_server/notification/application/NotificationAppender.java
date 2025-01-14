@@ -2,6 +2,7 @@ package issac.issac_server.notification.application;
 
 import issac.issac_server.batch.application.dto.BookmarkQueueRequest;
 import issac.issac_server.batch.application.dto.KeywordQueueRequest;
+import issac.issac_server.notification.application.dto.NotificationRequest;
 import issac.issac_server.notification.domain.Notification;
 import issac.issac_server.notification.domain.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class NotificationAppender {
 
     public void append(BookmarkQueueRequest message) {
         notificationRepository.save(Notification.of(message.getUserId(), message.getRequest()));
+    }
+
+    public void appendAll(List<Long> userIds, NotificationRequest request) {
+        List<Notification> notifications = userIds.stream().map(userId -> Notification.of(userId, request)).toList();
+        notificationRepository.saveAll(notifications);
     }
 }
