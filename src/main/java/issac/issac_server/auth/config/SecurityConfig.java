@@ -95,7 +95,6 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService basicAuthUserDetailsService(PasswordEncoder passwordEncoder) {
         User.UserBuilder users = User.builder();
-        System.out.println("유저서비스 들옴");
         UserDetails user = users
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -103,8 +102,6 @@ public class SecurityConfig {
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
