@@ -27,12 +27,13 @@ public class NoticeEventListener {
         Notice notice = noticeFinder.findNotice(event.getNoticeId());
 
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("id", notice.getId())
+                .addString("entityId", notice.getId())
                 .addString("university",notice.getUniversity().toString())
                 .addString("source",notice.getSource().toString())
                 .addString("title",notice.getTitle())
                 .addString("content",notice.getContent())
                 .addString("entityType", TargetType.NOTICE.toString())
+                .addString("author",notice.getAuthor())
                 .toJobParameters();
 
         // 키워드 알림

@@ -18,7 +18,7 @@ import java.util.List;
 public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRequest> {
 
     private final KeywordFinder keywordFinder;
-    private final String id;
+    private final String entityId;
     private final String entityType;
     private final String title;
     private final String content;
@@ -26,7 +26,7 @@ public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRe
     private final String university;
 
     public KeywordJobProcessor(
-            @Value("#{jobParameters['id']}") String id,
+            @Value("#{jobParameters['entityId']}") String entityId,
             @Value("#{jobParameters['entityType']}") String entityType,
             @Value("#{jobParameters['title']}") String title,
             @Value("#{jobParameters['content']}") String content,
@@ -34,7 +34,7 @@ public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRe
             @Value("#{jobParameters['university']}") String university,
             KeywordFinder keywordFinder
     ) {
-        this.id = id;
+        this.entityId = entityId;
         this.entityType = entityType;
         this.title = title;
         this.content = content;
@@ -57,7 +57,7 @@ public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRe
                             keyword,
                             title,
                             TargetType.valueOf(entityType),
-                            id,
+                            entityId,
                             author
                     )
             );
