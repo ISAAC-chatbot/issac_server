@@ -1,6 +1,7 @@
 package issac.issac_server.notification.application;
 
-import issac.issac_server.batch.application.dto.RabbitMQResponse;
+import issac.issac_server.batch.application.dto.BookmarkQueueRequest;
+import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.device.application.DeviceTokenFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -19,13 +20,24 @@ public class NotificationConsumer {
 
     @RabbitListener(queues = "keyword-queue", concurrency = "3-10")
     @Transactional
-    public void receiveMessage(RabbitMQResponse message) {
+    public void receiveMessage(KeywordQueueRequest message) {
 
         Set<String> distinctTokens = deviceTokenFinder.findDistinctTokens(message.getUserIds());
 
         fcmSender.sendBulk(message.getRequest(), distinctTokens);
 
         notificationAppender.appendAll(message);
+    }
+
+    @RabbitListener(queues = "bookmark-queue", concurrency = "3-10")
+    @Transactional
+    public void receiveMessage(BookmarkQueueRequest message) {
+
+        deviceTokenFinder.find(message.getUserId()).ifPresent(
+                deviceToken -> fcmSender.send(message.getRequest(), deviceToken.getToken())
+        );
+
+        notificationAppender.append(message);
     }
 
 }

@@ -52,7 +52,7 @@ public class Notification extends BaseTimeEntity {
         this.readStatus = true;
     }
 
-    public static Notification from(Long userId, NotificationRequest request){
+    public static Notification of(Long userId, NotificationRequest request){
         return Notification.builder()
                 .userId(userId)
                 .notificationType(request.getNotificationType())

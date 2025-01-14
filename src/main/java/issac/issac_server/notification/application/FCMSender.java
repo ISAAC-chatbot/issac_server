@@ -40,15 +40,25 @@ public class FCMSender {
                 log.info("Batch sent successfully: {} successful, {} failed",
                         response.getSuccessCount(), response.getFailureCount());
 
-//                response.getResponses().forEach(r -> {
-//                    if (!r.isSuccessful()) {
-//                        log.error("Failed to send message: {}", r.getException().getMessage());
-//                    }
-//                });
-
             } catch (FirebaseMessagingException e) {
                 log.error("Error sending FCM messages", e);
             }
+        }
+    }
+
+    public void send(NotificationRequest request, String deviceToken) {
+        com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
+                .putData("notificationType", request.getNotificationType().toString())
+                .putData("title", request.getTitle())
+                .putData("content", request.getContent())
+                .setToken(deviceToken)
+                .build();
+
+        try {
+            String response = firebaseMessaging.send(message);
+            log.info("Single message sent successfully: {}", response);
+        } catch (FirebaseMessagingException e) {
+            log.error("Error sending single FCM message", e);
         }
     }
 

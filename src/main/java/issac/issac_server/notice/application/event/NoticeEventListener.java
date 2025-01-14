@@ -8,6 +8,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class NoticeEventListener {
     private final JobRegistry jobRegistry;
 
     @Async
+    @EventListener
     public void triggerNotificationJob(NoticeSaveEvent event) throws Exception{
 
         Notice notice = noticeFinder.findNotice(event.getNoticeId());
