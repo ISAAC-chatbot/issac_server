@@ -3,16 +3,12 @@ package issac.issac_server.user.domain;
 import issac.issac_server.auth.application.dto.OAuthInfo;
 import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
-import issac.issac_server.keyword.domain.Keyword;
 import issac.issac_server.user.application.dto.UserCreateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Getter
@@ -38,10 +34,6 @@ public class User extends BaseTimeEntity {
     @Column
     private Boolean marketingConsent;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    private Set<Keyword> keywords ;
-
-
     @Enumerated(EnumType.STRING)
     private EntityStatus entityStatus;
 
@@ -62,6 +54,5 @@ public class User extends BaseTimeEntity {
         this.profile = new Profile(request, defaultProfilePhotoUrl);
         this.role = Role.STUDENT;
         this.marketingConsent = request.getMarketingConsent();
-        this.keywords = new HashSet<>();
     }
 }

@@ -19,15 +19,11 @@ public class KeywordAppender {
 
     public KeywordResponse append(User user, KeywordRequest request) {
 
-        if (user.getKeywords().stream().map(Keyword::getText).anyMatch(request.getText()::equals)) {
+        if (keywordFinder.exist(user.getId(), request.getText())) {
             throw new KeywordException(KeywordErrorCode.ALREADY_EXIST);
         }
 
-        Keyword keyword = keywordFinder.findByText(request.getText())
-                .orElseGet(() -> keywordRepository.save(Keyword.of(user.getProfile().getUniversity(), request.getText())));
-
-        user.getKeywords().add(keyword);
-        keyword.getUsers().add(user);
+        Keyword keyword = keywordRepository.save(Keyword.of(user, request.getText()));
 
         return KeywordResponse.from(keyword);
     }

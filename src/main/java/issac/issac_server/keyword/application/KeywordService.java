@@ -32,7 +32,6 @@ public class KeywordService {
 
     @Transactional
     public void remove(Long userId, Long keywordId) {
-        User user = userFinder.find(userId);
-        keywordRemover.remove(user, keywordId);
+        keywordRemover.remove(userId, keywordId);
     }
 }
