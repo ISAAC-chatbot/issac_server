@@ -1,6 +1,8 @@
 package issac.issac_server.post.application.event;
 
 import issac.issac_server.comment.application.CommentFinder;
+import issac.issac_server.comment.application.event.CommentCreateEvent;
+import issac.issac_server.comment.application.event.CommentRemoveEvent;
 import issac.issac_server.post.application.PostUpdater;
 import issac.issac_server.post.domain.Post;
 import issac.issac_server.reaction.application.ReactionReader;
@@ -40,7 +42,15 @@ public class PostEventListener {
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener
-    public void updateCommentCount(PostLikeEvent event) {
+    public void updateCommentCount(CommentCreateEvent event) {
+        Long count = commentFinder.count(event.getPostId());
+        postUpdater.updateCommentCount(event.getPostId(), count);
+    }
+
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener
+    public void updateCommentCount(CommentRemoveEvent event) {
         Long count = commentFinder.count(event.getPostId());
         postUpdater.updateCommentCount(event.getPostId(), count);
     }
