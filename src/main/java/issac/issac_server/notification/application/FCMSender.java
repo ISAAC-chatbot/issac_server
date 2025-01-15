@@ -20,7 +20,7 @@ public class FCMSender {
 
     private final FirebaseMessaging firebaseMessaging;
 
-    private static final int MAX_TOKENS_PER_BATCH = 400;
+    private static final int MAX_TOKENS_PER_BATCH = 800;
 
     public void sendBulk(NotificationRequest request, Set<String> deviceTokens) {
 
@@ -28,16 +28,16 @@ public class FCMSender {
 
         for (List<String> batch : tokenBatches) {
             MulticastMessage message = MulticastMessage.builder()
-                    .putData("notificationType",request.getNotificationType().toString())
+                    .putData("notificationType", request.getNotificationType().toString())
                     .putData("title", request.getTitle())
                     .putData("content", request.getContent())
                     .addAllTokens(batch)
                     .build();
 
             try {
-                BatchResponse response = firebaseMessaging.sendMulticast(message);
+                BatchResponse response = firebaseMessaging.sendEachForMulticast(message);
 
-                log.info("Batch sent successfully: {} successful, {} failed",
+                log.info("FCM 전송: Batch sent successfully: {} successful, {} failed",
                         response.getSuccessCount(), response.getFailureCount());
 
             } catch (FirebaseMessagingException e) {
@@ -49,16 +49,16 @@ public class FCMSender {
     public void send(NotificationRequest request, Set<String> deviceTokens) {
 
         MulticastMessage message = MulticastMessage.builder()
-                .putData("notificationType",request.getNotificationType().toString())
+                .putData("notificationType", request.getNotificationType().toString())
                 .putData("title", request.getTitle())
                 .putData("content", request.getContent())
                 .addAllTokens(deviceTokens)
                 .build();
 
         try {
-            BatchResponse response = firebaseMessaging.sendMulticast(message);
+            BatchResponse response = firebaseMessaging.sendEachForMulticast(message);
 
-            log.info("Batch sent successfully: {} successful, {} failed",
+            log.info("FCM 전송: Batch sent successfully: {} successful, {} failed",
                     response.getSuccessCount(), response.getFailureCount());
 
         } catch (FirebaseMessagingException e) {

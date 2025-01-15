@@ -1,9 +1,6 @@
 package issac.issac_server.batch.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -36,9 +33,10 @@ public class RabbitMQConfig {
         connectionFactory.setHost(host);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
-        connectionFactory.getRabbitConnectionFactory().useSslProtocol();
+//        connectionFactory.getRabbitConnectionFactory().useSslProtocol();
         return connectionFactory;
     }
+
 
     @Bean
     public RabbitTemplate rabbitTemplate() throws Exception {
@@ -60,18 +58,37 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue keywordQueue() {
-        return new Queue("keyword-queue", true);
+        return QueueBuilder.durable("keyword-queue")
+                .withArgument("x-dead-letter-exchange", "dlx-exchange")  // Dead Letter Exchange 설정
+                .withArgument("x-dead-letter-routing-key", "dlq-routing-key")
+                .withArgument("x-message-ttl", 5000)                     // 메시지 TTL (5초)
+                .build();
     }
 
     @Bean
     public Queue bookmarkQueue() {
-        return new Queue("bookmark-queue", true);
+        return QueueBuilder.durable("bookmark-queue")
+                .withArgument("x-dead-letter-exchange", "dlx-exchange")  // Dead Letter Exchange 설정
+                .withArgument("x-dead-letter-routing-key", "dlq-routing-key")
+                .withArgument("x-message-ttl", 5000)                     // 메시지 TTL (5초)
+                .build();
+    }
+
+    @Bean
+    public Queue dlqQueue() {
+        return new Queue("dlq-queue", true); // Dead Letter Queue
     }
 
     @Bean
     public DirectExchange exchange() {
         return new DirectExchange("notification-exchange");
     }
+
+    @Bean
+    public DirectExchange dlxExchange() {
+        return new DirectExchange("dlx-exchange"); // Dead Letter Exchange
+    }
+
 
     @Bean
     public Binding keywordBinding(Queue keywordQueue, DirectExchange exchange) {
@@ -82,5 +99,4 @@ public class RabbitMQConfig {
     public Binding bookmarkBinding(Queue bookmarkQueue, DirectExchange exchange) {
         return BindingBuilder.bind(bookmarkQueue).to(exchange).with("bookmark-routing-key");
     }
-
 }

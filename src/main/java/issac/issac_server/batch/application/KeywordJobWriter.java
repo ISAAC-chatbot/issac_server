@@ -15,7 +15,7 @@ public class KeywordJobWriter implements ItemWriter<KeywordQueueRequest> {
 
     @Override
     public void write(Chunk<? extends KeywordQueueRequest> chunk) throws Exception {
-        rabbitTemplate.convertAndSend("notification-exchange", "keyword-routing-key", chunk);
+        chunk.forEach(request -> rabbitTemplate.convertAndSend("notification-exchange", "keyword-routing-key", request));
     }
 }
 

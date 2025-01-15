@@ -4,6 +4,7 @@ import issac.issac_server.batch.application.KeywordJobProcessor;
 import issac.issac_server.batch.application.KeywordJobWriter;
 import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.keyword.domain.KeywordRepository;
+import issac.issac_server.user.domain.University;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -72,10 +73,10 @@ public class KeywordJobConfig {
         return new RepositoryItemReaderBuilder<String>()
                 .repository(keywordRepository)
                 .methodName("findDistinctTextsByUniversity")
-                .arguments(university)
+                .arguments(University.valueOf(university))
                 .pageSize(chunkSize)
                 .maxItemCount(chunkSize)
-                .sorts(Map.of("id", Sort.Direction.ASC))
+                .sorts(Map.of("text", Sort.Direction.ASC))
                 .name("keywordReader")
                 .build();
     }
