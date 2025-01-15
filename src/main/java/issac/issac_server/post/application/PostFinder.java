@@ -20,7 +20,9 @@ public class PostFinder {
     private final PostRepository postRepository;
 
     public Post find(Long postId) {
-        return postRepository.findById(postId).orElseThrow(() -> new PostException(PostErrorCode.NOT_FOUND));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostException(PostErrorCode.NOT_FOUND));
+        post.validatePostIsActive();
+        return post;
     }
 
     public Page<Post> findPosts(PostSearchCondition condition, Pageable pageable) {
