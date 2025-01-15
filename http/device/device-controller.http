@@ -1,0 +1,8 @@
+### 업데이트 : 디바이스 토큰
+PUT {{BASE_URL}}/api/v1/devices
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "token" : "mock-1243"
+}
