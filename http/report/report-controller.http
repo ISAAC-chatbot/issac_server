@@ -1,0 +1,21 @@
+### 접수 : 신고
+POST {{BASE_URL}}/api/v1/reports
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "targetType": "POST",
+  "targetId": "1",
+  "type": "SPAM",
+  "content": "스팸입니다"
+}
+
+### 검색 : 신고
+GET {{BASE_URL}}/api/v1/reports
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 조회 : 신고
+GET {{BASE_URL}}/api/v1/reports/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json

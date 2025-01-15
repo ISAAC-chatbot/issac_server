@@ -7,6 +7,7 @@ import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
+import issac.issac_server.report.domain.ReportType;
 import issac.issac_server.user.domain.DegreeType;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.University;
@@ -32,6 +33,7 @@ public class EnumViewController {
         Map<String, String> targetType = getDocs(TargetType.values());
         Map<String, String> fileTargetType = getDocs(FileTargetType.values());
         Map<String, String> notificationType = getDocs(NotificationType.values());
+        Map<String, String> reportType = getDocs(ReportType.values());
 
         return Docs.testBuilder()
                 .role(role)
@@ -43,6 +45,7 @@ public class EnumViewController {
                 .targetType(targetType)
                 .fileTargetType(fileTargetType)
                 .notificationType(notificationType)
+                .reportType(reportType)
                 .build();
     }
 
