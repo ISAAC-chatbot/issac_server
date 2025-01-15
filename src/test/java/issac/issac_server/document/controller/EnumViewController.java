@@ -4,6 +4,7 @@ import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.common.domain.DescriptiveEnum;
 import issac.issac_server.file.domain.FileTargetType;
 import issac.issac_server.notice.domain.NoticeSource;
+import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.user.domain.DegreeType;
@@ -30,6 +31,7 @@ public class EnumViewController {
         Map<String, String> reactionType = getDocs(ReactionType.values());
         Map<String, String> targetType = getDocs(TargetType.values());
         Map<String, String> fileTargetType = getDocs(FileTargetType.values());
+        Map<String, String> notificationType = getDocs(NotificationType.values());
 
         return Docs.testBuilder()
                 .role(role)
@@ -40,6 +42,7 @@ public class EnumViewController {
                 .reactionType(reactionType)
                 .targetType(targetType)
                 .fileTargetType(fileTargetType)
+                .notificationType(notificationType)
                 .build();
     }
 

@@ -19,12 +19,13 @@ public class Docs {
     Map<String, String> reactionType;
     Map<String, String> targetType;
     Map<String, String> fileTargetType;
+    Map<String, String> notificationType;
 
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public Docs(Map<String, String> role, Map<String, String> oauthProvider, Map<String, String> university,
                 Map<String, String> degreeType, Map<String, String> noticeSource, Map<String, String> reactionType,
-                Map<String, String> targetType, Map<String, String> fileTargetType) {
+                Map<String, String> targetType, Map<String, String> fileTargetType, Map<String, String> notificationType) {
         this.role = role;
         this.oauthProvider = oauthProvider;
         this.university = university;
@@ -33,5 +34,6 @@ public class Docs {
         this.reactionType = reactionType;
         this.targetType = targetType;
         this.fileTargetType = fileTargetType;
+        this.notificationType = notificationType;
     }
 }

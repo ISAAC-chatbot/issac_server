@@ -1,0 +1,9 @@
+### 목록 검색 : 알림
+GET {{BASE_URL}}/api/v1/notifications
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### 읽음 상태 변경 : 알림
+PATCH {{BASE_URL}}/api/v1/notifications/{notificationId}/read
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
