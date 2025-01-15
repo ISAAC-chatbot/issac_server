@@ -29,10 +29,17 @@ public class NoticeDocFields {
             fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)")
     };
 
+    public static final FieldDescriptor[] NOTICE_FILE_REQUEST = new FieldDescriptor[]{
+            fieldWithPath("name").type(JsonFieldType.STRING).description("파일 이름"),
+            fieldWithPath("url").type(JsonFieldType.STRING).description("파일 url"),
+    };
+
     public static final FieldDescriptor[] NOTICE_FILE_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("name").type(JsonFieldType.STRING).description("파일 이름"),
             fieldWithPath("url").type(JsonFieldType.STRING).description("파일 url"),
     };
+
+
     public static final FieldDescriptor[] NOTICE_RESPONSE = mergeFields(
             new FieldDescriptor[]{
                     fieldWithPath("id").type(JsonFieldType.STRING).description("공지사항 ID"),
@@ -46,6 +53,21 @@ public class NoticeDocFields {
                     fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일")
             },
             generateFields("files[].", NOTICE_FILE_RESPONSE)
+    );
+
+    public static final FieldDescriptor[] NOTICE_CREATE_REQUEST = mergeFields(
+            new FieldDescriptor[]{
+                    fieldWithPath("university").type(JsonFieldType.STRING).description(generateLinkCode(UNIVERSITY)),
+                    fieldWithPath("source").type(JsonFieldType.STRING).description(generateLinkCode(NOTICE_SOURCE)),
+                    fieldWithPath("subCategory").type(JsonFieldType.STRING).description("서브 카테고리").optional(),
+                    fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                    fieldWithPath("rawContent").type(JsonFieldType.STRING).description("공지사항 내용(HTML)"),
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
+                    fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
+                    fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)"),
+                    fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일")
+            },
+            generateFields("files[].", NOTICE_FILE_REQUEST)
     );
 
 }

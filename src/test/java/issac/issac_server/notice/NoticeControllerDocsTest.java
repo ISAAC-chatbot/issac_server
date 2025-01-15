@@ -4,9 +4,10 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.notice.application.NoticeService;
+import issac.issac_server.notice.application.dto.request.NoticeCreateRequest;
+import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
 import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.response.NoticeResponse;
-import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
 import issac.issac_server.notice.presentation.NoticeController;
 import issac.issac_server.reaction.domain.ReactionType;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.request.ParameterDescriptor;
 
+import java.util.Base64;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
@@ -27,8 +29,7 @@ import static issac.issac_server.document.utils.DocumentFormatGenerator.*;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.REACTION_TYPE;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static issac.issac_server.notice.constant.NoticeDocFields.*;
-import static issac.issac_server.notice.constant.NoticeFactory.createMockNoticePreviewResponses;
-import static issac.issac_server.notice.constant.NoticeFactory.createMockNoticeResponse;
+import static issac.issac_server.notice.constant.NoticeFactory.*;
 import static issac.issac_server.notice.domain.NoticeSource.ACADEMIC_NOTICE;
 import static issac.issac_server.reaction.domain.ReactionType.SCRAP;
 import static issac.issac_server.user.domain.University.YONSEI;
@@ -39,6 +40,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,6 +51,40 @@ class NoticeControllerDocsTest extends RestDocsSupport {
     @Override
     protected Object initController() {
         return new NoticeController(noticeService);
+    }
+
+    @DisplayName("생성 : 공지사항")
+    @Test
+    void save() throws Exception {
+        // given
+        NoticeCreateRequest request = createMockNoticeCreateRequest();
+
+        String username = "your-username";
+        String password = "your-password";
+        String basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+        // when & then
+        mockMvc.perform(
+                        post("/api/v1/notices")
+                                .content(objectMapper.writeValueAsString(request))
+                                .header("Authorization", basicAuthHeader)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("post-v1-notice-save",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Notice API")
+                                .summary("공지사항 작성")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Basic 인증 헤더 (예: `Basic base64(username:password)`)") // 설명 수정
+                                )
+                                .requestFields(NOTICE_CREATE_REQUEST)
+                                .requestSchema(Schema.schema("NoticeCreateRequest"))
+                                .build())));
     }
 
     @DisplayName("검색 : 공지사항")
