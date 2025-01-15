@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,11 +18,12 @@ import java.util.HashMap;
 @EnableJpaRepositories(
         basePackages = "issac.issac_server",
         entityManagerFactoryRef = "dataEntityManager",
-        transactionManagerRef = "dataTransactionManager"
+        transactionManagerRef = "transactionManager"
 )
 public class DataDBConfig {
 
-    @Bean
+    @Bean(name = "dataSource")
+    @Primary
     @ConfigurationProperties(prefix = "spring.datasource-data")
     public DataSource dataDBSource() {
         return DataSourceBuilder.create().build();
@@ -46,7 +48,8 @@ public class DataDBConfig {
         return em;
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
+    @Primary
     public PlatformTransactionManager dataTransactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(dataEntityManager().getObject());
