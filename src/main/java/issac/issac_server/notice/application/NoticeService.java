@@ -4,7 +4,6 @@ import issac.issac_server.notice.application.dto.request.NoticeCreateRequest;
 import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
 import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.response.NoticeResponse;
-import issac.issac_server.notice.application.event.NoticeSaveEvent;
 import issac.issac_server.reaction.application.ReactionReader;
 import issac.issac_server.reaction.domain.Reaction;
 import issac.issac_server.reaction.domain.ReactionType;

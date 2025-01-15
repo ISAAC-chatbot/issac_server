@@ -38,11 +38,11 @@ public class User extends BaseTimeEntity {
     private EntityStatus entityStatus;
 
     public void active() {
-        entityStatus = EntityStatus.ACTIVE;
+        this.entityStatus = EntityStatus.ACTIVE;
     }
 
     public void delete() {
-        entityStatus = EntityStatus.DELETED;
+        this.entityStatus = EntityStatus.DELETED;
     }
 
     public User(OAuthInfo oAuthInfo) {
