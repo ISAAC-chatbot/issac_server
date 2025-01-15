@@ -14,18 +14,18 @@ import org.springframework.stereotype.Component;
 @StepScope
 public class BookmarkJobProcessor implements ItemProcessor<Bookmark, BookmarkQueueRequest> {
 
-    private final String id;
+    private final String entityId;
     private final String entityType;
     private final String title;
     private final String author;
 
     public BookmarkJobProcessor(
-            @Value("#{jobParameters['id']}") String id,
+            @Value("#{jobParameters['entityId']}") String entityId,
             @Value("#{jobParameters['entityType']}") String entityType,
             @Value("#{jobParameters['title']}") String title,
             @Value("#{jobParameters['author']}") String author
     ) {
-        this.id = id;
+        this.entityId = entityId;
         this.entityType = entityType;
         this.title = title;
         this.author = author;
@@ -38,10 +38,10 @@ public class BookmarkJobProcessor implements ItemProcessor<Bookmark, BookmarkQue
                 bookmark.getUserId(),
                 new NotificationRequest(
                         NotificationType.BOOKMARK,
-                        bookmark.getSource().toString(),
+                        bookmark.getSource().getDescription(),
                         title,
                         TargetType.valueOf(entityType),
-                        id,
+                        entityId,
                         author
                 )
         );

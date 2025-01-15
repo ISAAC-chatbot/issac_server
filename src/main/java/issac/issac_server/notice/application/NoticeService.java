@@ -29,7 +29,7 @@ public class NoticeService {
     @Transactional
     public void save(NoticeCreateRequest request) {
         String id = noticeAppender.append(request);
-        publisher.publishEvent(new NoticeSaveEvent(id));
+        publisher.publishEvent(new NoticeSaveEvent(id, request));
     }
 
     public Page<NoticePreviewResponse> search(NoticeSearchCondition condition, Pageable pageable) {

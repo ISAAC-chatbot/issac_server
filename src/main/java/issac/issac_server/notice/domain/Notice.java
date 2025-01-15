@@ -4,6 +4,7 @@ import issac.issac_server.notice.application.dto.response.NoticeFileResponse;
 import issac.issac_server.user.domain.University;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.lang.reflect.Field;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Notice {
 
     @Setter

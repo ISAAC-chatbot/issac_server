@@ -33,7 +33,7 @@ public class RabbitMQConfig {
         connectionFactory.setHost(host);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
-//        connectionFactory.getRabbitConnectionFactory().useSslProtocol();
+        connectionFactory.getRabbitConnectionFactory().useSslProtocol();
         return connectionFactory;
     }
 

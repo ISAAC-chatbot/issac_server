@@ -1,5 +1,7 @@
 package issac.issac_server.notice.domain;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,4 +14,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     void deleteAllByUserId(Long userId);
 
     List<Bookmark> findAllByUserId(Long userId);
+
+    // spring batch -> BookmarkJob
+    Page<Bookmark> findBySource(NoticeSource source, Pageable pageable);
 }

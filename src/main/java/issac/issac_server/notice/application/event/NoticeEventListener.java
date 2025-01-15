@@ -1,16 +1,17 @@
 package issac.issac_server.notice.application.event;
 
 import issac.issac_server.notice.application.NoticeFinder;
-import issac.issac_server.notice.domain.Notice;
+import issac.issac_server.notice.application.dto.request.NoticeCreateRequest;
 import issac.issac_server.reaction.domain.TargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @RequiredArgsConstructor
@@ -21,19 +22,19 @@ public class NoticeEventListener {
     private final JobRegistry jobRegistry;
 
     @Async
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void triggerNotificationJob(NoticeSaveEvent event) throws Exception{
 
-        Notice notice = noticeFinder.findNotice(event.getNoticeId());
+        NoticeCreateRequest request = event.getRequest();
 
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("entityId", notice.getId())
-                .addString("university",notice.getUniversity().toString())
-                .addString("source",notice.getSource().toString())
-                .addString("title",notice.getTitle())
-                .addString("content",notice.getContent())
+                .addString("entityId", event.getNoticeId())
+                .addString("university",request.getUniversity().toString())
+                .addString("source",request.getSource().toString())
+                .addString("title",request.getTitle())
+                .addString("content",request.getContent())
                 .addString("entityType", TargetType.NOTICE.toString())
-                .addString("author",notice.getAuthor())
+                .addString("author",request.getAuthor())
                 .toJobParameters();
 
         // 키워드 알림

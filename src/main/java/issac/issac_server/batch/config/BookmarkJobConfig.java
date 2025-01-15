@@ -5,6 +5,7 @@ import issac.issac_server.batch.application.BookmarkJobWriter;
 import issac.issac_server.batch.application.dto.BookmarkQueueRequest;
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.BookmarkRepository;
+import issac.issac_server.notice.domain.NoticeSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -73,7 +74,7 @@ public class BookmarkJobConfig {
         return new RepositoryItemReaderBuilder<Bookmark>()
                 .repository(bookmarkRepository)
                 .methodName("findBySource")
-                .arguments(source)
+                .arguments(NoticeSource.valueOf(source))
                 .pageSize(chunkSize)
                 .maxItemCount(chunkSize)
                 .sorts(Map.of("id", Sort.Direction.ASC))

@@ -15,7 +15,7 @@ public class BookmarkJobWriter implements ItemWriter<BookmarkQueueRequest> {
 
     @Override
     public void write(Chunk<? extends BookmarkQueueRequest> chunk) throws Exception {
-        rabbitTemplate.convertAndSend("notification-exchange", "bookmark-routing-key", chunk);
+        chunk.forEach(request -> rabbitTemplate.convertAndSend("notification-exchange", "bookmark-routing-key", request));
     }
 }
 

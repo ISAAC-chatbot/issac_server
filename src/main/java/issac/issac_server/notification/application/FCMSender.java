@@ -78,7 +78,7 @@ public class FCMSender {
             String response = firebaseMessaging.send(message);
             log.info("Single message sent successfully: {}", response);
         } catch (FirebaseMessagingException e) {
-            log.error("Error sending single FCM message", e);
+            log.warn("Error sending single FCM message");
         }
     }
 
