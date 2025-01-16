@@ -37,12 +37,23 @@ public class NoticeEventListener {
                 .addString("author",request.getAuthor())
                 .toJobParameters();
 
-        // 키워드 알림
-        jobLauncher.run(jobRegistry.getJob("keywordJob"), jobParameters);
+        // 키워드 알림 비동기 실행
+        runJobAsync("keywordJob", jobParameters);
 
-        // 북마크 알림
-        jobLauncher.run(jobRegistry.getJob("bookmarkJob"), jobParameters);
+        // 북마크 알림 비동기 실행
+        runJobAsync("bookmarkJob", jobParameters);
 
     }
 
+    @Async
+    public void runJobAsync(String jobName, JobParameters jobParameters) {
+        try {
+            jobLauncher.run(jobRegistry.getJob(jobName), jobParameters);
+        } catch (Exception e) {
+            // 예외 처리 로직
+            e.printStackTrace();
+        }
+    }
+
 }
+

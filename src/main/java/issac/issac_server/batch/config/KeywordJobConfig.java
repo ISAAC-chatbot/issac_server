@@ -35,7 +35,7 @@ public class KeywordJobConfig {
     private final KeywordJobProcessor keywordJobProcessor;
     private final KeywordJobWriter keywordJobWriter;
 
-    private final int chunkSize = 10;
+    private final int chunkSize = 50;
 
     @Bean
     public Job keywordJob() {
@@ -59,10 +59,14 @@ public class KeywordJobConfig {
     @Bean(name = "batchTaskExecutor")
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(4);
-        taskExecutor.setMaxPoolSize(4);
-        taskExecutor.setQueueCapacity(10);
+//        int coreCount = Runtime.getRuntime().availableProcessors();
+        taskExecutor.setCorePoolSize(64); // 코어 수 기반 설정
+        taskExecutor.setMaxPoolSize(64);
+        taskExecutor.setQueueCapacity(1000); // 대기열 크기 증가
         taskExecutor.setThreadNamePrefix("keyword-batch-thread-");
+        taskExecutor.setAllowCoreThreadTimeOut(true);
+        taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        taskExecutor.setAwaitTerminationSeconds(10);
         taskExecutor.initialize();
         return taskExecutor;
     }
