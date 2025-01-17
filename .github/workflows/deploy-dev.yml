@@ -61,12 +61,12 @@ jobs:
       - name: Prepare deployment package
         run: |
           
-          mkdir -p deploy/.platform/hooks/postdeploy
+          mkdir -p deploy/.platform/hooks/predeploy
           
           cp build/libs/*-SNAPSHOT.jar deploy/application.jar
           cp Procfile deploy/
           
-          cp scripts/* deploy/.platform/hooks/postdeploy/
+          cp scripts/* deploy/.platform/hooks/predeploy/
           
           cd deploy && zip -r $PROJECT_NAME ./* .platform
 
