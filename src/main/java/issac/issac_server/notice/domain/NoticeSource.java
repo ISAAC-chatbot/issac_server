@@ -34,7 +34,6 @@ public enum NoticeSource implements DescriptiveEnum {
 
     // 경영대학
     BUSINESS_COLLEGE("경영대학"),
-    BUSINESS_SCHOOL("경영학과"),
 
     // 이과대학
     NATURAL_SCIENCES_COLLEGE("이과대학"),
