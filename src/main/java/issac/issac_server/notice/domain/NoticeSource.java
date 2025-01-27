@@ -112,6 +112,7 @@ public enum NoticeSource implements DescriptiveEnum {
     INTERNATIONAL_COLLEGE_ACADEMIC_AFFAIRS("국제학부 Academic Affairs"),
     INTERNATIONAL_COLLEGE_STUDENT_SERVICES("국제학부 Student Services"),
     LAW("법학전문대학원"),
+    SCOLARSHIP("장학금"),
     ;
 
     private final String name;
