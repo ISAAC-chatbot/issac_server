@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.SETTING_TYPE;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static issac.issac_server.user.constant.UserDocFields.SETTING_RESPONSE;
 import static issac.issac_server.user.constant.UserDocFields.USER_CREATE_REQUEST;
 import static issac.issac_server.user.constant.UserFactory.createMockSettingResponse;
@@ -23,6 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,6 +91,9 @@ class UserControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("User API")
                                 .summary("사용자 설정 조회")
+                                .pathParameters(
+                                        parameterWithName("settingItem").description(generateLinkCode(SETTING_TYPE))
+                                )
                                 .requestHeaders(
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
@@ -119,6 +125,9 @@ class UserControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("User API")
                                 .summary("사용자 설정 상태 토글")
+                                .pathParameters(
+                                        parameterWithName("settingItem").description(generateLinkCode(SETTING_TYPE))
+                                )
                                 .requestHeaders(
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
