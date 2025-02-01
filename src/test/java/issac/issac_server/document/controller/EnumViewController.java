@@ -10,6 +10,7 @@ import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.report.domain.ReportType;
 import issac.issac_server.user.domain.DegreeType;
 import issac.issac_server.user.domain.Role;
+import issac.issac_server.user.domain.SettingType;
 import issac.issac_server.user.domain.University;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ public class EnumViewController {
         Map<String, String> fileTargetType = getDocs(FileTargetType.values());
         Map<String, String> notificationType = getDocs(NotificationType.values());
         Map<String, String> reportType = getDocs(ReportType.values());
+        Map<String, String> settingType = getDocs(SettingType.values());
 
         return Docs.testBuilder()
                 .role(role)
@@ -46,6 +48,7 @@ public class EnumViewController {
                 .fileTargetType(fileTargetType)
                 .notificationType(notificationType)
                 .reportType(reportType)
+                .settingType(settingType)
                 .build();
     }
 

@@ -25,6 +25,8 @@ public interface DocumentLinkGenerator {
         FILE_TARGET_TYPE("fileTargetType", "파일의 대상 타입"),
         NOTIFICATION_TYPE("notificationType", "알림 종류"),
         REPORT_TYPE("reportType", "신고 종류"),
+        SETTING_TYPE("settingType", "설정 목록"),
+
         ;
 
         private final String pageId;

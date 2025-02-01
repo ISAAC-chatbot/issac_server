@@ -1,7 +1,9 @@
 package issac.issac_server.user.constant;
 
+import issac.issac_server.user.application.dto.SettingResponse;
 import issac.issac_server.user.application.dto.UserCreateRequest;
 import issac.issac_server.user.domain.DegreeType;
+import issac.issac_server.user.domain.SettingType;
 
 import static issac.issac_server.user.domain.University.YONSEI;
 
@@ -17,6 +19,10 @@ public class UserFactory {
                 .schoolEmail("genie@yonsei.ac.kr")
                 .marketingConsent(true)
                 .build();
+    }
+
+    public static SettingResponse createMockSettingResponse() {
+        return new SettingResponse(SettingType.NOTIFICATION, true);
     }
 
 }

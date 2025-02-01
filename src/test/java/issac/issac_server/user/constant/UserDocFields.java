@@ -3,8 +3,7 @@ package issac.issac_server.user.constant;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.DEGREE_TYPE;
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.UNIVERSITY;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.*;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
@@ -18,5 +17,10 @@ public class UserDocFields {
             fieldWithPath("degree").type(JsonFieldType.STRING).description(generateLinkCode(DEGREE_TYPE)),
             fieldWithPath("schoolEmail").type(JsonFieldType.STRING).description("학교 이메일"),
             fieldWithPath("marketingConsent").type(JsonFieldType.BOOLEAN).description("광고성 정보 수신 동의 여부")
+    };
+
+    public static final FieldDescriptor[] SETTING_RESPONSE = new FieldDescriptor[]{
+            fieldWithPath("type").type(JsonFieldType.STRING).description(generateLinkCode(SETTING_TYPE)),
+            fieldWithPath("active").type(JsonFieldType.BOOLEAN).description("동의 여부"),
     };
 }
