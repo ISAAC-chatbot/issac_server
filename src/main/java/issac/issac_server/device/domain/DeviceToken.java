@@ -10,9 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@AllArgsConstructor
 @Table(name = "device_token")
 public class DeviceToken {
 
@@ -23,7 +23,20 @@ public class DeviceToken {
     @Column(nullable = false)
     private String token;
 
+    @Column(nullable = false)
+    private Boolean notificationConsent;
+
+    public DeviceToken(Long userId, String token) {
+        this.token = token;
+        this.userId = userId;
+        this.notificationConsent = true;
+    }
+
     public void updateToken(String token) {
         this.token = token;
+    }
+
+    public void toggleNotificationConsent() {
+        this.notificationConsent = !this.notificationConsent;
     }
 }

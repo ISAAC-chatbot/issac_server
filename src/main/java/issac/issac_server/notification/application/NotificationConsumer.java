@@ -36,14 +36,13 @@ public class NotificationConsumer {
     @Transactional
     public void receiveMessage(BookmarkQueueRequest message) {
 
-        try{
-            deviceTokenFinder.find(message.getUserId()).ifPresent(
+        try {
+            deviceTokenFinder.findWithNotificationConsent(message.getUserId()).ifPresent(
                     deviceToken -> fcmSender.send(message.getRequest(), deviceToken.getToken())
             );
 
             notificationAppender.append(message);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new AmqpRejectAndDontRequeueException("Message processing failed. Moving to DLQ", e);
         }
 

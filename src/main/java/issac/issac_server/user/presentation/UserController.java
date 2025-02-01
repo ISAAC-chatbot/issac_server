@@ -2,15 +2,14 @@ package issac.issac_server.user.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.user.application.UserService;
+import issac.issac_server.user.application.dto.SettingResponse;
 import issac.issac_server.user.application.dto.UserCreateRequest;
+import issac.issac_server.user.domain.SettingType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -26,5 +25,21 @@ public class UserController {
             @RequestBody UserCreateRequest request) {
         userService.signup(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/settings/{settingItem}")
+    public ResponseEntity<SettingResponse> findSetting(
+            @Auth Long userId,
+            @PathVariable SettingType settingItem
+    ) {
+        return ResponseEntity.ok(userService.findSetting(userId, settingItem));
+    }
+
+    @PatchMapping("/settings/{settingItem}")
+    public ResponseEntity<SettingResponse> toggleSetting(
+            @Auth Long userId,
+            @PathVariable SettingType settingItem
+    ) {
+        return ResponseEntity.ok().body(userService.toggleSetting(userId, settingItem));
     }
 }

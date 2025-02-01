@@ -55,4 +55,8 @@ public class User extends BaseTimeEntity {
         this.role = Role.STUDENT;
         this.marketingConsent = request.getMarketingConsent();
     }
+
+    public void toggleMarketingConsent() {
+        this.marketingConsent = !this.marketingConsent;
+    }
 }

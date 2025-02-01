@@ -19,7 +19,11 @@ public class DeviceTokenFinder {
         return deviceTokenRepository.findById(userId);
     }
 
-    public Set<String> findDistinctTokens(List<Long> userIds){
+    public Optional<DeviceToken> findWithNotificationConsent(Long userId) {
+        return deviceTokenRepository.findByUserIdAndNotificationConsent(userId, true);
+    }
+
+    public Set<String> findDistinctTokens(List<Long> userIds) {
         return deviceTokenRepository.findDistinctTokensByUserIdIn(userIds);
     }
 }
