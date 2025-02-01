@@ -28,6 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/settings/{settingItem}")
+    @Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN"})
     public ResponseEntity<SettingResponse> findSetting(
             @Auth Long userId,
             @PathVariable SettingType settingItem
@@ -36,6 +37,7 @@ public class UserController {
     }
 
     @PatchMapping("/settings/{settingItem}")
+    @Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN"})
     public ResponseEntity<SettingResponse> toggleSetting(
             @Auth Long userId,
             @PathVariable SettingType settingItem
