@@ -12,3 +12,12 @@ Content-Type: application/json
   "schoolEmail": "kkj6235@ajou.ac.kr",
   "marketingConsent" : true
 }
+
+### 설정 상태 조회
+GET {{BASE_URL}}/api/v1/users/settings/NOTIFICATION
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+### 설정 상태 토글
+PATCH {{BASE_URL}}/api/v1/users/settings/NOTIFICATION
+Authorization: Bearer {{ACCESS_TOKEN}}
