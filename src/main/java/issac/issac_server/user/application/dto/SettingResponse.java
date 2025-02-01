@@ -13,10 +13,10 @@ public class SettingResponse {
     private final Boolean active;
 
     public static SettingResponse from(DeviceToken token) {
-        return new SettingResponse(SettingType.NOTIFICATION, token.getNotificationConsent());
+        return new SettingResponse(SettingType.NOTIFICATION, token.isNotificationConsent());
     }
 
     public static SettingResponse from(User user) {
-        return new SettingResponse(SettingType.MARKETING, user.getMarketingConsent());
+        return new SettingResponse(SettingType.MARKETING, user.isMarketingConsent());
     }
 }

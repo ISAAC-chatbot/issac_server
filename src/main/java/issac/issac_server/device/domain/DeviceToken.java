@@ -24,7 +24,7 @@ public class DeviceToken {
     private String token;
 
     @Column(nullable = false)
-    private Boolean notificationConsent;
+    private boolean notificationConsent;
 
     public DeviceToken(Long userId, String token) {
         this.token = token;

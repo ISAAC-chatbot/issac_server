@@ -32,7 +32,7 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     @Column
-    private Boolean marketingConsent;
+    private boolean marketingConsent;
 
     @Enumerated(EnumType.STRING)
     private EntityStatus entityStatus;
