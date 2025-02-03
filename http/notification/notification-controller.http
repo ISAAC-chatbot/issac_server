@@ -1,5 +1,5 @@
 ### 목록 검색 : 알림
-GET {{BASE_URL}}/api/v1/notifications
+GET {{BASE_URL}}/api/v1/notifications?notificationType=KEYWORD&read=true
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
 

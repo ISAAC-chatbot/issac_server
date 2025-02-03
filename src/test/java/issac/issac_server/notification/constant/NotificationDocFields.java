@@ -2,11 +2,12 @@ package issac.issac_server.notification.constant;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.NOTIFICATION_TYPE;
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.TARGET_TYPE;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.*;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 
 public class NotificationDocFields {
 
@@ -21,4 +22,11 @@ public class NotificationDocFields {
             fieldWithPath("createdAt").type(JsonFieldType.STRING).description("알림 생성 시간"),
             fieldWithPath("read").type(JsonFieldType.BOOLEAN).description("읽음 여부")
     };
+
+    public static final ParameterDescriptor[] NOTIFICATION_SEARCH_CONDITION = new ParameterDescriptor[]{
+            parameterWithName("notificationType").description(generateLinkCode(NOTIFICATION_TYPE)).optional(),
+            parameterWithName("entityType").description(generateLinkCode(TARGET_TYPE)).optional(),
+            parameterWithName("read").description("읽음 여부").optional()
+    };
+
 }

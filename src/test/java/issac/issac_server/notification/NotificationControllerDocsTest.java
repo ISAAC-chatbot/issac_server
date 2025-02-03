@@ -5,6 +5,7 @@ import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.notification.application.NotificationService;
 import issac.issac_server.notification.application.dto.NotificationResponse;
+import issac.issac_server.notification.application.dto.NotificationSearchCondition;
 import issac.issac_server.notification.presentation.NotificationController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,15 +14,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 
 import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.document.utils.ApiDocumentUtils.*;
-import static issac.issac_server.document.utils.DocumentFormatGenerator.generateFields;
-import static issac.issac_server.document.utils.DocumentFormatGenerator.mergeFields;
+import static issac.issac_server.document.utils.DocumentFormatGenerator.*;
 import static issac.issac_server.notification.constant.NotificationDocFields.NOTIFICATION_RESPONSE;
+import static issac.issac_server.notification.constant.NotificationDocFields.NOTIFICATION_SEARCH_CONDITION;
 import static issac.issac_server.notification.constant.NotificationFactory.createMockNotificationResponses;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -52,7 +54,7 @@ class NotificationControllerDocsTest extends RestDocsSupport {
         Pageable pageable = PageRequest.of(0, 10);
         Page<NotificationResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
 
-        given(notificationService.findNotifications(any(), any(Pageable.class))).willReturn(pageResponses);
+        given(notificationService.findNotifications(any(), any(NotificationSearchCondition.class), any(Pageable.class))).willReturn(pageResponses);
 
         // when & then
         mockMvc.perform(
@@ -74,10 +76,13 @@ class NotificationControllerDocsTest extends RestDocsSupport {
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
-                                .queryParameters(
-                                        pageParam(),
-                                        sizeParam()
-                                )
+                                .queryParameters(mergeParameters(
+                                        new ParameterDescriptor[]{
+                                                pageParam(),
+                                                sizeParam(),
+                                        },
+                                        NOTIFICATION_SEARCH_CONDITION
+                                ))
                                 .responseFields(mergeFields(
                                         PAGE_RESPONSE,
                                         generateFields("content[].", NOTIFICATION_RESPONSE)
@@ -88,11 +93,11 @@ class NotificationControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("읽음 상태 변경 : 알림")
     @Test
-    void markAsRead() throws Exception{
+    void markAsRead() throws Exception {
 
         // when & then
         mockMvc.perform(
-                        patch("/api/v1/notifications/{notificationId}/read",1L)
+                        patch("/api/v1/notifications/{notificationId}/read", 1L)
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

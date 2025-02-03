@@ -1,14 +1,13 @@
 package issac.issac_server.notification.application;
 
+import issac.issac_server.notification.application.dto.NotificationSearchCondition;
 import issac.issac_server.notification.domain.Notification;
-import issac.issac_server.notification.domain.NotificationRepository;
+import issac.issac_server.notification.domain.repository.NotificationRepository;
 import issac.issac_server.notification.exception.NotificationErrorCode;
 import issac.issac_server.notification.exception.NotificationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,9 +16,8 @@ public class NotificationFinder {
 
     private final NotificationRepository notificationRepository;
 
-    public Page<Notification> findNotifications(Long userId, Pageable pageable) {
-        Pageable sortedByIdDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "id"));
-        return notificationRepository.findByUserId(userId, sortedByIdDesc);
+    public Page<Notification> findNotifications(Long userId, NotificationSearchCondition condition, Pageable pageable) {
+        return notificationRepository.findNotifications(userId, condition , pageable);
     }
 
     public Notification find(Long notificationId) {

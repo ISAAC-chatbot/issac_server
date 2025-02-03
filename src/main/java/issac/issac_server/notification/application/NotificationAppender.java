@@ -4,7 +4,7 @@ import issac.issac_server.batch.application.dto.BookmarkQueueRequest;
 import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import issac.issac_server.notification.domain.Notification;
-import issac.issac_server.notification.domain.NotificationRepository;
+import issac.issac_server.notification.domain.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

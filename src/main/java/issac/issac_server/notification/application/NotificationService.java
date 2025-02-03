@@ -1,6 +1,7 @@
 package issac.issac_server.notification.application;
 
 import issac.issac_server.notification.application.dto.NotificationResponse;
+import issac.issac_server.notification.application.dto.NotificationSearchCondition;
 import issac.issac_server.notification.domain.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,8 +15,8 @@ public class NotificationService {
 
     private final NotificationFinder notificationFinder;
 
-    public Page<NotificationResponse> findNotifications(Long userId, Pageable pageable) {
-        return notificationFinder.findNotifications(userId, pageable).map(NotificationResponse::from);
+    public Page<NotificationResponse> findNotifications(Long userId, NotificationSearchCondition condition, Pageable pageable) {
+        return notificationFinder.findNotifications(userId, condition, pageable).map(NotificationResponse::from);
     }
 
     @Transactional
