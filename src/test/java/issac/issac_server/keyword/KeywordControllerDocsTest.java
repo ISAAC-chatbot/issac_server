@@ -93,7 +93,7 @@ class KeywordControllerDocsTest extends RestDocsSupport {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Keyword API")
-                                .summary("키워드 검색")
+                                .summary("내 키워드 목록 조회")
                                 .requestHeaders(
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
