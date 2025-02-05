@@ -7,6 +7,7 @@ import com.google.firebase.messaging.MulticastMessage;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class FCMSender {
         }
     }
 
+    @Async
     public void send(NotificationRequest request, Set<String> deviceTokens) {
 
         MulticastMessage message = MulticastMessage.builder()
