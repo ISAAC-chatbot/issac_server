@@ -1,0 +1,4 @@
+### 히스토리 검색: 챗봇
+GET {{BASE_URL}}/api/v1/chat/histories
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
