@@ -64,7 +64,10 @@ public class NoticeFinder {
                         return hit.source();
                     })
                     .orElseThrow(() -> new NoticeException(NoticeErrorCode.NOT_FOUND));
-        } catch (Exception e) {
+        } catch (NoticeException e) {
+            throw e;
+        }
+        catch (Exception e) {
             throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
         }
     }
