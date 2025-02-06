@@ -32,6 +32,9 @@ public class FCMSender {
                     .putData("notificationType", request.getNotificationType().toString())
                     .putData("title", request.getTitle())
                     .putData("content", request.getContent())
+                    .putData("entityType", request.getEntityType().toString())
+                    .putData("entityId", request.getEntityId())
+                    .putData("author", request.getAuthor())
                     .addAllTokens(batch)
                     .build();
 
@@ -54,6 +57,9 @@ public class FCMSender {
                 .putData("notificationType", request.getNotificationType().toString())
                 .putData("title", request.getTitle())
                 .putData("content", request.getContent())
+                .putData("entityType", request.getEntityType().toString())
+                .putData("entityId", request.getEntityId())
+                .putData("author", request.getAuthor())
                 .addAllTokens(deviceTokens)
                 .build();
 
@@ -73,6 +79,9 @@ public class FCMSender {
                 .putData("notificationType", request.getNotificationType().toString())
                 .putData("title", request.getTitle())
                 .putData("content", request.getContent())
+                .putData("entityType", request.getEntityType().toString())
+                .putData("entityId", request.getEntityId())
+                .putData("author", request.getAuthor())
                 .setToken(deviceToken)
                 .build();
 
