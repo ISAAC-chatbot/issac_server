@@ -29,7 +29,7 @@ public class NotificationRepositoryCustomImpl implements NotificationRepositoryC
     public Page<Notification> findNotifications(Long userId, NotificationSearchCondition condition, Pageable pageable) {
         JPAQuery<Notification> contentQuery = queryFactory
                 .selectFrom(notification).distinct()
-                .where(filterByCondition(condition))
+                .where(filterByCondition(userId, condition))
                 .orderBy(orderByCondition(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -37,18 +37,19 @@ public class NotificationRepositoryCustomImpl implements NotificationRepositoryC
         JPAQuery<Long> countQuery = queryFactory
                 .select(notification.countDistinct())
                 .from(notification)
-                .where(filterByCondition(condition));
+                .where(filterByCondition(userId, condition));
 
         List<Notification> notifications = contentQuery.fetch();
 
         return PageableExecutionUtils.getPage(notifications, pageable, countQuery::fetchOne);
     }
 
-    private BooleanBuilder filterByCondition(NotificationSearchCondition condition) {
+    private BooleanBuilder filterByCondition(Long userId, NotificationSearchCondition condition) {
 
         BooleanBuilder builder = new BooleanBuilder();
 
         return builder
+                .and(isUserNotification(userId))
                 .and(notificationTypeEq(condition.getNotificationType()))
                 .and(entityTypeEq(condition.getEntityType()))
                 .and(notificationIsRead(condition.getRead()));
@@ -58,6 +59,10 @@ public class NotificationRepositoryCustomImpl implements NotificationRepositoryC
         return new OrderSpecifier[]{
                 new OrderSpecifier<>(Order.DESC, notification.id)
         };
+    }
+
+    private BooleanExpression isUserNotification(Long userId) {
+        return userId != null ? notification.userId.eq(userId) : null;
     }
 
     private BooleanExpression notificationTypeEq(NotificationType type) {
