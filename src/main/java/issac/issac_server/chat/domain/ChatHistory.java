@@ -1,6 +1,8 @@
 package issac.issac_server.chat.domain;
 
 import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
+import issac.issac_server.chat.exception.ChatErrorCode;
+import issac.issac_server.chat.exception.ChatException;
 import issac.issac_server.common.domain.BaseCreateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,5 +41,11 @@ public class ChatHistory extends BaseCreateTimeEntity {
                 .answer(request.getAnswer())
                 .sourceURL(request.getSourceURL())
                 .build();
+    }
+
+    public void validateIsAuthor(Long userId) {
+        if (!this.userId.equals(userId)) {
+            throw new ChatException(ChatErrorCode.USER_IS_NOT_AUTHOR);
+        }
     }
 }

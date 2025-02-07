@@ -30,4 +30,10 @@ public class ChatController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @DeleteMapping("/histories/{historyId}")
+    public ResponseEntity<Void> deleteHistory(@Auth Long userId, @PathVariable Long historyId) {
+        chatService.deleteHistory(userId, historyId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

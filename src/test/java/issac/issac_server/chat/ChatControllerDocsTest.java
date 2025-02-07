@@ -31,8 +31,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,7 +67,7 @@ class ChatControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
-                                .tag("Chat API")
+                                .tag("ChatBot API")
                                 .summary("챗봇 히스토리 목록 조회")
                                 .requestHeaders(
                                         headerWithName("Authorization")
@@ -105,7 +104,7 @@ class ChatControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
-                                .tag("Chat API")
+                                .tag("ChatBot API")
                                 .summary("챗봇 히스토리 생성")
                                 .requestHeaders(
                                         headerWithName("Authorization")
@@ -113,6 +112,30 @@ class ChatControllerDocsTest extends RestDocsSupport {
                                 )
                                 .requestFields(CHAT_HISTORY_CREATE_REQUEST)
                                 .requestSchema(Schema.schema("ChatHistoryCreateRequest"))
+                                .build())));
+    }
+
+    @DisplayName("삭제 : 챗봇 히스토리")
+    @Test
+    void deleteHistory() throws Exception {
+
+        // when & then
+        mockMvc.perform(
+                        delete("/api/v1/chat/histories/{historyId}", 1L)
+                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andDo(document("delete-v1-chat-deleteHistory",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("ChatBot API")
+                                .summary("챗봇 히스토리 삭제")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
                                 .build())));
     }
 }
