@@ -1,9 +1,6 @@
 package issac.issac_server.notification.application;
 
-import com.google.firebase.messaging.BatchResponse;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.*;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +20,18 @@ public class FCMSender {
 
     private static final int MAX_TOKENS_PER_BATCH = 800;
 
+    @Async
     public void sendBulk(NotificationRequest request, Set<String> deviceTokens) {
 
         List<List<String>> tokenBatches = splitIntoBatches(new ArrayList<>(deviceTokens), MAX_TOKENS_PER_BATCH);
 
         for (List<String> batch : tokenBatches) {
             MulticastMessage message = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(request.getTitle())
+                            .setBody(request.getContent())
+                            .build()
+                    )
                     .putData("notificationType", request.getNotificationType().toString())
                     .putData("title", request.getTitle())
                     .putData("content", request.getContent())
@@ -54,6 +57,11 @@ public class FCMSender {
     public void send(NotificationRequest request, Set<String> deviceTokens) {
 
         MulticastMessage message = MulticastMessage.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(request.getTitle())
+                        .setBody(request.getContent())
+                        .build()
+                )
                 .putData("notificationType", request.getNotificationType().toString())
                 .putData("title", request.getTitle())
                 .putData("content", request.getContent())
@@ -73,9 +81,14 @@ public class FCMSender {
             log.error("Error sending FCM messages", e);
         }
     }
-
+    @Async
     public void send(NotificationRequest request, String deviceToken) {
         com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(request.getTitle())
+                        .setBody(request.getContent())
+                        .build()
+                )
                 .putData("notificationType", request.getNotificationType().toString())
                 .putData("title", request.getTitle())
                 .putData("content", request.getContent())
