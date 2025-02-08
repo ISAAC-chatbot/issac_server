@@ -1,6 +1,5 @@
 package issac.issac_server.notice.application.event;
 
-import issac.issac_server.notice.application.NoticeFinder;
 import issac.issac_server.notice.application.dto.request.NoticeCreateRequest;
 import issac.issac_server.reaction.domain.TargetType;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +7,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -17,9 +17,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class NoticeEventListener {
 
-    private final NoticeFinder noticeFinder;
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
+    private final ApplicationContext applicationContext;
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
@@ -37,12 +37,9 @@ public class NoticeEventListener {
                 .addString("author",request.getAuthor())
                 .toJobParameters();
 
-        // 키워드 알림 비동기 실행
-        runJobAsync("keywordJob", jobParameters);
-
-        // 북마크 알림 비동기 실행
-        runJobAsync("bookmarkJob", jobParameters);
-
+        NoticeEventListener self = applicationContext.getBean(NoticeEventListener.class);
+        self.runJobAsync("keywordJob", jobParameters);
+        self.runJobAsync("bookmarkJob", jobParameters);
     }
 
     @Async
