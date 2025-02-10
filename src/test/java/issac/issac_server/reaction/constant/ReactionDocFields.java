@@ -14,4 +14,9 @@ public class ReactionDocFields {
             fieldWithPath("targetId").type(JsonFieldType.STRING).description("대상 ID"),
             fieldWithPath("type").type(JsonFieldType.STRING).description(generateLinkCode(REACTION_TYPE)),
     };
+    public static final FieldDescriptor[] REACTION_RESPONSE = new FieldDescriptor[]{
+            fieldWithPath("reactionType").type(JsonFieldType.STRING).description(generateLinkCode(REACTION_TYPE)),
+            fieldWithPath("selected").type(JsonFieldType.BOOLEAN).description("사용자 선택 여부")
+    };
+
 }

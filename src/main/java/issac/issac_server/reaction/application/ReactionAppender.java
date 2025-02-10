@@ -6,6 +6,8 @@ import issac.issac_server.reaction.domain.ReactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class ReactionAppender {
@@ -14,11 +16,14 @@ public class ReactionAppender {
     private final ReactionRemover reactionRemover;
     private final ReactionRepository reactionRepository;
 
-    public void append(Long userId, ReactionCreateRequest request) {
-        reactionReader.find(userId, request)
-                .ifPresentOrElse(
-                        reaction -> reactionRemover.remove(reaction.getId()),
-                        () -> reactionRepository.save(Reaction.from(userId, request))
-                );
+    public Optional<Reaction> append(Long userId, ReactionCreateRequest request) {
+        return reactionReader.find(userId, request)
+                .map(reaction -> {
+                    reactionRemover.remove(reaction.getId());
+                    return Optional.<Reaction>empty();
+                })
+                .orElseGet(() -> Optional.of(reactionRepository.save(Reaction.from(userId, request))));
     }
+
+
 }
