@@ -19,4 +19,9 @@ public class AuthWebController {
         return ResponseEntity.ok().body(code);
     }
 
+    @GetMapping("/oauth/apple/login/code")
+    public ResponseEntity<String> appleRedirect(@RequestParam String code) {
+        return ResponseEntity.ok().body(code);
+    }
+
 }
