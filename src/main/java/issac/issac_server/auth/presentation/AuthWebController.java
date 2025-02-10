@@ -20,7 +20,7 @@ public class AuthWebController {
         return ResponseEntity.ok().body(code);
     }
 
-    @GetMapping("/oauth/apple/login/code")
+    @PostMapping("/oauth/apple/login/code")
     public ResponseEntity<String> appleRedirect(@RequestBody AppleAuthorizationCodeRequest request) {
         return ResponseEntity.ok().body(request.getCode());
     }

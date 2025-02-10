@@ -76,10 +76,10 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.configurationSource(request -> {
             var config = new org.springframework.web.cors.CorsConfiguration();
-            config.setAllowedOrigins(Arrays.asList("http://localhost:3000", deployUrl)); // 허용할 Origin 설정
+            config.setAllowedOriginPatterns(Arrays.asList("*")); // 허용할 Origin 설정
             config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
             config.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더
-            config.setAllowCredentials(true); // 인증 정보 포함 허용
+//            config.setAllowCredentials(true); // 인증 정보 포함 허용
             return config;
         }));
 
