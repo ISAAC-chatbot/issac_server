@@ -1,5 +1,6 @@
 package issac.issac_server.auth.presentation;
 
+import issac.issac_server.auth.application.dto.AppleAuthorizationCodeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class AuthWebController {
     }
 
     @GetMapping("/oauth/apple/login/code")
-    public ResponseEntity<String> appleRedirect(@RequestParam String code) {
-        return ResponseEntity.ok().body(code);
+    public ResponseEntity<String> appleRedirect(@RequestBody AppleAuthorizationCodeRequest request) {
+        return ResponseEntity.ok().body(request.getCode());
     }
 
 }
