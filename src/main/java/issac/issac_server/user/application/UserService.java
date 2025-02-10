@@ -2,6 +2,7 @@ package issac.issac_server.user.application;
 
 import issac.issac_server.user.application.dto.SettingResponse;
 import issac.issac_server.user.application.dto.UserCreateRequest;
+import issac.issac_server.user.application.dto.UserResponse;
 import issac.issac_server.user.domain.SettingType;
 import issac.issac_server.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ public class UserService {
     private final UserAppender userAppender;
     private final SettingFinder settingFinder;
     private final SettingUpdater settingUpdater;
+
+    public UserResponse findUser(Long userId) {
+        User user = userFinder.find(userId);
+        return UserResponse.from(user);
+    }
 
     @Transactional
     public void signup(Long userId, UserCreateRequest request) {

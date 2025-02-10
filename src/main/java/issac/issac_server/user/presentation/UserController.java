@@ -4,6 +4,7 @@ import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.user.application.UserService;
 import issac.issac_server.user.application.dto.SettingResponse;
 import issac.issac_server.user.application.dto.UserCreateRequest;
+import issac.issac_server.user.application.dto.UserResponse;
 import issac.issac_server.user.domain.SettingType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    @Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN"})
+    public ResponseEntity<UserResponse> findUser(@Auth Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findUser(userId));
+    }
+
 
     @PostMapping("/signup")
     @Secured({"ROLE_UNREGISTERED_PROFILE"})
