@@ -50,10 +50,10 @@ public class AuthFacadeService {
     }
 
     @Transactional
-    public void revoke(Long userId, OAuthTokenRequest request) {
+    public void revoke(Long userId, String token) {
         User user = userFinder.find(userId);
-        OAuthClient oAuthClient = findOAuthClient(request.getProvider());
-        oAuthClient.revoke(request);
+        OAuthClient oAuthClient = findOAuthClient(user.getOauthInformation().getOauthProvider());
+        oAuthClient.revoke(token);
         authService.revoke(user);
     }
 }

@@ -2,9 +2,7 @@ package issac.issac_server.auth.application.oauth.google;
 
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class GoogleFeignConfig {
 
     @Bean

@@ -11,7 +11,7 @@ public class AuthDocFields {
 
     public static final FieldDescriptor[] OAUTH_TOKEN_REQUEST = new FieldDescriptor[]{
             fieldWithPath("provider").type(JsonFieldType.STRING).description(generateLinkCode(OAUTH_PROVIDER_TYPE)),
-            fieldWithPath("oauthToken").type(JsonFieldType.STRING).description("OAuth 토큰")
+            fieldWithPath("oauthToken").type(JsonFieldType.STRING).description("Google, Kakao : Access Token \t  / Apple : ID Token ")
     };
 
     public static final FieldDescriptor[] LOGIN_RESPONSE = new FieldDescriptor[]{

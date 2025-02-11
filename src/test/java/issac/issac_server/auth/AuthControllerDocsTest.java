@@ -18,7 +18,9 @@ import static issac.issac_server.auth.constant.AuthFactory.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -160,12 +162,11 @@ class AuthControllerDocsTest extends RestDocsSupport {
     @Test
     void revoke() throws Exception {
 
-        OAuthTokenRequest request = createMockOAuthTokenRequest(OAuthProviderType.KAKAO, "mock-access-token-43210");
 
         // when & then
         mockMvc.perform(
-                        delete("/api/v1/auth/revoke")
-                                .content(objectMapper.writeValueAsString(request))
+                        delete("/api/v1/auth/revoke?token=token")
+                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -176,7 +177,13 @@ class AuthControllerDocsTest extends RestDocsSupport {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Auth API")
                                 .summary("계정 탈퇴")
-                                .requestFields(OAUTH_TOKEN_REQUEST)
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
+                                .queryParameters(
+                                        parameterWithName("token").description("Google, Kakao : Access Token \t / Apple : Refresh Token")
+                                )
                                 .build())));
 
     }
