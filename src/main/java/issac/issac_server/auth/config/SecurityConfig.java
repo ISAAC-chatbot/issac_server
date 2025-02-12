@@ -46,7 +46,7 @@ public class SecurityConfig {
     private String deployUrl;
 
     public static final String PERMITTED_URI[] = {"/api/v1/auth/login", "/api/v1/auth/guest-login", "/api/v1/auth/refresh",
-            "/api/v1/auth/email", "/oauth/**", "/docs/**", "/favicon.ico", "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**", "/error"};
+            "/api/v1/auth/email", "/oauth/**", "/docs/**", "/favicon.ico", "/v3/api-docs/**", "/js/custom-swagger.js", "/health/**", "/error", "/error/unauthorized"};
 
     private static final String[] ALL_ROLES = Arrays.stream(Role.values())
             .map(Enum::name)

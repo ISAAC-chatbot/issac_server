@@ -2,6 +2,7 @@ package issac.issac_server.auth.infrastructure;
 
 import issac.issac_server.auth.exception.AuthErrorCode;
 import issac.issac_server.auth.exception.AuthException;
+import issac.issac_server.common.exception.IssacException;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.User;
 import jakarta.servlet.FilterChain;
@@ -44,29 +45,45 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String accessToken = jwtTokenProvider.resolveToken(request);
+        try{
+            String accessToken = jwtTokenProvider.resolveToken(request);
 
-        if (!jwtTokenProvider.validateAccessToken(accessToken)) {
-            throw new AuthException(AuthErrorCode.INVALID_JWT);
-        }
+            if (!jwtTokenProvider.validateAccessToken(accessToken)) {
+                throw new AuthException(AuthErrorCode.INVALID_JWT);
+            }
 
-        String role = jwtTokenProvider.getRoleFromAccessToken(accessToken);
+            String role = jwtTokenProvider.getRoleFromAccessToken(accessToken);
 
-        if (role.equals("GUEST")) {
-            // GUEST 역할을 가진 사용자를 SecurityContext에 설정
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(
-                            "anonymousUser",  // 사용자 이름
-                            null,             // 자격 증명 (비밀번호 없음)
-                            List.of(new SimpleGrantedAuthority("ROLE_GUEST")) // GUEST 권한 부여
-                    )
-            );
+            if (role.equals("GUEST")) {
+                // GUEST 역할을 가진 사용자를 SecurityContext에 설정
+                SecurityContextHolder.getContext().setAuthentication(
+                        new UsernamePasswordAuthenticationToken(
+                                "anonymousUser",  // 사용자 이름
+                                null,             // 자격 증명 (비밀번호 없음)
+                                List.of(new SimpleGrantedAuthority("ROLE_GUEST")) // GUEST 권한 부여
+                        )
+                );
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            setAuthenticationToContext(accessToken);
             filterChain.doFilter(request, response);
-            return;
+        }
+        catch (IssacException e){
+            SecurityContextHolder.clearContext();
+
+            // 기존 요청 정보를 request 속성에 저장
+            request.setAttribute("exception", e);
+            request.setAttribute("originalMethod", request.getMethod());
+            request.setAttribute("originalURI", request.getRequestURI());
+            request.setAttribute("originalQueryString", request.getQueryString());
+
+            // `/error/unauthorized`로 포워딩
+            request.getRequestDispatcher("/error/unauthorized").forward(request, response);
         }
 
-        setAuthenticationToContext(accessToken);
-        filterChain.doFilter(request, response);
+
     }
 
     private boolean isPermittedURI(String requestURI) {
