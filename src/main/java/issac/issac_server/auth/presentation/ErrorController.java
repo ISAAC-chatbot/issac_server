@@ -22,18 +22,18 @@ public class ErrorController {
 
         IssacException e = (IssacException) request.getAttribute("exception");
 
-        // 기존 요청 정보 가져오기
-        String originalMethod = (String) request.getAttribute("originalMethod");
-        String originalURI = (String) request.getAttribute("originalURI");
-        String originalQueryString = (String) request.getAttribute("originalQueryString");
-
-        // 요청 정보와 예외 로그 남기기
-        log.error("[IssacException] Method: {}, RequestURI: {}{}, Exception: {}, Message: {}",
-                originalMethod,
-                originalURI,
-                (originalQueryString != null ? "?" + originalQueryString : ""), // 쿼리 파라미터 있으면 추가
-                e.getClass().getSimpleName(),
-                e.getMessage());
+//        // 기존 요청 정보 가져오기
+//        String originalMethod = (String) request.getAttribute("originalMethod");
+//        String originalURI = (String) request.getAttribute("originalURI");
+//        String originalQueryString = (String) request.getAttribute("originalQueryString");
+//
+//        // 요청 정보와 예외 로그 남기기
+//        log.error("[IssacException] Method: {}, RequestURI: {}{}, Exception: {}, Message: {}",
+//                originalMethod,
+//                originalURI,
+//                (originalQueryString != null ? "?" + originalQueryString : ""), // 쿼리 파라미터 있으면 추가
+//                e.getClass().getSimpleName(),
+//                e.getMessage());
 
 
         ExceptionResponse response = ExceptionResponse.from(e);

@@ -75,9 +75,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 기존 요청 정보를 request 속성에 저장
             request.setAttribute("exception", e);
-            request.setAttribute("originalMethod", request.getMethod());
-            request.setAttribute("originalURI", request.getRequestURI());
-            request.setAttribute("originalQueryString", request.getQueryString());
+//            request.setAttribute("originalMethod", request.getMethod());
+//            request.setAttribute("originalURI", request.getRequestURI());
+//            request.setAttribute("originalQueryString", request.getQueryString());
 
             // `/error/unauthorized`로 포워딩
             request.getRequestDispatcher("/error/unauthorized").forward(request, response);

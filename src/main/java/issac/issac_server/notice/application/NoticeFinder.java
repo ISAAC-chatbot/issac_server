@@ -134,6 +134,7 @@ public class NoticeFinder {
                         .field("createdDate") // 날짜 필드
                         .order(SortOrder.Desc) // 최신순 정렬
                 ))
+                .trackTotalHits(v->v.enabled(true))
         );
     }
 
