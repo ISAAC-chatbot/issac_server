@@ -1,5 +1,6 @@
 package issac.issac_server.auth.infrastructure;
 
+import issac.issac_server.common.domain.EntityStatus;
 import issac.issac_server.user.domain.User;
 import issac.issac_server.user.domain.repository.UserRepository;
 import issac.issac_server.user.exception.UserErrorCode;
@@ -19,7 +20,7 @@ public class CustomUserDetails implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findById(Long.valueOf(username))
+        User user = userRepository.findByIdAndEntityStatus(Long.valueOf(username), EntityStatus.ACTIVE)
                 .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST));
 
         return new UserPrincipal(user);
