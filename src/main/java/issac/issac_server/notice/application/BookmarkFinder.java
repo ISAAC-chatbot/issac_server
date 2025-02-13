@@ -2,12 +2,12 @@ package issac.issac_server.notice.application;
 
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.BookmarkRepository;
-import issac.issac_server.notice.domain.NoticeSource;
+import issac.issac_server.notice.exception.BookmarkErrorCode;
+import issac.issac_server.notice.exception.BookmarkException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -15,8 +15,8 @@ public class BookmarkFinder {
 
     private final BookmarkRepository bookmarkRepository;
 
-    public Optional<Bookmark> find(Long userId, NoticeSource source) {
-        return bookmarkRepository.findByUserIdAndSource(userId, source);
+    public Bookmark find(Long bookmarkId) {
+        return bookmarkRepository.findById(bookmarkId).orElseThrow(()-> new BookmarkException(BookmarkErrorCode.NOT_EXIST));
     }
 
     public List<Bookmark> search(Long userId) {
