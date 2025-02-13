@@ -16,4 +16,10 @@ public class BookmarkDocFields {
             fieldWithPath("sources[].").type(JsonFieldType.ARRAY).description(generateLinkCode(NOTICE_SOURCE)),
     };
 
+    public static final FieldDescriptor[] BOOKMARK_RESPONSE_V2 = new FieldDescriptor[]{
+            fieldWithPath("bookmarkId").type(JsonFieldType.NUMBER).description("북마크 ID"),
+            fieldWithPath("source").type(JsonFieldType.STRING).description(generateLinkCode(NOTICE_SOURCE)),
+            fieldWithPath("notificationConsent").type(JsonFieldType.BOOLEAN).description("알림 동의 여부")
+    };
+
 }
