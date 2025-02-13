@@ -77,8 +77,8 @@ public class BookmarkJobConfig {
     public RepositoryItemReader<Bookmark> bookmarkReader(@Value("#{jobParameters['source']}") String source) {
         return new RepositoryItemReaderBuilder<Bookmark>()
                 .repository(bookmarkRepository)
-                .methodName("findBySource")
-                .arguments(NoticeSource.valueOf(source))
+                .methodName("findBySourceAndNotificationConsent")
+                .arguments(NoticeSource.valueOf(source), true)
                 .pageSize(chunkSize)
                 .maxItemCount(chunkSize)
                 .sorts(Map.of("id", Sort.Direction.ASC))
