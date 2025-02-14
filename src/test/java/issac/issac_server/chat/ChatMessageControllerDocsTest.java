@@ -6,6 +6,7 @@ import issac.issac_server.RestDocsSupport;
 import issac.issac_server.chat.application.ChatService;
 import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
 import issac.issac_server.chat.application.dto.ChatMessageResponse;
+import issac.issac_server.chat.application.dto.ChatRoomInfoResponse;
 import issac.issac_server.chat.presentation.ChatMessageController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,8 @@ import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static issac.issac_server.chat.constant.ChatDocFields.CHAT_MESSAGE_CREATE_REQUEST;
-import static issac.issac_server.chat.constant.ChatDocFields.CHAT_MESSAGE_RESPONSE;
-import static issac.issac_server.chat.constant.ChatFactory.createMockChatMessageCreateRequest;
-import static issac.issac_server.chat.constant.ChatFactory.createMockChatMessageResponses;
+import static issac.issac_server.chat.constant.ChatDocFields.*;
+import static issac.issac_server.chat.constant.ChatFactory.*;
 import static issac.issac_server.document.utils.ApiDocumentUtils.*;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.generateFields;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.mergeFields;
@@ -91,7 +90,9 @@ class ChatMessageControllerDocsTest extends RestDocsSupport {
     void saveMessage() throws Exception {
         // given
         ChatMessageCreateRequest request = createMockChatMessageCreateRequest();
+        ChatRoomInfoResponse response = createMockChatRoomInfoResponse();
 
+        given(chatService.saveMessage(any(), any(ChatMessageCreateRequest.class))).willReturn(response);
         // when & then
         mockMvc.perform(
                         post("/api/v1/chat/messages")
@@ -113,6 +114,8 @@ class ChatMessageControllerDocsTest extends RestDocsSupport {
                                 )
                                 .requestFields(CHAT_MESSAGE_CREATE_REQUEST)
                                 .requestSchema(Schema.schema("ChatMessageCreateRequest"))
+                                .responseFields(CHAT_ROOM_INFO_RESPONSE)
+                                .responseSchema(Schema.schema("ChatRoomInfoResponse"))
                                 .build())));
     }
 

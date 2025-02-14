@@ -20,7 +20,7 @@ public class ChatDocFields {
             fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성 일시"),
     };
 
-    public static final FieldDescriptor[] CHAT_ROOM_RESPONSE = new FieldDescriptor[]{
+    public static final FieldDescriptor[] CHAT_ROOM_INFO_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("id").type(JsonFieldType.NUMBER).description("채팅방 ID"),
             fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
             fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성 일시"),

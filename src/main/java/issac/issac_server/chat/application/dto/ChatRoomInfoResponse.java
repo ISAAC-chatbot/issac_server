@@ -15,7 +15,7 @@ import static issac.issac_server.common.config.Constant.FORMAT_LOCAL_DATE_TIME;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatRoomResponse {
+public class ChatRoomInfoResponse {
 
     private Long id;
 
@@ -24,7 +24,7 @@ public class ChatRoomResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT_LOCAL_DATE_TIME)
     private LocalDateTime createdAt;
 
-    public static ChatRoomResponse from (ChatRoom chatRoom) {
-        return new ChatRoomResponse(chatRoom.getId(), chatRoom.getTitle(), chatRoom.getCreatedDateTime());
+    public static ChatRoomInfoResponse from (ChatRoom chatRoom) {
+        return new ChatRoomInfoResponse(chatRoom.getId(), chatRoom.getTitle(), chatRoom.getCreatedDateTime());
     }
 }

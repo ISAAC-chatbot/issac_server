@@ -2,7 +2,7 @@ package issac.issac_server.chat.constant;
 
 import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
 import issac.issac_server.chat.application.dto.ChatMessageResponse;
-import issac.issac_server.chat.application.dto.ChatRoomResponse;
+import issac.issac_server.chat.application.dto.ChatRoomInfoResponse;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -38,8 +38,8 @@ public class ChatFactory {
         return Arrays.asList(createMockChatMessageResponse(), createMockChatMessageResponse());
     }
 
-    public static ChatRoomResponse createMockChatRoomResponse() {
-        return ChatRoomResponse.builder()
+    public static ChatRoomInfoResponse createMockChatRoomInfoResponse() {
+        return ChatRoomInfoResponse.builder()
                 .id(1L)
                 .title("2025-1 학부 등록금 납부 일정")
                 .createdAt(LocalDateTime.now())
@@ -47,8 +47,8 @@ public class ChatFactory {
     }
 
 
-    public static List<ChatRoomResponse> createMockChatRoomResponses() {
-        return Arrays.asList(createMockChatRoomResponse(), createMockChatRoomResponse());
+    public static List<ChatRoomInfoResponse> createMockChatRoomInfoResponses() {
+        return Arrays.asList(createMockChatRoomInfoResponse(), createMockChatRoomInfoResponse());
     }
 
 

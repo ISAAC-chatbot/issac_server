@@ -3,7 +3,7 @@ package issac.issac_server.chat;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.chat.application.ChatService;
-import issac.issac_server.chat.application.dto.ChatRoomResponse;
+import issac.issac_server.chat.application.dto.ChatRoomInfoResponse;
 import issac.issac_server.chat.presentation.ChatRoomController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static issac.issac_server.chat.constant.ChatDocFields.CHAT_ROOM_RESPONSE;
-import static issac.issac_server.chat.constant.ChatFactory.createMockChatRoomResponses;
+import static issac.issac_server.chat.constant.ChatDocFields.CHAT_ROOM_INFO_RESPONSE;
+import static issac.issac_server.chat.constant.ChatFactory.createMockChatRoomInfoResponses;
 import static issac.issac_server.document.utils.ApiDocumentUtils.*;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.generateFields;
 import static issac.issac_server.document.utils.DocumentFormatGenerator.mergeFields;
@@ -44,9 +44,9 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
     @Test
     void findChatRooms() throws Exception {
         // given
-        List<ChatRoomResponse> responses = createMockChatRoomResponses();
+        List<ChatRoomInfoResponse> responses = createMockChatRoomInfoResponses();
         Pageable pageable = PageRequest.of(0, 10);
-        Page<ChatRoomResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
+        Page<ChatRoomInfoResponse> pageResponses = new PageImpl<>(responses, pageable, responses.size());
 
         given(chatService.findChatRooms(any(), any(Pageable.class))).willReturn(pageResponses);
 
@@ -75,7 +75,7 @@ class ChatRoomControllerDocsTest extends RestDocsSupport {
                                 )
                                 .responseFields(mergeFields(
                                         PAGE_RESPONSE,
-                                        generateFields("content[].", CHAT_ROOM_RESPONSE)
+                                        generateFields("content[].", CHAT_ROOM_INFO_RESPONSE)
                                 ))
                                 .build())));
     }

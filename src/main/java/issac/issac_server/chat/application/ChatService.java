@@ -2,7 +2,7 @@ package issac.issac_server.chat.application;
 
 import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
 import issac.issac_server.chat.application.dto.ChatMessageResponse;
-import issac.issac_server.chat.application.dto.ChatRoomResponse;
+import issac.issac_server.chat.application.dto.ChatRoomInfoResponse;
 import issac.issac_server.chat.application.message.ChatMessageAppender;
 import issac.issac_server.chat.application.message.ChatMessageFinder;
 import issac.issac_server.chat.domain.ChatRoom;
@@ -22,8 +22,8 @@ public class ChatService {
     private final ChatMessageFinder messageFinder;
     private final ChatMessageAppender messageAppender;
 
-    public Page<ChatRoomResponse> findChatRooms(Long userId, Pageable pageable) {
-        return chatRoomFinder.findAll(userId, pageable).map(ChatRoomResponse::from);
+    public Page<ChatRoomInfoResponse> findChatRooms(Long userId, Pageable pageable) {
+        return chatRoomFinder.findAll(userId, pageable).map(ChatRoomInfoResponse::from);
     }
 
     @Transactional
@@ -38,12 +38,14 @@ public class ChatService {
     }
 
     @Transactional
-    public void saveMessage(Long userId, ChatMessageCreateRequest request) {
+    public ChatRoomInfoResponse saveMessage(Long userId, ChatMessageCreateRequest request) {
         ChatRoom chatRoom = request.getChatRoomId() == null ?
                 chatRoomAppender.append(userId, request.getQuestion()) :
                 chatRoomFinder.find(request.getChatRoomId());
 
         messageAppender.append(userId, chatRoom, request);
+
+        return ChatRoomInfoResponse.from(chatRoom);
     }
 
 }

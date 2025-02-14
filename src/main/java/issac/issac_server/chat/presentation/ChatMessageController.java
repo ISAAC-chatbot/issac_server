@@ -4,6 +4,7 @@ import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.chat.application.ChatService;
 import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
 import issac.issac_server.chat.application.dto.ChatMessageResponse;
+import issac.issac_server.chat.application.dto.ChatRoomInfoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,9 +28,8 @@ public class ChatMessageController {
     }
 
     @PostMapping("/messages")
-    public ResponseEntity<Void> saveMessage(@Auth Long userId, @RequestBody @Valid ChatMessageCreateRequest request) {
-        chatService.saveMessage(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ChatRoomInfoResponse> saveMessage(@Auth Long userId, @RequestBody @Valid ChatMessageCreateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(chatService.saveMessage(userId, request));
     }
 
 }
