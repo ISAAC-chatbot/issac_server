@@ -21,12 +21,12 @@ public class ChatMessageController {
 
     private final ChatService chatService;
 
-    @GetMapping("/{chatRoomId}/histories")
+    @GetMapping("/{chatRoomId}/messages")
     public ResponseEntity<Page<ChatMessageResponse>> findMessages(@Auth Long userId, @PathVariable Long chatRoomId, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(chatService.findMessages(userId, chatRoomId, pageable));
     }
 
-    @PostMapping("/histories")
+    @PostMapping("/messages")
     public ResponseEntity<Void> saveMessage(@Auth Long userId, @RequestBody @Valid ChatMessageCreateRequest request) {
         chatService.saveMessage(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();

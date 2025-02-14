@@ -1,7 +1,8 @@
 package issac.issac_server.chat.constant;
 
-import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
-import issac.issac_server.chat.application.dto.ChatHistoryResponse;
+import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
+import issac.issac_server.chat.application.dto.ChatMessageResponse;
+import issac.issac_server.chat.application.dto.ChatRoomResponse;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -9,8 +10,9 @@ import java.util.List;
 
 public class ChatFactory {
 
-    public static ChatHistoryCreateRequest createMockChatHistoryCreateRequest() {
-        return ChatHistoryCreateRequest.builder()
+    public static ChatMessageCreateRequest createMockChatMessageCreateRequest() {
+        return ChatMessageCreateRequest.builder()
+                .chatRoomId(1L)
                 .question("2025-1 학부 등록금 납부 일정")
                 .answer("2025-1 학부 등록금 납부 일정은 다음과 같습니다:\n" +
                         "\n" +
@@ -20,9 +22,8 @@ public class ChatFactory {
                 .build();
     }
 
-    public static ChatHistoryResponse createMockChatHistoryResponse() {
-        return ChatHistoryResponse.builder()
-                .id(1L)
+    public static ChatMessageResponse createMockChatMessageResponse() {
+        return ChatMessageResponse.builder()
                 .question("2025-1 학부 등록금 납부 일정")
                 .answer("2025-1 학부 등록금 납부 일정은 다음과 같습니다:\n" +
                         "\n" +
@@ -33,7 +34,22 @@ public class ChatFactory {
                 .build();
     }
 
-    public static List<ChatHistoryResponse> createMockChatHistoryResponses() {
-        return Arrays.asList(createMockChatHistoryResponse(), createMockChatHistoryResponse());
+    public static List<ChatMessageResponse> createMockChatMessageResponses() {
+        return Arrays.asList(createMockChatMessageResponse(), createMockChatMessageResponse());
     }
+
+    public static ChatRoomResponse createMockChatRoomResponse() {
+        return ChatRoomResponse.builder()
+                .id(1L)
+                .title("2025-1 학부 등록금 납부 일정")
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+
+    public static List<ChatRoomResponse> createMockChatRoomResponses() {
+        return Arrays.asList(createMockChatRoomResponse(), createMockChatRoomResponse());
+    }
+
+
 }

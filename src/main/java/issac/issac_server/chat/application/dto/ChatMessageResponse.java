@@ -17,8 +17,6 @@ import static issac.issac_server.common.config.Constant.FORMAT_LOCAL_DATE_TIME;
 @Builder
 public class ChatMessageResponse {
 
-    private Long id;
-
     private String question;
 
     private String answer;
@@ -28,10 +26,8 @@ public class ChatMessageResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT_LOCAL_DATE_TIME)
     private LocalDateTime createdAt;
 
-
     public static ChatMessageResponse from(ChatMessage message) {
         return new ChatMessageResponse(
-                message.getId(),
                 message.getQuestion(),
                 message.getAnswer(),
                 message.getSourceURL(),
