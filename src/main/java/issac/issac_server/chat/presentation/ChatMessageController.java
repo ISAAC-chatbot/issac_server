@@ -2,8 +2,8 @@ package issac.issac_server.chat.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.chat.application.ChatService;
-import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
-import issac.issac_server.chat.application.dto.ChatHistoryResponse;
+import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
+import issac.issac_server.chat.application.dto.ChatMessageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chat")
 @Secured({"ROLE_USER", "ROLE_STUDENT", "ROLE_TEACHING_ASSISTANT", "ROLE_PROFESSOR", "ROLE_ADMIN"})
-public class ChatHistoryController {
+public class ChatMessageController {
 
     private final ChatService chatService;
 
     @GetMapping("/{chatRoomId}/histories")
-    public ResponseEntity<Page<ChatHistoryResponse>> findHistories(@Auth Long userId, @PathVariable Long chatRoomId, Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(chatService.findHistories(userId, chatRoomId, pageable));
+    public ResponseEntity<Page<ChatMessageResponse>> findMessages(@Auth Long userId, @PathVariable Long chatRoomId, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatService.findMessages(userId, chatRoomId, pageable));
     }
 
     @PostMapping("/histories")
-    public ResponseEntity<Void> saveHistory(@Auth Long userId, @RequestBody @Valid ChatHistoryCreateRequest request) {
-        chatService.saveHistory(userId, request);
+    public ResponseEntity<Void> saveMessage(@Auth Long userId, @RequestBody @Valid ChatMessageCreateRequest request) {
+        chatService.saveMessage(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

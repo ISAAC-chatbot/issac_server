@@ -1,6 +1,6 @@
 package issac.issac_server.chat.domain;
 
-import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
+import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
 import issac.issac_server.common.domain.BaseCreateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,14 +10,14 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "chat_history")
+@Table(name = "chat_message")
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatHistory extends BaseCreateTimeEntity {
+public class ChatMessage extends BaseCreateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "history_id")
+    @Column(name = "message_id")
     private Long id;
 
     @Column(name = "chat_room_id", nullable = false)
@@ -32,8 +32,8 @@ public class ChatHistory extends BaseCreateTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String sourceURL;
 
-    public static ChatHistory from(Long chatRoomId, ChatHistoryCreateRequest request) {
-        return ChatHistory.builder()
+    public static ChatMessage from(Long chatRoomId, ChatMessageCreateRequest request) {
+        return ChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .question(request.getQuestion())
                 .answer(request.getAnswer())

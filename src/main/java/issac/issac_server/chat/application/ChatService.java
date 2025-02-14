@@ -1,10 +1,10 @@
 package issac.issac_server.chat.application;
 
-import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
-import issac.issac_server.chat.application.dto.ChatHistoryResponse;
+import issac.issac_server.chat.application.dto.ChatMessageCreateRequest;
+import issac.issac_server.chat.application.dto.ChatMessageResponse;
 import issac.issac_server.chat.application.dto.ChatRoomResponse;
-import issac.issac_server.chat.application.history.ChatHistoryAppender;
-import issac.issac_server.chat.application.history.ChatHistoryFinder;
+import issac.issac_server.chat.application.message.ChatMessageAppender;
+import issac.issac_server.chat.application.message.ChatMessageFinder;
 import issac.issac_server.chat.domain.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,8 @@ public class ChatService {
     private final ChatRoomFinder chatRoomFinder;
     private final ChatRoomRemover chatRoomRemover;
     private final ChatRoomAppender chatRoomAppender;
-    private final ChatHistoryFinder historyFinder;
-    private final ChatHistoryAppender historyAppender;
+    private final ChatMessageFinder messageFinder;
+    private final ChatMessageAppender messageAppender;
 
     public Page<ChatRoomResponse> findChatRooms(Long userId, Pageable pageable) {
         return chatRoomFinder.findAll(userId, pageable).map(ChatRoomResponse::from);
@@ -32,18 +32,18 @@ public class ChatService {
         chatRoomRemover.remove(userId, chatRoom);
     }
 
-    public Page<ChatHistoryResponse> findHistories(Long userId, Long chatRoomId, Pageable pageable) {
+    public Page<ChatMessageResponse> findMessages(Long userId, Long chatRoomId, Pageable pageable) {
         ChatRoom chatRoom = chatRoomFinder.find(chatRoomId);
-        return historyFinder.findHistories(userId, chatRoom, pageable).map(ChatHistoryResponse::from);
+        return messageFinder.findHistories(userId, chatRoom, pageable).map(ChatMessageResponse::from);
     }
 
     @Transactional
-    public void saveHistory(Long userId, ChatHistoryCreateRequest request) {
+    public void saveMessage(Long userId, ChatMessageCreateRequest request) {
         ChatRoom chatRoom = request.getChatRoomId() == null ?
                 chatRoomAppender.append(userId, request.getQuestion()) :
                 chatRoomFinder.find(request.getChatRoomId());
 
-        historyAppender.append(userId, chatRoom, request);
+        messageAppender.append(userId, chatRoom, request);
     }
 
 }

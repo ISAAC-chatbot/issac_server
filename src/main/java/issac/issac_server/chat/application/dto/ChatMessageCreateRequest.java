@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class ChatHistoryCreateRequest {
+public class ChatMessageCreateRequest {
 
     private Long chatRoomId;
 

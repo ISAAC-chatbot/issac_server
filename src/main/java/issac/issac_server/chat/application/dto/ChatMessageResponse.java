@@ -1,7 +1,7 @@
 package issac.issac_server.chat.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import issac.issac_server.chat.domain.ChatHistory;
+import issac.issac_server.chat.domain.ChatMessage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import static issac.issac_server.common.config.Constant.FORMAT_LOCAL_DATE_TIME;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatHistoryResponse {
+public class ChatMessageResponse {
 
     private Long id;
 
@@ -29,13 +29,13 @@ public class ChatHistoryResponse {
     private LocalDateTime createdAt;
 
 
-    public static ChatHistoryResponse from(ChatHistory history) {
-        return new ChatHistoryResponse(
-                history.getId(),
-                history.getQuestion(),
-                history.getAnswer(),
-                history.getSourceURL(),
-                history.getCreatedDateTime()
+    public static ChatMessageResponse from(ChatMessage message) {
+        return new ChatMessageResponse(
+                message.getId(),
+                message.getQuestion(),
+                message.getAnswer(),
+                message.getSourceURL(),
+                message.getCreatedDateTime()
         );
     }
 }
