@@ -1,6 +1,6 @@
 package issac.issac_server.reaction.domain;
 
-import issac.issac_server.common.domain.BaseTimeEntity;
+import issac.issac_server.common.domain.BaseCreateTimeEntity;
 import issac.issac_server.reaction.application.dto.ReactionCreateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "reaction")
-public class Reaction extends BaseTimeEntity {
+public class Reaction extends BaseCreateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

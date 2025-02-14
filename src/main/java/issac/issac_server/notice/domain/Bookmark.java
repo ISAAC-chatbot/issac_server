@@ -1,6 +1,6 @@
 package issac.issac_server.notice.domain;
 
-import issac.issac_server.common.domain.BaseTimeEntity;
+import issac.issac_server.common.domain.BaseCreateTimeEntity;
 import issac.issac_server.notice.exception.BookmarkErrorCode;
 import issac.issac_server.notice.exception.BookmarkException;
 import jakarta.persistence.*;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Builder
 @Entity
 @Table(name = "bookmark")
-public class Bookmark extends BaseTimeEntity {
+public class Bookmark extends BaseCreateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
