@@ -25,7 +25,8 @@ public class NoticeFactory {
                 "인문예술진흥사업단, 2025-1 후배 사랑 한끼 나눔 사업 신청 안내(~25.1.5.)",
                 "인문예술진흥사업단",
                 "2024-12-17",
-                createMockNoticeFileRequests()
+                createMockNoticeFileRequests(),
+                "https://www.yonsei.ac.kr/sc/support/notice.jsp?mode=view&article_no=241809&board_wrapper=%2Fsc%2Fsupport%2Fnotice.jsp&pager.offset=0&search:search_key:search_or=article_text&search:search_key2:search_or=article_title&search:search_val:search_or=%25C0%25CE%25B9%25AE%25BF%25B9%25BC%25FA%25C1%25F8%25C8%25EF%25BB%25E7%25BE%25F7%25B4%25DC&board_no=15"
         );
     }
 
@@ -48,6 +49,7 @@ public class NoticeFactory {
                 .createdDate("2024-12-17")
                 .scrap(false)
                 .files(createMockNoticeFileResponses())
+                .url("https://www.yonsei.ac.kr/sc/support/notice.jsp?mode=view&article_no=241809&board_wrapper=%2Fsc%2Fsupport%2Fnotice.jsp&pager.offset=0&search:search_key:search_or=article_text&search:search_key2:search_or=article_title&search:search_val:search_or=%25C0%25CE%25B9%25AE%25BF%25B9%25BC%25FA%25C1%25F8%25C8%25EF%25BB%25E7%25BE%25F7%25B4%25DC&board_no=15")
                 .build();
     }
 

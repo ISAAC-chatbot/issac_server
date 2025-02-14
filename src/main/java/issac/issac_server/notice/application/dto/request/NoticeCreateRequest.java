@@ -38,4 +38,6 @@ public class NoticeCreateRequest {
     private String createdDate;
 
     private List<NoticeFileRequest> files;
+
+    private String url;
 }

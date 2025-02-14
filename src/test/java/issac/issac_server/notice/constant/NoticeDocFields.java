@@ -50,7 +50,8 @@ public class NoticeDocFields {
                     fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)"),
                     fieldWithPath("scrap").type(JsonFieldType.BOOLEAN).description("스크랩 여부"),
-                    fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일")
+                    fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일"),
+                    fieldWithPath("url").type(JsonFieldType.STRING).description("원본 사이트 URL")
             },
             generateFields("files[].", NOTICE_FILE_RESPONSE)
     );
@@ -65,7 +66,8 @@ public class NoticeDocFields {
                     fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
                     fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
                     fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)"),
-                    fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일")
+                    fieldWithPath("files[]").type(JsonFieldType.ARRAY).description("첨부파일"),
+                    fieldWithPath("url").type(JsonFieldType.STRING).description("원본 사이트 URL")
             },
             generateFields("files[].", NOTICE_FILE_REQUEST)
     );

@@ -24,6 +24,7 @@ public class NoticeResponse {
     private String createdDate;
     private List<NoticeFileResponse> files;
     private Boolean scrap;
+    private String url;
 
     public NoticeResponse markAsScrap() {
         this.scrap = true;
