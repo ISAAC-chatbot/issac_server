@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatHistoryCreateRequest {
 
+    private Long chatRoomId;
+
     @NotBlank
     private String question;
 

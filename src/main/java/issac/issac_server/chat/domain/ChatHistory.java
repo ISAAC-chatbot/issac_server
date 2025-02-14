@@ -1,8 +1,6 @@
 package issac.issac_server.chat.domain;
 
 import issac.issac_server.chat.application.dto.ChatHistoryCreateRequest;
-import issac.issac_server.chat.exception.ChatErrorCode;
-import issac.issac_server.chat.exception.ChatException;
 import issac.issac_server.common.domain.BaseCreateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,8 +20,8 @@ public class ChatHistory extends BaseCreateTimeEntity {
     @Column(name = "history_id")
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "chat_room_id", nullable = false)
+    private Long chatRoomId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String question;
@@ -34,18 +32,13 @@ public class ChatHistory extends BaseCreateTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String sourceURL;
 
-    public static ChatHistory from(Long userId, ChatHistoryCreateRequest request) {
+    public static ChatHistory from(Long chatRoomId, ChatHistoryCreateRequest request) {
         return ChatHistory.builder()
-                .userId(userId)
+                .chatRoomId(chatRoomId)
                 .question(request.getQuestion())
                 .answer(request.getAnswer())
                 .sourceURL(request.getSourceURL())
                 .build();
     }
 
-    public void validateIsAuthor(Long userId) {
-        if (!this.userId.equals(userId)) {
-            throw new ChatException(ChatErrorCode.USER_IS_NOT_AUTHOR);
-        }
-    }
 }

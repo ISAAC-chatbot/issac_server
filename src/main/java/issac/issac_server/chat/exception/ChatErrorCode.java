@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ChatErrorCode implements ErrorCode {
 
-    HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "CHAT_001", "채팅 히스토리를 찾을 수 없습니다."),
-    USER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN, "CHAT_002", "해당 기록의 수정권한이 없습니다."),
+    ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "CHAT_001", "채팅방을 찾을 수 없습니다."),
+    USER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN, "CHAT_002", "해당 채팅방의 수정권한이 없습니다."),
+    ROOM_DELETED(HttpStatus.NOT_FOUND, "CHAT_003", "삭제된 채팅방입니다."),
+
     ;
     private final HttpStatus statusCode;
     private final String errorCode;

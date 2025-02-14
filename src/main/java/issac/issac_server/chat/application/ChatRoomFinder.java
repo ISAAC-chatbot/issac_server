@@ -29,6 +29,11 @@ public class ChatRoomFinder {
     }
 
     public ChatRoom find(Long chatRoomId) {
-        return chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.ROOM_NOT_FOUND));
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.ROOM_NOT_FOUND));
+
+        if (chatRoom.getEntityStatus() == EntityStatus.DELETED) {
+            throw new ChatException(ChatErrorCode.ROOM_DELETED);
+        }
+        return chatRoom;
     }
 }

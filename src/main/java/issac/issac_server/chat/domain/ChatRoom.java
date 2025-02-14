@@ -40,14 +40,12 @@ public class ChatRoom extends BaseTimeEntity {
     }
 
 
-//    public static ChatRoom from(Long userId, ChatHistoryCreateRequest request) {
-//        return ChatRoom.builder()
-//                .userId(userId)
-//                .question(request.getQuestion())
-//                .answer(request.getAnswer())
-//                .sourceURL(request.getSourceURL())
-//                .build();
-//    }
+    public static ChatRoom from(Long userId, String title) {
+        return ChatRoom.builder()
+                .userId(userId)
+                .title(title)
+                .build();
+    }
 
     public void validateIsAuthor(Long userId) {
         if (!this.userId.equals(userId)) {
