@@ -38,7 +38,7 @@ public class NoticeService {
 
     public NoticeResponse find(Long userId, String noticeId) {
         NoticeResponse noticeResponse = noticeFinder.find(noticeId);
-        boolean isScrap = reactionReader.exists(userId, TargetType.NOTICE, noticeResponse.getId(), ReactionType.SCRAP);
+        boolean isScrap = userId != null && reactionReader.exists(userId, TargetType.NOTICE, noticeResponse.getId(), ReactionType.SCRAP);
         return isScrap ? noticeResponse.markAsScrap() : noticeResponse.unmarkAsScrap();
     }
 
