@@ -8,7 +8,9 @@ import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,8 +29,15 @@ public class ReactionReader {
     }
 
     public Page<Reaction> find(Long userId, TargetType targetType, ReactionType type, Pageable pageable) {
-        return reactionRepository.findByUserIdAndTargetTypeAndType(userId, targetType, type, pageable);
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "targetCreatedAt")
+        );
+
+        return reactionRepository.findByUserIdAndTargetTypeAndType(userId, targetType, type, sortedPageable);
     }
+
 
     public boolean exists(Long userId, TargetType targetType, String targetId, ReactionType reactionType) {
         return reactionRepository.existsByUserIdAndTargetTypeAndTargetIdAndType(userId, targetType, targetId, reactionType);

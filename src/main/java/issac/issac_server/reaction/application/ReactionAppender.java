@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -46,20 +45,9 @@ public class ReactionAppender {
      */
     private LocalDate getTargetCreatedDate(TargetType targetType, String targetId) {
         return switch (targetType) {
-            case NOTICE -> {
-                String createdDate = noticeFinder.find(targetId).getCreatedDate();
-                yield LocalDate.parse(createdDate, DateTimeFormatter.ISO_DATE);
-            }
-            case POST -> {
-                LocalDateTime createdDateTime = postFinder.find(Long.valueOf(targetId)).getCreatedDateTime();
-                yield createdDateTime.toLocalDate();
-            }
-            case COMMENT -> {
-                LocalDateTime createdDateTime1 = commentFinder.find(Long.valueOf(targetId)).getCreatedDateTime();
-                yield createdDateTime1.toLocalDate();
-            }
+            case NOTICE -> LocalDate.parse(noticeFinder.find(targetId).getCreatedDate(), DateTimeFormatter.ISO_DATE);
+            case POST -> postFinder.find(Long.valueOf(targetId)).getCreatedDateTime().toLocalDate();
+            case COMMENT -> commentFinder.find(Long.valueOf(targetId)).getCreatedDateTime().toLocalDate();
         };
     }
-
-
 }

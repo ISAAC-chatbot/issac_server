@@ -3,7 +3,6 @@ package issac.issac_server.notice.application;
 import issac.issac_server.notice.application.dto.request.NoticeSearchCondition;
 import issac.issac_server.notice.application.dto.response.NoticePreviewResponse;
 import issac.issac_server.notice.application.dto.response.NoticeResponse;
-import issac.issac_server.notice.domain.Notice;
 import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.notice.exception.NoticeErrorCode;
 import issac.issac_server.notice.exception.NoticeException;
@@ -72,26 +71,8 @@ public class NoticeFinder {
         }
     }
 
-    public Notice findNotice(String noticeId) {
-        try {
-            SearchRequest request = buildFindNoticeRequest(noticeId);
-
-            SearchResponse<Notice> response = openSearchClient.search(request, Notice.class);
-
-            return response.hits().hits().stream()
-                    .findFirst()
-                    .map(hit -> {
-                        assert hit.source() != null;
-                        hit.source().setId(hit.id());
-                        return hit.source();
-                    })
-                    .orElseThrow(() -> new NoticeException(NoticeErrorCode.NOT_FOUND));
-        } catch (Exception e) {
-            throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
-        }
-    }
-
     public Page<NoticePreviewResponse> findByReactions(Page<Reaction> reactions) {
+
         List<String> noticeIds = reactions.getContent().stream()
                 .map(Reaction::getTargetId)
                 .collect(Collectors.toList());
@@ -108,7 +89,7 @@ public class NoticeFinder {
 
             List<NoticePreviewResponse> notices = extractNoticePreviewResponses(response);
 
-            return new PageImpl<>(notices, reactions.getPageable(), response.hits().total().value());
+            return new PageImpl<>(notices, reactions.getPageable(), reactions.getTotalElements());
         } catch (Exception e) {
             throw new NoticeException(NoticeErrorCode.SEARCH_FAILED);
         }
@@ -150,17 +131,6 @@ public class NoticeFinder {
         );
     }
 
-    private SearchRequest buildFindNoticeRequest(String noticeId) {
-        return SearchRequest.of(searchRequest -> searchRequest
-                .index("notice")
-                .source(source -> source
-                        .filter(filter -> filter
-                                .includes(Notice.getFieldNames())
-                        )
-                )
-                .query(query -> query.ids(ids -> ids.values(noticeId)))
-        );
-    }
 
     private SearchRequest buildFindByIdsRequest(List<String> noticeIds) {
         return SearchRequest.of(searchRequest -> searchRequest
@@ -170,7 +140,11 @@ public class NoticeFinder {
                                 .includes(NoticePreviewResponse.getFieldNames()) // 필요한 필드만 포함
                         )
                 )
-                .query(query -> query.ids(ids -> ids.values(noticeIds))) // ID 리스트로 조회
+                .query(query -> query.ids(ids -> ids.values(noticeIds)))
+                .sort(sort -> sort.field(f -> f
+                        .field("createdDate") // 날짜 필드
+                        .order(SortOrder.Desc) // 최신순 정렬
+                ))
         );
     }
 
