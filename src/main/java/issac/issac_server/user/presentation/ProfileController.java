@@ -7,10 +7,7 @@ import issac.issac_server.user.application.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users/profile")
@@ -25,8 +22,8 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.findProfile(userId));
     }
 
-    @PutMapping
-    public ResponseEntity<ProfileResponse> updateMyProfile(@Auth Long userId, ProfileUpdateRequest request) {
+    @PatchMapping
+    public ResponseEntity<ProfileResponse> updateMyProfile(@Auth Long userId, @RequestBody ProfileUpdateRequest request) {
         return ResponseEntity.ok(profileService.updateMyProfile(userId, request));
     }
 

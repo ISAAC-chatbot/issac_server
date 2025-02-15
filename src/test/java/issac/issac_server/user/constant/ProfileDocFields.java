@@ -21,10 +21,10 @@ public class ProfileDocFields {
     };
 
     public static final FieldDescriptor[] PROFILE_UPDATE_REQUEST = new FieldDescriptor[]{
-            fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-            fieldWithPath("collegeName").type(JsonFieldType.STRING).description("단과 대학"),
-            fieldWithPath("department").type(JsonFieldType.STRING).description("학과"),
-            fieldWithPath("degree").type(JsonFieldType.STRING).description(generateLinkCode(DEGREE_TYPE)),
-            fieldWithPath("profilePhotoUrl").type(JsonFieldType.STRING).description("프로필 사진 URL")
+            fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임").optional(),
+            fieldWithPath("collegeName").type(JsonFieldType.STRING).description("단과 대학").optional(),
+            fieldWithPath("department").type(JsonFieldType.STRING).description("학과").optional(),
+            fieldWithPath("degree").type(JsonFieldType.STRING).description(generateLinkCode(DEGREE_TYPE)).optional(),
+            fieldWithPath("profilePhotoUrl").type(JsonFieldType.STRING).description("프로필 사진 URL").optional()
     };
 }

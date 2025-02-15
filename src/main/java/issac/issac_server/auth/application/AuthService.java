@@ -67,7 +67,7 @@ public class AuthService {
     public void revoke(User user) {
         user.delete();
 
-        if (!user.getProfile().getProfilePhotoUrl().equals(DEFAULT_PHOTO)) {
+        if (!user.getProfile().getProfilePhotoUrl().endsWith(DEFAULT_PHOTO)) {
             s3Remover.deleteObjectByUrl(user.getProfile().getProfilePhotoUrl());
             user.getProfile().delete();
         }

@@ -51,11 +51,11 @@ public class Profile {
     }
 
     public void update(ProfileUpdateRequest request) {
-        this.nickname = request.getNickname();
-        this.collegeName = request.getCollegeName();
-        this.department = request.getDepartment();
-        this.degree = request.getDegree();
-        this.profilePhotoUrl = request.getProfilePhotoUrl();
+        this.nickname = request.getNickname() != null ? request.getNickname() : this.nickname;
+        this.collegeName = request.getCollegeName() != null ? request.getCollegeName() : this.collegeName;
+        this.department = request.getDepartment() != null ? request.getDepartment() : this.department;
+        this.degree = request.getDegree() != null ? request.getDegree() : this.degree;
+        this.profilePhotoUrl = request.getProfilePhotoUrl() != null ? request.getProfilePhotoUrl() : this.profilePhotoUrl;
     }
 
     public void delete() {
