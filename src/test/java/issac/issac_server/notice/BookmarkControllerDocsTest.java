@@ -4,7 +4,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.notice.application.BookmarkService;
-import issac.issac_server.notice.application.dto.request.BookmarkCreateRequest;
+import issac.issac_server.notice.application.dto.request.BookmarkUpdateRequest;
 import issac.issac_server.notice.application.dto.response.BookmarkResponse;
 import issac.issac_server.notice.presentation.BookmarkController;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +13,10 @@ import org.springframework.http.MediaType;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
-import static issac.issac_server.notice.constant.BookmarkDocFields.BOOKMARK_CREATE_REQUEST;
 import static issac.issac_server.notice.constant.BookmarkDocFields.BOOKMARK_RESPONSE;
-import static issac.issac_server.notice.constant.BookmarkFactory.createMockBookmarkCreateRequest;
+import static issac.issac_server.notice.constant.BookmarkDocFields.BOOKMARK_UPDATE_REQUEST;
 import static issac.issac_server.notice.constant.BookmarkFactory.createMockBookmarkResponse;
+import static issac.issac_server.notice.constant.BookmarkFactory.createMockBookmarkUpdateRequest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -40,10 +40,10 @@ class BookmarkControllerDocsTest extends RestDocsSupport {
     @Test
     void update() throws Exception {
         // given
-        BookmarkCreateRequest request = createMockBookmarkCreateRequest();
+        BookmarkUpdateRequest request = createMockBookmarkUpdateRequest();
         BookmarkResponse response = createMockBookmarkResponse();
 
-        given(bookmarkService.update(any(), any(BookmarkCreateRequest.class))).willReturn(response);
+        given(bookmarkService.update(any(), any(BookmarkUpdateRequest.class))).willReturn(response);
         // when & then
         mockMvc.perform(
                         put("/api/v1/notices/bookmarks")
@@ -63,7 +63,7 @@ class BookmarkControllerDocsTest extends RestDocsSupport {
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
-                                .requestFields(BOOKMARK_CREATE_REQUEST)
+                                .requestFields(BOOKMARK_UPDATE_REQUEST)
                                 .requestSchema(Schema.schema("BookmarkCreateRequest"))
                                 .responseFields(BOOKMARK_RESPONSE)
                                 .responseSchema(Schema.schema("BookmarkResponse"))

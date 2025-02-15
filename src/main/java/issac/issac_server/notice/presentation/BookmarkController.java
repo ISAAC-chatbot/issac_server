@@ -2,7 +2,7 @@ package issac.issac_server.notice.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.notice.application.BookmarkService;
-import issac.issac_server.notice.application.dto.request.BookmarkCreateRequest;
+import issac.issac_server.notice.application.dto.request.BookmarkUpdateRequest;
 import issac.issac_server.notice.application.dto.response.BookmarkResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class BookmarkController {
     @PutMapping
     public ResponseEntity<BookmarkResponse> update(
             @Auth Long userId,
-            @Valid @RequestBody BookmarkCreateRequest request
+            @Valid @RequestBody BookmarkUpdateRequest request
     ) {
         return ResponseEntity.ok(bookmarkService.update(userId, request));
     }

@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookmarkResponseV2 {
 
-    private Long bookmarkId;
     private NoticeSource source;
     private boolean notificationConsent;
 
     public static BookmarkResponseV2 from(Bookmark bookmark) {
-        return new BookmarkResponseV2(bookmark.getId(), bookmark.getSource(), bookmark.isNotificationConsent());
+        return new BookmarkResponseV2(bookmark.getSource(), bookmark.isNotificationConsent());
     }
 
 }

@@ -44,6 +44,14 @@ public class Bookmark extends BaseCreateTimeEntity {
                 .collect(Collectors.toList());
     }
 
+    public static Bookmark of(Long userId, NoticeSource source) {
+        return Bookmark.builder()
+                .userId(userId)
+                .source(source)
+                .notificationConsent(true)
+                .build();
+    }
+
     public static List<NoticeSource> extractSources(List<Bookmark> bookmarks) {
         return bookmarks.stream()
                 .map(Bookmark::getSource) // 각 Bookmark 객체의 source 추출

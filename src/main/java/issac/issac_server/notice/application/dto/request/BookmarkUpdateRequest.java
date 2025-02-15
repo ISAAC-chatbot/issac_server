@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookmarkCreateRequest {
+public class BookmarkUpdateRequest {
     @NotNull
-    private NoticeSource source;
+    private List<NoticeSource> sources;
 }

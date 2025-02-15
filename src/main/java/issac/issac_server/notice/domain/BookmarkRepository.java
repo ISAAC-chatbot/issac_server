@@ -17,4 +17,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     // spring batch -> BookmarkJob
     Page<Bookmark> findBySourceAndNotificationConsent(NoticeSource source, boolean notificationConsent, Pageable pageable);
+
+    void deleteByUserIdAndSource(Long userId, NoticeSource source);
+
 }
