@@ -134,7 +134,7 @@ class ReportControllerDocsTest extends RestDocsSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("get-v1-post-findPost",
+                .andDo(document("get-v1-report-find",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
