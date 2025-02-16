@@ -1,5 +1,7 @@
 package issac.issac_server.post.application;
 
+import issac.issac_server.comment.application.CommentFinder;
+import issac.issac_server.comment.domain.Comment;
 import issac.issac_server.post.application.dto.request.PostCreateRequest;
 import issac.issac_server.post.application.dto.request.PostSearchCondition;
 import issac.issac_server.post.application.dto.request.PostUpdateRequest;
@@ -39,6 +41,7 @@ public class PostService {
     private final PostPhotoUpdater postPhotoUpdater;
     private final ReactionReader reactionReader;
     private final PostRemover postRemover;
+    private final CommentFinder commentFinder;
 
     private final ApplicationEventPublisher publisher;
 
@@ -96,5 +99,10 @@ public class PostService {
 
     public Page<PostPreviewResponse> findPostsWithMyComment(Long userId, Pageable pageable) {
         return postFinder.findPostsWithMyComment(userId, pageable);
+    }
+
+    public PostResponse findPostByCommentId(Long userId, Long commentId) {
+        Comment comment = commentFinder.find(commentId);
+        return find(userId,comment.getPostId());
     }
 }

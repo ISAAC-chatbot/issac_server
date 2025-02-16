@@ -92,4 +92,13 @@ public class PostController {
         return ResponseEntity.ok(postService.findPostsWithMyComment(userId, pageable));
     }
 
+
+    @GetMapping("/from-comment")
+    public ResponseEntity<PostResponse> findPostByCommentId(
+            @Auth Long userId,
+            @RequestParam Long commentId
+    ) {
+        return ResponseEntity.ok(postService.findPostByCommentId(userId, commentId));
+    }
+
 }

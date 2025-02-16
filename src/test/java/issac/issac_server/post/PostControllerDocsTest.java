@@ -343,4 +343,39 @@ class PostControllerDocsTest extends RestDocsSupport {
                                 .responseSchema(Schema.schema("PostPreviewResponse"))
                                 .build())));
     }
+
+    @DisplayName("댓글 정보를 이용한 조회 : 게시글")
+    @Test
+    void findPostByCommentId() throws Exception {
+        // given
+        PostResponse response = createMockPostResponseWithReaction();
+
+        given(postService.findPostByCommentId(any(), any())).willReturn(response);
+
+        // when & then
+        mockMvc.perform(
+                        get("/api/v1/posts/from-comment")
+                                .queryParam("commentId","1")
+                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("get-v1-post-findPostByCommentId",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .tag("Post API")
+                                .summary("댓글 정보를 이용한 게시글 조회")
+                                .requestHeaders(
+                                        headerWithName("Authorization")
+                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
+                                )
+                                .queryParameters(
+                                        parameterWithName("commentId").description("댓글 ID")
+                                )
+                                .responseFields(POST_RESPONSE_WITH_REACTION)
+                                .responseSchema(Schema.schema("PostResponse"))
+                                .build())));
+    }
 }
