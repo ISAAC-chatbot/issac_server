@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
 import org.opensearch.client.opensearch._types.SortOrder;
+import org.opensearch.client.opensearch._types.query_dsl.Operator;
 import org.opensearch.client.opensearch.core.SearchRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.search.Hit;
@@ -183,18 +184,24 @@ public class NoticeFinder {
 
     private void keywordContain(Builder bool, String keyword) {
         if (StringUtils.hasText(keyword)) {
-            bool.should(should -> should
-                    .match(match -> match
-                            .field("title")
-                            .query(FieldValue.of(keyword)
-                            )
-                    ));
-            bool.should(should -> should
-                    .match(match -> match
-                            .field("content")
-                            .query(FieldValue.of(keyword)
-                            )
+            // ✅ `should` 내부에서 title과 content 중 하나라도 검색어 포함하면 검색됨
+            bool.must(must -> must
+                    .bool(subBool -> subBool
+                            .should(should -> should
+                                    .match(match -> match
+                                            .field("title")
+                                            .query(FieldValue.of(keyword))
+                                            .operator(Operator.And)
+                                    ))
+                            .should(should -> should
+                                    .match(match -> match
+                                            .field("content")
+                                            .query(FieldValue.of(keyword))
+                                            .operator(Operator.And)
+                                    ))
+                            .minimumShouldMatch("1") // ✅ 하나라도 만족하면 검색됨
                     ));
         }
     }
+
 }
