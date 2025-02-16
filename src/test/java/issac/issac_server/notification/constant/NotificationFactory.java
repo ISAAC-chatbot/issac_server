@@ -1,6 +1,7 @@
 package issac.issac_server.notification.constant;
 
 import issac.issac_server.notification.application.dto.NotificationResponse;
+import issac.issac_server.notification.application.dto.NotificationUpdateRequest;
 import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.reaction.domain.TargetType;
 
@@ -26,5 +27,13 @@ public class NotificationFactory {
 
     public static List<NotificationResponse> createMockNotificationResponses() {
         return Arrays.asList(createMockNotificationResponse(), createMockNotificationResponse());
+    }
+
+    public static NotificationUpdateRequest createMockNotificationUpdateRequest() {
+        return new NotificationUpdateRequest(
+                NotificationType.KEYWORD,
+                TargetType.NOTICE,
+                "MIwfY5QBvxJ7OZdJ9CS3"
+        );
     }
 }

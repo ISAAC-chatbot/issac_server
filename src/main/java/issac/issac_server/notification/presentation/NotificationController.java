@@ -4,6 +4,8 @@ import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.notification.application.NotificationService;
 import issac.issac_server.notification.application.dto.NotificationResponse;
 import issac.issac_server.notification.application.dto.NotificationSearchCondition;
+import issac.issac_server.notification.application.dto.NotificationUpdateRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +28,14 @@ public class NotificationController {
     }
 
     @PatchMapping("/{notificationId}/read")
-    public ResponseEntity<Void> markAsRead(@Auth Long userId, @PathVariable Long notificationId) {
-        notificationService.markAsRead(userId, notificationId);
+    public ResponseEntity<Void> markAsReadById(@Auth Long userId, @PathVariable Long notificationId) {
+        notificationService.markAsReadById(userId, notificationId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/read")
+    public ResponseEntity<Void> markAsRead(@Auth Long userId, @RequestBody @Valid NotificationUpdateRequest request) {
+        notificationService.markAsRead(userId, request);
         return ResponseEntity.ok().build();
     }
 }

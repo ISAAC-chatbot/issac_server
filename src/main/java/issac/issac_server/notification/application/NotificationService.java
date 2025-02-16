@@ -2,6 +2,7 @@ package issac.issac_server.notification.application;
 
 import issac.issac_server.notification.application.dto.NotificationResponse;
 import issac.issac_server.notification.application.dto.NotificationSearchCondition;
+import issac.issac_server.notification.application.dto.NotificationUpdateRequest;
 import issac.issac_server.notification.domain.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,8 +21,14 @@ public class NotificationService {
     }
 
     @Transactional
-    public void markAsRead(Long userId, Long notificationId) {
+    public void markAsReadById(Long userId, Long notificationId) {
         Notification notification = notificationFinder.find(notificationId);
+        notification.markAsRead(userId);
+    }
+
+    @Transactional
+    public void markAsRead(Long userId, NotificationUpdateRequest request) {
+        Notification notification = notificationFinder.find(userId, request.getNotificationType(), request.getEntityType(), request.getEntityId());
         notification.markAsRead(userId);
     }
 }

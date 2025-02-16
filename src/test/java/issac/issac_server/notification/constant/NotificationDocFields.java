@@ -4,7 +4,8 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.request.ParameterDescriptor;
 
-import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.*;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.NOTIFICATION_TYPE;
+import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.TARGET_TYPE;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -28,5 +29,12 @@ public class NotificationDocFields {
             parameterWithName("entityType").description(generateLinkCode(TARGET_TYPE)).optional(),
             parameterWithName("read").description("읽음 여부").optional()
     };
+
+    public static final FieldDescriptor[] NOTIFICATION_UPDATE_REQUEST = new FieldDescriptor[]{
+            fieldWithPath("notificationType").type(JsonFieldType.STRING).description(generateLinkCode(NOTIFICATION_TYPE)),
+            fieldWithPath("entityType").type(JsonFieldType.STRING).description(generateLinkCode(TARGET_TYPE)),
+            fieldWithPath("entityId").type(JsonFieldType.STRING).description("대상 ID"),
+    };
+
 
 }

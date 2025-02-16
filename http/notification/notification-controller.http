@@ -1,9 +1,24 @@
 ### 목록 검색 : 알림
-GET {{BASE_URL}}/api/v1/notifications?notificationType=KEYWORD&read=true
+GET {{BASE_URL}}/api/v1/notifications?page=1&size=1
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
 
 ### 읽음 상태 변경 : 알림
-PATCH {{BASE_URL}}/api/v1/notifications/{notificationId}/read
+PATCH {{BASE_URL}}/api/v1/notifications/48/read
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
+
+### 읽음 상태 변경 : 알림
+PATCH {{BASE_URL}}/api/v1/notifications/read
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "notificationType": "BOOKMARK",
+  "entityType": "NOTICE",
+  "entityId": "hzLw_ZQBnS9loj4r4-mF"
+}
+
+
+
+
