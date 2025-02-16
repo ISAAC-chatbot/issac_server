@@ -66,9 +66,9 @@ public class CommentEventListener {
 
         NotificationRequest request = NotificationRequest.of(post, event.getComment());
 
-        notificationAppender.appendAll(userIdsToNotify, request);
-
         fcmSender.send(request, distinctTokens);
+
+        notificationAppender.appendAll(userIdsToNotify, request);
     }
 
     private List<Long> findUserIdsToNotify(CommentCreateEvent event, Post post) {

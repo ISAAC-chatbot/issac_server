@@ -30,9 +30,9 @@ public class NotificationRequest {
                 NotificationType.COMMENT,
                 post.getTitle(),
                 comment.getContent(),
-                TargetType.POST,
-                post.getId().toString(),
-                post.getAuthor().getProfile().getNickname()
+                TargetType.COMMENT,
+                comment.getId().toString(),
+                comment.getAuthor().getProfile().getNickname()
         );
     }
 
