@@ -182,7 +182,7 @@ class AuthControllerDocsTest extends RestDocsSupport {
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
                                 .queryParameters(
-                                        parameterWithName("token").description("Google, Kakao : Access Token \t / Apple : Refresh Token")
+                                        parameterWithName("token").description("Google, Kakao : Access Token \t / Apple : authorization Code")
                                 )
                                 .build())));
 

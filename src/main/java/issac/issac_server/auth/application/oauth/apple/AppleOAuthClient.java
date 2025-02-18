@@ -44,10 +44,10 @@ public class AppleOAuthClient implements OAuthClient {
     }
 
     @Override
-    public void revoke(String token){
+    public void revoke(String code) {
         String clientSecret = jwtGenerator.generateAppleClientSecret(teamId, clientId, keyId, privateKey);
-        System.out.println(clientSecret);
-        appleApiClient.revoke(new AppleRevokeRequest(clientId, clientSecret, token, "refresh_token"));
+        AppleTokenResponse userInfo = appleApiClient.findUserToken(AppleTokenRequest.from(clientId, clientSecret, code));
+        appleApiClient.revoke(AppleRevokeRequest.from(clientId, clientSecret, userInfo.getRefreshToken()));
     }
 
 }
