@@ -27,4 +27,8 @@ public class BookmarkFinder {
     public Bookmark findByUserIdAndSource(Long userId, NoticeSource source) {
         return bookmarkRepository.findByUserIdAndSource(userId, source).orElseThrow(() -> new BookmarkException(BookmarkErrorCode.NOT_EXIST));
     }
+
+    public boolean existsByUserIdAndSource(Long userId, NoticeSource source) {
+        return bookmarkRepository.existsByUserIdAndSource(userId, source);
+    }
 }

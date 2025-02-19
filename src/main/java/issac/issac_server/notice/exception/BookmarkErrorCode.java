@@ -11,6 +11,8 @@ public enum BookmarkErrorCode implements ErrorCode {
 
     NOT_EXIST(HttpStatus.NOT_FOUND, "BOOKMARK_001", "북마크를 찾을 수 없습니다."),
     USER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN, "BOOKMARK_002", "해당 북마크를 수정 할 권한이 없습니다"),
+    ALREADY_REGISTERED(HttpStatus.CONFLICT, "BOOKMARK_003", "이미 생성된 북마크입니다."),
+
     ;
     private final HttpStatus statusCode;
     private final String errorCode;

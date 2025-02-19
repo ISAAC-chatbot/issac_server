@@ -5,6 +5,8 @@ import issac.issac_server.notice.application.dto.response.BookmarkResponse;
 import issac.issac_server.notice.application.dto.response.BookmarkResponseV2;
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.NoticeSource;
+import issac.issac_server.notice.exception.BookmarkErrorCode;
+import issac.issac_server.notice.exception.BookmarkException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,9 @@ public class BookmarkService {
 
     @Transactional
     public BookmarkResponseV2 save(Long userId, NoticeSource source) {
+        if (bookmarkFinder.existsByUserIdAndSource(userId, source)) {
+            throw new BookmarkException(BookmarkErrorCode.ALREADY_REGISTERED);
+        }
         return BookmarkResponseV2.from(bookmarkAppender.append(userId, source));
     }
 
