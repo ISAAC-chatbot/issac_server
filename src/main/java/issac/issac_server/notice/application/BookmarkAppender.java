@@ -1,6 +1,5 @@
 package issac.issac_server.notice.application;
 
-import issac.issac_server.notice.application.dto.request.BookmarkUpdateRequest;
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.BookmarkRepository;
 import issac.issac_server.notice.domain.NoticeSource;
@@ -15,8 +14,8 @@ public class BookmarkAppender {
 
     private final BookmarkRepository bookmarkRepository;
 
-    public List<Bookmark> appendAll(Long userId, BookmarkUpdateRequest request) {
-        return bookmarkRepository.saveAll(Bookmark.of(userId, request.getSources()));
+    public List<Bookmark> appendAll(Long userId, List<NoticeSource> sources) {
+        return bookmarkRepository.saveAll(Bookmark.of(userId, sources));
     }
 
     public Bookmark append(Long userId, NoticeSource source) {

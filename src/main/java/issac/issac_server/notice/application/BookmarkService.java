@@ -1,7 +1,6 @@
 package issac.issac_server.notice.application;
 
 import issac.issac_server.notice.application.dto.request.BookmarkUpdateRequest;
-import issac.issac_server.notice.application.dto.response.BookmarkResponse;
 import issac.issac_server.notice.application.dto.response.BookmarkResponseV2;
 import issac.issac_server.notice.domain.Bookmark;
 import issac.issac_server.notice.domain.NoticeSource;
@@ -24,19 +23,9 @@ public class BookmarkService {
     private final BookmarkRemover bookmarkRemover;
 
     @Transactional
-    public BookmarkResponse update(Long userId, BookmarkUpdateRequest request) {
-        List<Bookmark> bookmarks = bookmarkUpdater.update(userId, request);
-        return new BookmarkResponse(Bookmark.extractSources(bookmarks));
-    }
-
-    public BookmarkResponse search(Long userId) {
-        List<Bookmark> bookmarks = bookmarkFinder.findBookmarks(userId);
-        return new BookmarkResponse(Bookmark.extractSources(bookmarks));
-    }
-
-    @Transactional
-    public List<BookmarkResponseV2> updateV2(Long userId, BookmarkUpdateRequest request) {
-        List<Bookmark> bookmarks = bookmarkUpdater.update(userId, request);
+    public List<BookmarkResponseV2> update(Long userId, BookmarkUpdateRequest request) {
+        List<Bookmark> existingBookmarks = bookmarkFinder.findBookmarks(userId);
+        List<Bookmark> bookmarks = bookmarkUpdater.update(userId, request, existingBookmarks);
         return bookmarks.stream().map(BookmarkResponseV2::from).collect(Collectors.toList());
     }
 

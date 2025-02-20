@@ -28,7 +28,7 @@ public class BookmarkControllerV2 {
             @Auth Long userId,
             @Valid @RequestBody BookmarkUpdateRequest request
     ) {
-        return ResponseEntity.ok(bookmarkService.updateV2(userId, request));
+        return ResponseEntity.ok(bookmarkService.update(userId, request));
     }
 
     @GetMapping

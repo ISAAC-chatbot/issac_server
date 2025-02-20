@@ -13,7 +13,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     boolean existsByUserIdAndSource(Long userId, NoticeSource source);
 
-    void deleteAllByUserId(Long userId);
+    void deleteAllByUserIdAndSourceIn(Long userId, List<NoticeSource> sources);
 
     List<Bookmark> findAllByUserId(Long userId);
 

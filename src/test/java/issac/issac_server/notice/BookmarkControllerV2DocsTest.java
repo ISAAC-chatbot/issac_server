@@ -111,7 +111,7 @@ class BookmarkControllerV2DocsTest extends RestDocsSupport {
         BookmarkUpdateRequest request = createMockBookmarkUpdateRequest();
         List<BookmarkResponseV2> responses = createMockBookmarkResponsesV2();
 
-        given(bookmarkService.updateV2(any(), any(BookmarkUpdateRequest.class))).willReturn(responses);
+        given(bookmarkService.update(any(), any(BookmarkUpdateRequest.class))).willReturn(responses);
         // when & then
         mockMvc.perform(
                         put("/api/v2/notices/bookmarks")
