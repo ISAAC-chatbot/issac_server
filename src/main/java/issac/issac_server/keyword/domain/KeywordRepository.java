@@ -31,4 +31,6 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long>, PagingA
     boolean existsByUserIdAndText(Long userId, String text);
 
     List<Keyword> findByUniversityAndText(University university, String text);
+
+    void deleteAllByUserId(Long userId);
 }

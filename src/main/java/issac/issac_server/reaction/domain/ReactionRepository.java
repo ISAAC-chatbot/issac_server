@@ -17,4 +17,6 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     boolean existsByUserIdAndTargetTypeAndTargetIdAndType(Long userId, TargetType targetType, String targetId, ReactionType reactionType);
 
     Long countByTargetTypeAndTargetIdAndType(TargetType targetType, String targetId, ReactionType reactionType);
+
+    void deleteAllByUserIdAndType(Long userId, ReactionType reactionType);
 }

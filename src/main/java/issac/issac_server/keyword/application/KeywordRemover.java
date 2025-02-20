@@ -23,4 +23,8 @@ public class KeywordRemover {
 
         keywordRepository.deleteById(keywordId);
     }
+
+    public void removeAll(Long userId) {
+        keywordRepository.deleteAllByUserId(userId);
+    }
 }

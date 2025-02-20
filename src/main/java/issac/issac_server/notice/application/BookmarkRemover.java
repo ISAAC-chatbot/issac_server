@@ -13,6 +13,10 @@ public class BookmarkRemover {
 
     private final BookmarkRepository bookmarkRepository;
 
+    public void removeAll(Long userId) {
+        bookmarkRepository.deleteAllByUserId(userId);
+    }
+
     public void removeAll(Long userId, List<NoticeSource> sources) {
         bookmarkRepository.deleteAllByUserIdAndSourceIn(userId, sources);
     }

@@ -13,4 +13,7 @@ public interface DeviceTokenRepository extends JpaRepository<DeviceToken, Long> 
     Set<String> findDistinctTokensByUserIdIn(List<Long> userIds);
 
     Optional<DeviceToken> findByUserIdAndNotificationConsent(Long userId, Boolean notificationConsent);
+
+    void deleteByUserId(Long userId);
+
 }

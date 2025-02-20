@@ -22,4 +22,8 @@ public class ReactionRemover {
         }
         reactionRepository.deleteByUserIdAndTargetTypeAndTargetIdAndType(userId, request.getTargetType(), request.getTargetId(), request.getType().getOppositeType());
     }
+
+    public void removeAllScrap(Long userId) {
+        reactionRepository.deleteAllByUserIdAndType(userId, ReactionType.SCRAP);
+    }
 }

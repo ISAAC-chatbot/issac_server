@@ -4,7 +4,11 @@ import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.RefreshToken;
 import issac.issac_server.auth.exception.AuthException;
 import issac.issac_server.auth.infrastructure.JwtTokenProvider;
+import issac.issac_server.device.application.DeviceTokenRemover;
 import issac.issac_server.file.application.S3Remover;
+import issac.issac_server.keyword.application.KeywordRemover;
+import issac.issac_server.notice.application.BookmarkRemover;
+import issac.issac_server.reaction.application.ReactionRemover;
 import issac.issac_server.user.application.UserFinder;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.User;
@@ -28,6 +32,10 @@ public class AuthService {
     private final S3Remover s3Remover;
 
     private final RefreshTokenRemover refreshTokenRemover;
+    private final DeviceTokenRemover deviceTokenRemover;
+    private final BookmarkRemover bookmarkRemover;
+    private final KeywordRemover keywordRemover;
+    private final ReactionRemover reactionRemover;
 
     public LoginResponse login(OAuthInfo oAuthInfo) {
         User user = userFinder.find(oAuthInfo);
@@ -69,8 +77,12 @@ public class AuthService {
 
         if (!user.getProfile().getProfilePhotoUrl().endsWith(DEFAULT_PHOTO)) {
             s3Remover.deleteObjectByUrl(user.getProfile().getProfilePhotoUrl());
-            user.getProfile().delete();
         }
+        user.getProfile().delete();
         refreshTokenRemover.remove(user.getId());
+        deviceTokenRemover.remove(user.getId());
+        bookmarkRemover.removeAll(user.getId());
+        keywordRemover.removeAll(user.getId());
+        reactionRemover.removeAllScrap(user.getId());
     }
 }
