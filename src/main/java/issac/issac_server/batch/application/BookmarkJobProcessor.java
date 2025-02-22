@@ -38,7 +38,7 @@ public class BookmarkJobProcessor implements ItemProcessor<Bookmark, BookmarkQue
                 bookmark.getUserId(),
                 new NotificationRequest(
                         NotificationType.BOOKMARK,
-                        bookmark.getSource().getDescription(),
+                        bookmark.getSource().toString(),
                         title,
                         TargetType.valueOf(entityType),
                         entityId,
