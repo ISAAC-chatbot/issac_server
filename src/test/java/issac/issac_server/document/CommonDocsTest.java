@@ -87,6 +87,10 @@ public class CommonDocsTest extends RestDocsSupport {
                         customResponseFields("custom-response", beneathPath("settingType").withSubsectionId("settingType"),
                                 attributes(key("title").value("사용자 설정 목록")),
                                 enumConvertFieldDescriptor(docs.getSettingType())
+                        ),
+                        customResponseFields("custom-response", beneathPath("revokeReasonType").withSubsectionId("revokeReasonType"),
+                                attributes(key("title").value("탈퇴 사유 유형")),
+                                enumConvertFieldDescriptor(docs.getRevokeReasonType())
                         )
                 ));
     }

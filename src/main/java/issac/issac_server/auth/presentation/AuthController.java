@@ -38,8 +38,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/revoke")
-    public ResponseEntity<Void> revoke(@Auth Long userId, @RequestParam String token) {
-        authFacadeService.revoke(userId, token);
+    public ResponseEntity<Void> revoke(@Auth Long userId, @RequestBody @Valid UserRevokeRequest request) {
+        authFacadeService.revoke(userId, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

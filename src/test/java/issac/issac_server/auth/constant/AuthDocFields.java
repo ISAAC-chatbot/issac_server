@@ -32,4 +32,10 @@ public class AuthDocFields {
     public static final FieldDescriptor[] EMAIL_RESPONSE = new FieldDescriptor[]{
             fieldWithPath("verificationCode").type(JsonFieldType.STRING).description("인증 번호"),
     };
+
+    public static final FieldDescriptor[] USER_REVOKE_REQUEST = new FieldDescriptor[]{
+            fieldWithPath("token").type(JsonFieldType.STRING).description("Google, Kakao : Access Token \t  / Apple : Authorization Code"),
+            fieldWithPath("reasonType").type(JsonFieldType.STRING).description(generateLinkCode(REVOKE_REASON_TYPE)),
+            fieldWithPath("reasonDescription").type(JsonFieldType.STRING).description("상세 사유")
+    };
 }

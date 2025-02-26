@@ -26,6 +26,7 @@ public interface DocumentLinkGenerator {
         NOTIFICATION_TYPE("notificationType", "알림 종류"),
         REPORT_TYPE("reportType", "신고 종류"),
         SETTING_TYPE("settingType", "설정 목록"),
+        REVOKE_REASON_TYPE("revokeReasonType", "탈퇴 사유 유형"),
 
         ;
 

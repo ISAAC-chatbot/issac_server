@@ -2,6 +2,7 @@ package issac.issac_server.auth.constant;
 
 import issac.issac_server.auth.application.dto.*;
 import issac.issac_server.auth.domain.OAuthProviderType;
+import issac.issac_server.user.domain.RevokeReasonType;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.University;
 
@@ -39,5 +40,9 @@ public class AuthFactory {
 
     public static EmailResponse createMockEmailResponse() {
         return new EmailResponse("123456");
+    }
+
+    public static UserRevokeRequest createMockUserRevokeRequest() {
+        return new UserRevokeRequest("mock-token-1234", RevokeReasonType.OTHER, "앱속도가 느려요");
     }
 }

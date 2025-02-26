@@ -8,10 +8,7 @@ import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.reaction.domain.ReactionType;
 import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.report.domain.ReportType;
-import issac.issac_server.user.domain.DegreeType;
-import issac.issac_server.user.domain.Role;
-import issac.issac_server.user.domain.SettingType;
-import issac.issac_server.user.domain.University;
+import issac.issac_server.user.domain.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +33,7 @@ public class EnumViewController {
         Map<String, String> notificationType = getDocs(NotificationType.values());
         Map<String, String> reportType = getDocs(ReportType.values());
         Map<String, String> settingType = getDocs(SettingType.values());
+        Map<String, String> revokeReasonType = getDocs(RevokeReasonType.values());
 
         return Docs.testBuilder()
                 .role(role)
@@ -49,6 +47,7 @@ public class EnumViewController {
                 .notificationType(notificationType)
                 .reportType(reportType)
                 .settingType(settingType)
+                .revokeReasonType(revokeReasonType)
                 .build();
     }
 

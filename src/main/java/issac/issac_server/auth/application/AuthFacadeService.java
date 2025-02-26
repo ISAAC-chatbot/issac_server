@@ -6,9 +6,11 @@ import issac.issac_server.auth.domain.OAuthProviderType;
 import issac.issac_server.auth.exception.AuthErrorCode;
 import issac.issac_server.auth.exception.AuthException;
 import issac.issac_server.user.application.UserFinder;
+import issac.issac_server.user.application.event.UserRevokeEvent;
 import issac.issac_server.user.domain.User;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class AuthFacadeService {
     private final AuthService authService;
     private final List<OAuthClient> oAuthClients;
     private final UserFinder userFinder;
+
+    private final ApplicationEventPublisher publisher;
 
     private OAuthClient findOAuthClient(OAuthProviderType providerType) {
         return oAuthClients.stream()
@@ -50,10 +54,11 @@ public class AuthFacadeService {
     }
 
     @Transactional
-    public void revoke(Long userId, String token) {
+    public void revoke(Long userId, UserRevokeRequest request) {
         User user = userFinder.find(userId);
         OAuthClient oAuthClient = findOAuthClient(user.getOauthInformation().getOauthProvider());
-        oAuthClient.revoke(token);
+        oAuthClient.revoke(request.getToken());
         authService.revoke(user);
+        publisher.publishEvent(new UserRevokeEvent(user.getId(), request.getReasonType(), request.getReasonDescription()));
     }
 }

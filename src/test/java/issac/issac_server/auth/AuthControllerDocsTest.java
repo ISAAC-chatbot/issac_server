@@ -20,7 +20,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -162,11 +161,13 @@ class AuthControllerDocsTest extends RestDocsSupport {
     @Test
     void revoke() throws Exception {
 
+        UserRevokeRequest request = createMockUserRevokeRequest();
 
         // when & then
         mockMvc.perform(
-                        delete("/api/v1/auth/revoke?token=token")
+                        delete("/api/v1/auth/revoke")
                                 .header("Authorization", "Bearer {ACCESS_TOKEN}")
+                                .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -181,9 +182,8 @@ class AuthControllerDocsTest extends RestDocsSupport {
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
-                                .queryParameters(
-                                        parameterWithName("token").description("Google, Kakao : Access Token \t / Apple : authorization Code")
-                                )
+                                .requestFields(USER_REVOKE_REQUEST)
+                                .requestSchema(Schema.schema("UserRevokeRequest"))
                                 .build())));
 
     }
