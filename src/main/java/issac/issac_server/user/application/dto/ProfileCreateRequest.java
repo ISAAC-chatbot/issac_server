@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserCreateRequest {
+public class ProfileCreateRequest {
 
     @NotBlank
     private String nickname;
@@ -31,7 +31,7 @@ public class UserCreateRequest {
     private Boolean marketingConsent;
 
     @Builder
-    public UserCreateRequest(String nickname, University university, String collegeName, String department, EducationLevel educationLevel, Boolean marketingConsent) {
+    public ProfileCreateRequest(String nickname, University university, String collegeName, String department, EducationLevel educationLevel, Boolean marketingConsent) {
         this.nickname = nickname;
         this.university = university;
         this.collegeName = collegeName;

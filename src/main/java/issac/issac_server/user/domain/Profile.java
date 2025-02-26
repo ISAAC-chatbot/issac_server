@@ -1,7 +1,7 @@
 package issac.issac_server.user.domain;
 
 import issac.issac_server.user.application.dto.ProfileUpdateRequest;
-import issac.issac_server.user.application.dto.UserCreateRequest;
+import issac.issac_server.user.application.dto.ProfileCreateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -40,7 +40,7 @@ public class Profile {
     @Column
     private String profilePhotoUrl;
 
-    public Profile(UserCreateRequest request, String defaultProfilePhotoUrl) {
+    public Profile(ProfileCreateRequest request, String defaultProfilePhotoUrl) {
         this.nickname = request.getNickname();
         this.department = request.getDepartment();
         this.university = request.getUniversity();
@@ -55,6 +55,7 @@ public class Profile {
         this.department = request.getDepartment() != null ? request.getDepartment() : this.department;
         this.educationLevel = request.getEducationLevel() != null ? request.getEducationLevel() : this.educationLevel;
         this.profilePhotoUrl = request.getProfilePhotoUrl() != null ? request.getProfilePhotoUrl() : this.profilePhotoUrl;
+        this.schoolEmail = request.getSchoolEmail() != null ? request.getSchoolEmail() : this.schoolEmail;
     }
 
     public void delete() {

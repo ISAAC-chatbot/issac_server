@@ -3,7 +3,7 @@ package issac.issac_server.user.domain;
 import issac.issac_server.auth.application.dto.OAuthInfo;
 import issac.issac_server.common.domain.BaseTimeEntity;
 import issac.issac_server.common.domain.EntityStatus;
-import issac.issac_server.user.application.dto.UserCreateRequest;
+import issac.issac_server.user.application.dto.ProfileCreateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -50,9 +50,9 @@ public class User extends BaseTimeEntity {
         this.role = Role.UNREGISTERED_PROFILE;
     }
 
-    public void signup(UserCreateRequest request, String defaultProfilePhotoUrl) {
+    public void saveProfile(ProfileCreateRequest request, String defaultProfilePhotoUrl) {
         this.profile = new Profile(request, defaultProfilePhotoUrl);
-        this.role = Role.STUDENT;
+        this.role = Role.USER;
         this.marketingConsent = request.getMarketingConsent();
     }
 

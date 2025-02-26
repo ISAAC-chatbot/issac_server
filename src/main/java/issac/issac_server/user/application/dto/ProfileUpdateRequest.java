@@ -20,5 +20,7 @@ public class ProfileUpdateRequest {
 
     private String department;
 
+    private String schoolEmail;
+
     private String profilePhotoUrl;
 }

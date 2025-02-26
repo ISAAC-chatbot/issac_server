@@ -5,27 +5,28 @@ import com.epages.restdocs.apispec.Schema;
 import issac.issac_server.RestDocsSupport;
 import issac.issac_server.user.application.UserService;
 import issac.issac_server.user.application.dto.SettingResponse;
-import issac.issac_server.user.application.dto.UserCreateRequest;
 import issac.issac_server.user.application.dto.UserResponse;
 import issac.issac_server.user.domain.SettingType;
 import issac.issac_server.user.presentation.UserController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.DocUrl.SETTING_TYPE;
 import static issac.issac_server.document.utils.DocumentLinkGenerator.generateLinkCode;
-import static issac.issac_server.user.constant.UserDocFields.*;
-import static issac.issac_server.user.constant.UserFactory.*;
+import static issac.issac_server.user.constant.UserDocFields.SETTING_RESPONSE;
+import static issac.issac_server.user.constant.UserDocFields.USER_RESPONSE;
+import static issac.issac_server.user.constant.UserFactory.createMockSettingResponse;
+import static issac.issac_server.user.constant.UserFactory.createMockUserResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,42 +64,6 @@ class UserControllerDocsTest extends RestDocsSupport {
                                         headerWithName("Authorization")
                                                 .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
                                 )
-                                .responseFields(USER_RESPONSE)
-                                .responseSchema(Schema.schema("UserResponse"))
-                                .build())));
-
-    }
-
-    @DisplayName("회원가입 : 유저")
-    @Test
-    void signup() throws Exception {
-        // given
-        UserCreateRequest request = createMockUserCreateRequest();
-        UserResponse response = createMockUserResponse();
-
-        given(userService.signup(any(), any(UserCreateRequest.class))).willReturn(response);
-
-        // when & then
-        mockMvc.perform(
-                        post("/api/v1/users/signup")
-                                .content(objectMapper.writeValueAsString(request))
-                                .header("Authorization", "Bearer {ACCESS_TOKEN}")
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andDo(document("post-v1-user-signup",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        resource(ResourceSnippetParameters.builder()
-                                .tag("User API")
-                                .summary("회원가입(프로필 등록)")
-                                .requestHeaders(
-                                        headerWithName("Authorization")
-                                                .description("Bearer 토큰 (예: `Bearer {ACCESS_TOKEN}`)")
-                                )
-                                .requestFields(USER_CREATE_REQUEST)
-                                .requestSchema(Schema.schema("UserCreateRequest"))
                                 .responseFields(USER_RESPONSE)
                                 .responseSchema(Schema.schema("UserResponse"))
                                 .build())));
