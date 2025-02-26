@@ -1,6 +1,6 @@
 package issac.issac_server.user.application.dto;
 
-import issac.issac_server.user.domain.DegreeType;
+import issac.issac_server.user.domain.EducationLevel;
 import issac.issac_server.user.domain.University;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,22 +25,18 @@ public class UserCreateRequest {
     private String department;
 
     @NotNull
-    private DegreeType degree;
-
-    @NotNull
-    private String schoolEmail;
+    private EducationLevel educationLevel;
 
     @NotNull
     private Boolean marketingConsent;
 
     @Builder
-    public UserCreateRequest(String nickname, University university, String collegeName, String department, DegreeType degree, String schoolEmail, Boolean marketingConsent) {
+    public UserCreateRequest(String nickname, University university, String collegeName, String department, EducationLevel educationLevel, Boolean marketingConsent) {
         this.nickname = nickname;
         this.university = university;
         this.collegeName = collegeName;
         this.department = department;
-        this.degree = degree;
-        this.schoolEmail = schoolEmail;
+        this.educationLevel = educationLevel;
         this.marketingConsent = marketingConsent;
     }
 }

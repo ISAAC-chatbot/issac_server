@@ -28,11 +28,10 @@ public class UserController {
 
     @PostMapping("/signup")
     @Secured({"ROLE_UNREGISTERED_PROFILE"})
-    public ResponseEntity<Void> signup(
+    public ResponseEntity<UserResponse> signup(
             @Auth Long userId,
             @RequestBody UserCreateRequest request) {
-        userService.signup(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.signup(userId, request));
     }
 
     @GetMapping("/settings/{settingItem}")

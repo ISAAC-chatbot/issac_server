@@ -74,6 +74,9 @@ class UserControllerDocsTest extends RestDocsSupport {
     void signup() throws Exception {
         // given
         UserCreateRequest request = createMockUserCreateRequest();
+        UserResponse response = createMockUserResponse();
+
+        given(userService.signup(any(), any(UserCreateRequest.class))).willReturn(response);
 
         // when & then
         mockMvc.perform(
@@ -96,6 +99,8 @@ class UserControllerDocsTest extends RestDocsSupport {
                                 )
                                 .requestFields(USER_CREATE_REQUEST)
                                 .requestSchema(Schema.schema("UserCreateRequest"))
+                                .responseFields(USER_RESPONSE)
+                                .responseSchema(Schema.schema("UserResponse"))
                                 .build())));
 
     }

@@ -1,6 +1,6 @@
 package issac.issac_server.user.application.dto;
 
-import issac.issac_server.user.domain.DegreeType;
+import issac.issac_server.user.domain.EducationLevel;
 import issac.issac_server.user.domain.Profile;
 import issac.issac_server.user.domain.University;
 import lombok.AllArgsConstructor;
@@ -18,11 +18,11 @@ public class ProfileResponse {
 
     private University university;
 
+    private EducationLevel educationLevel;
+
     private String collegeName;
 
     private String department;
-
-    private DegreeType degree;
 
     private String schoolEmail;
 
@@ -32,9 +32,9 @@ public class ProfileResponse {
         return new ProfileResponse(
                 profile.getNickname(),
                 profile.getUniversity(),
+                profile.getEducationLevel(),
                 profile.getCollegeName(),
                 profile.getDepartment(),
-                profile.getDegree(),
                 profile.getSchoolEmail(),
                 profile.getProfilePhotoUrl()
         );

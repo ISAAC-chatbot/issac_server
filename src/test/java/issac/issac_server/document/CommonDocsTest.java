@@ -56,10 +56,6 @@ public class CommonDocsTest extends RestDocsSupport {
                                 attributes(key("title").value("대학교")),
                                 enumConvertFieldDescriptor(docs.getUniversity())
                         ),
-                        customResponseFields("custom-response", beneathPath("degreeType").withSubsectionId("degreeType"),
-                                attributes(key("title").value("학위 종류")),
-                                enumConvertFieldDescriptor(docs.getDegreeType())
-                        ),
                         customResponseFields("custom-response", beneathPath("noticeSource").withSubsectionId("noticeSource"),
                                 attributes(key("title").value("공지사항 출처 사이트")),
                                 enumConvertFieldDescriptor(docs.getNoticeSource())
@@ -91,6 +87,10 @@ public class CommonDocsTest extends RestDocsSupport {
                         customResponseFields("custom-response", beneathPath("revokeReasonType").withSubsectionId("revokeReasonType"),
                                 attributes(key("title").value("탈퇴 사유 유형")),
                                 enumConvertFieldDescriptor(docs.getRevokeReasonType())
+                        ),
+                        customResponseFields("custom-response", beneathPath("educationLevel").withSubsectionId("educationLevel"),
+                                attributes(key("title").value("교육 단계")),
+                                enumConvertFieldDescriptor(docs.getEducationLevel())
                         )
                 ));
     }

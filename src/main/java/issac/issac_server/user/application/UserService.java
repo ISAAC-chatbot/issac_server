@@ -24,9 +24,10 @@ public class UserService {
     }
 
     @Transactional
-    public void signup(Long userId, UserCreateRequest request) {
+    public UserResponse signup(Long userId, UserCreateRequest request) {
         User user = userFinder.find(userId);
         userAppender.signup(user, request);
+        return UserResponse.from(user);
     }
 
     public SettingResponse findSetting(Long userId, SettingType settingItem) {

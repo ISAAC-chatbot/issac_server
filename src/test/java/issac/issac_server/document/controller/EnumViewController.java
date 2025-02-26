@@ -25,7 +25,6 @@ public class EnumViewController {
         Map<String, String> role = getDocs(Role.values());
         Map<String, String> oauthProvider = getDocs(OAuthProviderType.values());
         Map<String, String> university = getDocs(University.values());
-        Map<String, String> degreeType = getDocs(DegreeType.values());
         Map<String, String> noticeSource = getDocs(NoticeSource.values());
         Map<String, String> reactionType = getDocs(ReactionType.values());
         Map<String, String> targetType = getDocs(TargetType.values());
@@ -34,12 +33,12 @@ public class EnumViewController {
         Map<String, String> reportType = getDocs(ReportType.values());
         Map<String, String> settingType = getDocs(SettingType.values());
         Map<String, String> revokeReasonType = getDocs(RevokeReasonType.values());
+        Map<String, String> educationLevel = getDocs(EducationLevel.values());
 
         return Docs.testBuilder()
                 .role(role)
                 .oauthProvider(oauthProvider)
                 .university(university)
-                .degreeType(degreeType)
                 .noticeSource(noticeSource)
                 .reactionType(reactionType)
                 .targetType(targetType)
@@ -48,6 +47,7 @@ public class EnumViewController {
                 .reportType(reportType)
                 .settingType(settingType)
                 .revokeReasonType(revokeReasonType)
+                .educationLevel(educationLevel)
                 .build();
     }
 

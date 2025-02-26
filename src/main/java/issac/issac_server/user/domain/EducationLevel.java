@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum DegreeType implements DescriptiveEnum {
+public enum EducationLevel implements DescriptiveEnum {
 
-    BACHELOR("학사"),
-    MASTER("석사"),
-    DOCTORATE("박사");
+    UNDERGRADUATE("학부생"),
+    GRADUATE("대학원생"),
+    ;
 
     private final String description;
 

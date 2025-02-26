@@ -6,4 +6,4 @@ endif::[]
 :icons: font
 
 [[countryCode]]
-include::{snippets}/common/custom-response-fields-degreeType.adoc[]
+include::{snippets}/common/custom-response-fields-educationLevel.adoc[]

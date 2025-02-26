@@ -18,7 +18,6 @@ public interface DocumentLinkGenerator {
         ROLE("role", "사용자 역할"),
         OAUTH_PROVIDER_TYPE("oAuthProviderType", "OAuth 인증 제공자"),
         UNIVERSITY("university", "대학교"),
-        DEGREE_TYPE("degreeType", "학위 종류"),
         NOTICE_SOURCE("noticeSource", "공지사항 출처 사이트"),
         REACTION_TYPE("reactionType", "리액션 타입"),
         TARGET_TYPE("targetType", "대상 타입"),
@@ -27,7 +26,7 @@ public interface DocumentLinkGenerator {
         REPORT_TYPE("reportType", "신고 종류"),
         SETTING_TYPE("settingType", "설정 목록"),
         REVOKE_REASON_TYPE("revokeReasonType", "탈퇴 사유 유형"),
-
+        EDUCATION_LEVEL("educationLevel", "교육 단계")
         ;
 
         private final String pageId;

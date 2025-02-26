@@ -25,14 +25,14 @@ public class Profile {
     private University university;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private EducationLevel educationLevel;
+
+    @Column
     private String collegeName;
 
     @Column
     private String department;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private DegreeType degree;
 
     @Column
     private String schoolEmail;
@@ -45,8 +45,7 @@ public class Profile {
         this.department = request.getDepartment();
         this.university = request.getUniversity();
         this.collegeName = request.getCollegeName();
-        this.degree = request.getDegree();
-        this.schoolEmail = request.getSchoolEmail();
+        this.educationLevel = request.getEducationLevel();
         this.profilePhotoUrl = defaultProfilePhotoUrl;
     }
 
@@ -54,7 +53,7 @@ public class Profile {
         this.nickname = request.getNickname() != null ? request.getNickname() : this.nickname;
         this.collegeName = request.getCollegeName() != null ? request.getCollegeName() : this.collegeName;
         this.department = request.getDepartment() != null ? request.getDepartment() : this.department;
-        this.degree = request.getDegree() != null ? request.getDegree() : this.degree;
+        this.educationLevel = request.getEducationLevel() != null ? request.getEducationLevel() : this.educationLevel;
         this.profilePhotoUrl = request.getProfilePhotoUrl() != null ? request.getProfilePhotoUrl() : this.profilePhotoUrl;
     }
 
