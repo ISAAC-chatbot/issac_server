@@ -6,6 +6,8 @@ import issac.issac_server.user.application.dto.UserResponse;
 import issac.issac_server.user.domain.Role;
 import issac.issac_server.user.domain.SettingType;
 
+import static issac.issac_server.user.constant.ProfileFactory.createMockProfileResponse;
+
 public class UserFactory {
 
     public static UserResponse createMockUserResponse() {
@@ -14,7 +16,8 @@ public class UserFactory {
                 OAuthProviderType.KAKAO,
                 "issac@kakao.com",
                 Role.STUDENT,
-                true
+                true,
+                createMockProfileResponse()
         );
     }
 

@@ -24,13 +24,16 @@ public class UserResponse {
 
     private boolean marketingConsent;
 
+    private ProfileResponse profile;
+
     public static UserResponse from(User user) {
         return new UserResponse(
                 user.getId(),
                 user.getOauthInformation().getOauthProvider(),
                 user.getOauthInformation().getEmail(),
                 user.getRole(),
-                user.isMarketingConsent()
+                user.isMarketingConsent(),
+                ProfileResponse.from(user.getProfile())
         );
     }
 }
