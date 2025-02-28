@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
 import org.opensearch.client.opensearch._types.SortOrder;
+import org.opensearch.client.opensearch._types.query_dsl.BoolQuery;
 import org.opensearch.client.opensearch._types.query_dsl.Operator;
 import org.opensearch.client.opensearch.core.SearchRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
@@ -171,12 +172,16 @@ public class NoticeFinder {
         }
     }
 
-    private void sourceEq(Builder bool, NoticeSource source) {
-        if (source != null) {
+    private void sourceEq(BoolQuery.Builder bool, List<NoticeSource> sources) {
+        if (sources != null && !sources.isEmpty()) {
             bool.filter(filter -> filter
-                    .term(term -> term
+                    .terms(terms -> terms
                             .field("source")
-                            .value(FieldValue.of(source.toString()))
+                            .terms(termsQuery -> termsQuery
+                                    .value(sources.stream()
+                                            .map(source -> FieldValue.of(source.toString()))
+                                            .collect(Collectors.toList()))
+                            )
                     )
             );
         }

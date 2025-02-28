@@ -5,11 +5,13 @@ import issac.issac_server.user.domain.University;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class NoticeSearchCondition {
 
     private University university;
-    private NoticeSource source;
+    private List<NoticeSource> source;
     private String keyword;
 }
