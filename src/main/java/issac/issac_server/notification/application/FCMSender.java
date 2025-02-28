@@ -28,7 +28,7 @@ public class FCMSender {
         for (List<String> batch : tokenBatches) {
             MulticastMessage message = MulticastMessage.builder()
                     .setNotification(Notification.builder()
-                            .setTitle(request.getTitle())
+                            .setTitle(request.getFcmTitle())
                             .setBody(request.getContent())
                             .build()
                     )
@@ -38,6 +38,7 @@ public class FCMSender {
                     .putData("entityType", request.getEntityType().toString())
                     .putData("entityId", request.getEntityId())
                     .putData("author", request.getAuthor())
+                    .putData("fcmTitle", request.getFcmTitle())
                     .addAllTokens(batch)
                     .build();
 
@@ -58,7 +59,7 @@ public class FCMSender {
 
         MulticastMessage message = MulticastMessage.builder()
                 .setNotification(Notification.builder()
-                        .setTitle(request.getTitle())
+                        .setTitle(request.getFcmTitle())
                         .setBody(request.getContent())
                         .build()
                 )
@@ -68,6 +69,7 @@ public class FCMSender {
                 .putData("entityType", request.getEntityType().toString())
                 .putData("entityId", request.getEntityId())
                 .putData("author", request.getAuthor())
+                .putData("fcmTitle", request.getFcmTitle())
                 .addAllTokens(deviceTokens)
                 .build();
 
@@ -85,7 +87,7 @@ public class FCMSender {
     public void send(NotificationRequest request, String deviceToken) {
         com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
                 .setNotification(Notification.builder()
-                        .setTitle(request.getTitle())
+                        .setTitle(request.getFcmTitle())
                         .setBody(request.getContent())
                         .build()
                 )
@@ -95,6 +97,7 @@ public class FCMSender {
                 .putData("entityType", request.getEntityType().toString())
                 .putData("entityId", request.getEntityId())
                 .putData("author", request.getAuthor())
+                .putData("fcmTitle", request.getFcmTitle())
                 .setToken(deviceToken)
                 .build();
 

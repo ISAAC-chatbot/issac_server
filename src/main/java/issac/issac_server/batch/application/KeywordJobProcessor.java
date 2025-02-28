@@ -4,7 +4,6 @@ import issac.issac_server.batch.application.dto.KeywordQueueRequest;
 import issac.issac_server.keyword.application.KeywordFinder;
 import issac.issac_server.notice.domain.NoticeSource;
 import issac.issac_server.notification.application.dto.NotificationRequest;
-import issac.issac_server.notification.domain.NotificationType;
 import issac.issac_server.reaction.domain.TargetType;
 import issac.issac_server.user.domain.University;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -54,18 +53,10 @@ public class KeywordJobProcessor implements ItemProcessor<String, KeywordQueueRe
         }
 
         List<Long> userIds = keywordFinder.findUserIdsByUniversityAndText(university, keyword);
-        String notificationKeyword = entityType.equals(TargetType.NOTICE) ? keyword + '@' + source : keyword;
 
         return new KeywordQueueRequest(
                 userIds,
-                new NotificationRequest(
-                        NotificationType.KEYWORD,
-                        notificationKeyword,
-                        title,
-                        entityType,
-                        entityId,
-                        author
-                )
+                NotificationRequest.of(source, keyword, title, entityType, entityId, author)
         );
     }
 
