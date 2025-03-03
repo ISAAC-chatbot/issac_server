@@ -5,9 +5,11 @@ import issac.issac_server.user.application.dto.ProfileCreateRequest;
 import issac.issac_server.user.application.dto.ProfileResponse;
 import issac.issac_server.user.application.dto.ProfileUpdateRequest;
 import issac.issac_server.user.application.dto.UserResponse;
+import issac.issac_server.user.application.event.ProfileSaveEvent;
 import issac.issac_server.user.domain.Profile;
 import issac.issac_server.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class ProfileService {
     private final ProfileUpdater profileUpdater;
     private final ProfileAppender profileAppender;
 
+    private final ApplicationEventPublisher publisher;
     public ProfileResponse findProfile(Long userId) {
         return ProfileResponse.from(profileFinder.find(userId));
     }
@@ -34,6 +37,7 @@ public class ProfileService {
     public UserResponse saveProfile(Long userId, ProfileCreateRequest request) {
         User user = userFinder.find(userId);
         profileAppender.append(user, request);
+        publisher.publishEvent(new ProfileSaveEvent(userId));
         return UserResponse.from(user);
     }
 
