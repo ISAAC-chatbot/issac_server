@@ -36,9 +36,15 @@ public class ChatMessage extends BaseCreateTimeEntity {
         return ChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .question(request.getQuestion())
-                .answer(request.getAnswer())
+                .answer(removeTrailingNewlines(request.getAnswer()))
                 .sourceURL(request.getSourceURL())
                 .build();
     }
 
+    private static String removeTrailingNewlines(String text) {
+        if (text == null) {
+            return null;
+        }
+        return text.replaceAll("[\\n\\r]+$", ""); // 문자열 끝부분의 연속된 개행 문자 제거
+    }
 }
