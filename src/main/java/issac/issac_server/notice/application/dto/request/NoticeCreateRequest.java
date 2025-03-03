@@ -31,7 +31,6 @@ public class NoticeCreateRequest {
 
     private String content;
 
-    @NotBlank
     private String author;
 
     @NotBlank
