@@ -25,6 +25,7 @@ public class NoticeDocFields {
             fieldWithPath("source").type(JsonFieldType.STRING).description(generateLinkCode(NOTICE_SOURCE)),
             fieldWithPath("subCategory").type(JsonFieldType.STRING).description("서브 카테고리").optional(),
             fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+            fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 첫번째 문장"),
             fieldWithPath("author").type(JsonFieldType.STRING).description("작성자").optional(),
             fieldWithPath("createdDate").type(JsonFieldType.STRING).description("작성 일자(2024.1.1)")
     };
