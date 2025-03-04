@@ -4,6 +4,7 @@ import issac.issac_server.auth.application.RefreshTokenRemover;
 import issac.issac_server.device.application.DeviceTokenRemover;
 import issac.issac_server.keyword.application.KeywordRemover;
 import issac.issac_server.notice.application.BookmarkRemover;
+import issac.issac_server.notification.application.NotificationRemover;
 import issac.issac_server.reaction.application.ReactionRemover;
 import issac.issac_server.user.application.UserRevokeAppender;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserEventListener {
     private final BookmarkRemover bookmarkRemover;
     private final KeywordRemover keywordRemover;
     private final ReactionRemover reactionRemover;
+    private final NotificationRemover notificationRemover;
 
     private final UserRevokeAppender userRevokeAppender;
 
@@ -34,6 +36,7 @@ public class UserEventListener {
         bookmarkRemover.removeAll(event.getUserId());
         keywordRemover.removeAll(event.getUserId());
         reactionRemover.removeAllScrap(event.getUserId());
+        notificationRemover.removeAll(event.getUserId());
     }
 
     @Async
