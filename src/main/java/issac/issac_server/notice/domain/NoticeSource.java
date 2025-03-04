@@ -10,6 +10,7 @@ public enum NoticeSource implements DescriptiveEnum {
 
     ACADEMIC_NOTICE("학사공지"),
     SONGDO_DORM("송도학사"),
+    SONGDO_DORM_LIVING("송도학사(생활안내)"),
     INTERNATIONAL_OFFICE("국제처"),
     RC_EDUCATION("RC교육원"),
     MAIN_DORM("기숙사"),

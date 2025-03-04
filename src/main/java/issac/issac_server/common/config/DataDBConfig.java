@@ -39,7 +39,7 @@ public class DataDBConfig {
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         HashMap<String, Object> properties = new HashMap<>();
-//        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.hbm2ddl.auto", "update");
 //        properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.implicit_naming_strategy", "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
         properties.put("hibernate.physical_naming_strategy", "issac.issac_server.common.config.SnakeCaseNamingStrategy");
