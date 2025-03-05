@@ -19,6 +19,7 @@ public class ChatFactory {
                         "등록금 납부 기간: 2025년 2월 21일(금) ~ 2월 27일(목)입니다.\n" +
                         "자세한 사항은 연세대학교 공식 웹사이트를 참고하시기 바랍니다.")
                 .sourceURL("https://www.yonsei.ac.kr/sc/support/calendar.jsp?cYear=2025&hakGi=1")
+                .elapsedTime(2.345)
                 .build();
     }
 

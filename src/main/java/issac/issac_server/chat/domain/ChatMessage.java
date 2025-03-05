@@ -32,12 +32,16 @@ public class ChatMessage extends BaseCreateTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String sourceURL;
 
+    @Column
+    private Double elapsedTime;
+
     public static ChatMessage from(Long chatRoomId, ChatMessageCreateRequest request) {
         return ChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .question(request.getQuestion())
                 .answer(removeTrailingNewlines(request.getAnswer()))
                 .sourceURL(request.getSourceURL())
+                .elapsedTime(request.getElapsedTime())
                 .build();
     }
 

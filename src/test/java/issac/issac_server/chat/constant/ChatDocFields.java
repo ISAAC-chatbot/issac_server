@@ -11,6 +11,7 @@ public class ChatDocFields {
             fieldWithPath("question").type(JsonFieldType.STRING).description("질문"),
             fieldWithPath("answer").type(JsonFieldType.STRING).description("답변"),
             fieldWithPath("sourceURL").type(JsonFieldType.STRING).description("출처 사이트 URL").optional(),
+            fieldWithPath("elapsedTime").type(JsonFieldType.NUMBER).description("응답 처리 시간 (초 단위)"),
     };
 
     public static final FieldDescriptor[] CHAT_MESSAGE_RESPONSE = new FieldDescriptor[]{
