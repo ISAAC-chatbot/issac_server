@@ -155,7 +155,7 @@ public class NoticeFinder {
                 .peek(hit -> {
                     assert hit.source() != null;
                     hit.source().setId(hit.id());
-                    hit.source().extractFirstLineContent();
+//                    hit.source().extractFirstLineContent();
                 })
                 .map(Hit::source)
                 .collect(Collectors.toList());

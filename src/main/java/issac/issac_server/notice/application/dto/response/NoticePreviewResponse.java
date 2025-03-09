@@ -19,7 +19,7 @@ public class NoticePreviewResponse {
     private NoticeSource source;
     private String subCategory;
     private String title;
-    private String content;
+//    private String content;
     private String author;
     private String createdDate;
 
@@ -29,16 +29,16 @@ public class NoticePreviewResponse {
                 .collect(Collectors.toList());
     }
 
-    public void extractFirstLineContent() {
-        if (this.content == null || this.content.isEmpty() || this.content.startsWith("첨부파일")) {
-            this.content = "";
-            return;
-        }
-
-        // 100자 초과 시 자르기
-        if (this.content.length() > 100) {
-            this.content = this.content.substring(0, 100);
-        }
-    }
+//    public void extractFirstLineContent() {
+//        if (this.content == null || this.content.isEmpty() || this.content.startsWith("첨부파일")) {
+//            this.content = "";
+//            return;
+//        }
+//
+//        // 100자 초과 시 자르기
+//        if (this.content.length() > 100) {
+//            this.content = this.content.substring(0, 100);
+//        }
+//    }
 
 }

@@ -69,7 +69,7 @@ public class NoticeFactory {
                 .title("인문예술진흥사업단, 2025-1 후배 사랑 한끼 나눔 사업 신청 안내")
                 .author("인문예술진흥사업단")
                 .createdDate("2024-12-17")
-                .content("후배 사랑 한끼 나눔 사업 신청 안내입니다.")
+//                .content("후배 사랑 한끼 나눔 사업 신청 안내입니다.")
                 .build();
     }
 
