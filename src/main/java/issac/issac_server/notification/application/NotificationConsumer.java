@@ -38,10 +38,12 @@ public class NotificationConsumer {
 
         try {
             deviceTokenFinder.findWithNotificationConsent(message.getUserId()).ifPresent(
-                    deviceToken -> fcmSender.send(message.getRequest(), deviceToken.getToken())
+                    deviceToken -> {
+                        fcmSender.send(message.getRequest(), deviceToken.getToken());
+                        notificationAppender.append(message);
+                    }
             );
 
-            notificationAppender.append(message);
         } catch (Exception e) {
             throw new AmqpRejectAndDontRequeueException("Message processing failed. Moving to DLQ", e);
         }
