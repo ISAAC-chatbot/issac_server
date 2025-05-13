@@ -1,6 +1,7 @@
 package issac.issac_server.notification.application;
 
 import com.google.firebase.messaging.*;
+import issac.issac_server.notification.application.dto.NotificationCreateRequest;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,33 @@ public class FCMSender {
                 BatchResponse response = firebaseMessaging.sendEachForMulticast(message);
 
                 log.info("FCM 전송: Batch sent successfully: {} successful, {} failed",
+                        response.getSuccessCount(), response.getFailureCount());
+
+            } catch (FirebaseMessagingException e) {
+                log.error("Error sending FCM messages", e);
+            }
+        }
+    }
+
+    @Async
+    public void sendBulk(NotificationCreateRequest request) {
+
+        List<List<String>> tokenBatches = splitIntoBatches(new ArrayList<>(request.getDeviceTokens()), MAX_TOKENS_PER_BATCH);
+
+        for (List<String> batch : tokenBatches) {
+            MulticastMessage message = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(request.getTitle())
+                            .setBody(request.getContent())
+                            .build()
+                    )
+                    .addAllTokens(batch)
+                    .build();
+
+            try {
+                BatchResponse response = firebaseMessaging.sendEachForMulticast(message);
+
+                log.info("SELF FCM 전송: Batch sent successfully: {} successful, {} failed",
                         response.getSuccessCount(), response.getFailureCount());
 
             } catch (FirebaseMessagingException e) {

@@ -1,5 +1,5 @@
 ### 목록 검색 : 알림
-GET {{BASE_URL}}/api/v1/notifications?page=1&size=1
+GET {{BASE_URL}}/api/v1/notifications?notificationType=KEYWORD
 Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
 
@@ -14,9 +14,20 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 Content-Type: application/json
 
 {
-  "notificationType": "BOOKMARK",
+  "notificationType": "KEYWORD",
   "entityType": "NOTICE",
   "entityId": "hzLw_ZQBnS9loj4r4-mF"
+}
+
+### 읽음 상태 변경 : 알림
+POST {{BASE_URL}}/api/v1/notifications/send
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "title" : "[장학금 사이트 업데이트]",
+  "content" : "장학금 게시판을 확인해주세요!",
+    "deviceTokens": [""]
 }
 
 

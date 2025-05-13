@@ -2,9 +2,7 @@ package issac.issac_server.notification.presentation;
 
 import issac.issac_server.auth.config.auth.Auth;
 import issac.issac_server.notification.application.NotificationService;
-import issac.issac_server.notification.application.dto.NotificationResponse;
-import issac.issac_server.notification.application.dto.NotificationSearchCondition;
-import issac.issac_server.notification.application.dto.NotificationUpdateRequest;
+import issac.issac_server.notification.application.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,5 +36,12 @@ public class NotificationController {
         notificationService.markAsRead(userId, request);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/send")
+    public ResponseEntity<Void> sendNotification(@RequestBody @Valid NotificationCreateRequest request){
+        notificationService.sendNotification(request);
+        return ResponseEntity.ok().build();
+    }
+
 }
 
