@@ -80,7 +80,6 @@ public class BookmarkJobConfig {
                 .methodName("findBySourceAndNotificationConsent")
                 .arguments(NoticeSource.valueOf(source), true)
                 .pageSize(chunkSize)
-                .maxItemCount(chunkSize)
                 .sorts(Map.of("id", Sort.Direction.ASC))
                 .name("bookmarkReader")
                 .build();
