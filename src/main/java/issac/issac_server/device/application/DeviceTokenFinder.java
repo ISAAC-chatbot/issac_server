@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -25,5 +26,12 @@ public class DeviceTokenFinder {
 
     public Set<String> findDistinctTokens(List<Long> userIds) {
         return deviceTokenRepository.findDistinctTokensByUserIdIn(userIds);
+    }
+
+    public List<String> findAllTokens() {
+        return deviceTokenRepository.findAll()
+                .stream()
+                .map(DeviceToken::getToken)
+                .collect(Collectors.toList());
     }
 }

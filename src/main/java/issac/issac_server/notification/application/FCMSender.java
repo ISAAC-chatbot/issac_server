@@ -1,6 +1,7 @@
 package issac.issac_server.notification.application;
 
 import com.google.firebase.messaging.*;
+import issac.issac_server.device.application.DeviceTokenFinder;
 import issac.issac_server.notification.application.dto.NotificationCreateRequest;
 import issac.issac_server.notification.application.dto.NotificationRequest;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class FCMSender {
 
     private final FirebaseMessaging firebaseMessaging;
+    private final DeviceTokenFinder deviceTokenFinder;
 
     private static final int MAX_TOKENS_PER_BATCH = 800;
 
@@ -58,7 +60,9 @@ public class FCMSender {
     @Async
     public void sendBulk(NotificationCreateRequest request) {
 
-        List<List<String>> tokenBatches = splitIntoBatches(new ArrayList<>(request.getDeviceTokens()), MAX_TOKENS_PER_BATCH);
+        List<List<String>> tokenBatches = request.isAll()
+                ? splitIntoBatches(deviceTokenFinder.findAllTokens(), MAX_TOKENS_PER_BATCH)
+                : splitIntoBatches(new ArrayList<>(request.getDeviceTokens()), MAX_TOKENS_PER_BATCH);
 
         for (List<String> batch : tokenBatches) {
             MulticastMessage message = MulticastMessage.builder()
@@ -111,6 +115,7 @@ public class FCMSender {
             log.error("Error sending FCM messages", e);
         }
     }
+
     @Async
     public void send(NotificationRequest request, String deviceToken) {
         com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
