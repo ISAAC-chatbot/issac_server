@@ -1,3 +1,8 @@
+## 전체 Flow
+<img width="845" height="731" alt="image" src="https://github.com/user-attachments/assets/83e6d4c0-11ab-4b4c-9dfd-1751031bbcbd" />
+
+
+## IR 자료
 <img width="1920" height="1080" alt="01 (1)" src="https://github.com/user-attachments/assets/36a5ad58-336b-4b23-bb64-e3eb05844f59" />
 
 
